@@ -4,6 +4,7 @@ import { useState } from "react"
 import { sanityClient } from "../sanityClient"
 import { SanityImageAssetDocument } from "@sanity/client"
 import Spinner from "../Components/Spinner"
+import { useNavigate } from "react-router-dom"
 import { MdDelete } from "react-icons/md"
 import { categories } from "../Utils/data"
 
@@ -11,12 +12,13 @@ const CreatePost = () => {
   const [fieldError, setFieldError] = useState(false)
   const [title, setTitle] = useState("")
   const [about, setAbout] = useState("")
-  const [category, setCategory] = useState("")
+  const [category, setCategory] = useState("other")
   const [wrongImageType, setWrongImageType] = useState(false)
   const [loading, setLoading] = useState(false)
   const [imageAsset, setImageAsset] = useState<SanityImageAssetDocument | null>(
     null
   )
+  const navigate = useNavigate()
   const { isSignedIn, user } = useUser()
   function uploadImage(e: any) {
     const selectedFile = e.target.files[0]
@@ -47,6 +49,42 @@ const CreatePost = () => {
       }, 2000)
     }
   }
+  function uploadPost() {
+    if (!title || !about || !category || !imageAsset?._id) {
+      setFieldError(true)
+      setTimeout(() => {
+        setFieldError(false)
+      }, 2000)
+      return
+    }
+    setLoading(true)
+    const newPostDocument = {
+      _type: "post",
+      title: title,
+      about: about,
+      category: category,
+      image: {
+        _type: "image",
+        asset: {
+          _type: "reference",
+          _ref: imageAsset._id,
+        },
+      },
+      userId: user?.id,
+      referenceToUser: {
+        _type: "referenceToUser",
+        _ref: user?.id,
+      },
+    }
+    console.log(newPostDocument)
+    sanityClient
+      .create(newPostDocument)
+      .then(() => {
+        setLoading(false)
+        navigate("/")
+      })
+      .catch((err) => console.log("error in post creation\n", err))
+  }
   return (
     <div className="flex justify-center items-center">
       {!isSignedIn ? (
@@ -63,14 +101,16 @@ const CreatePost = () => {
       ) : (
         <div className="flex items-center flex-col gap-[40px] ">
           <h1 className="text-2xl font-semibold mt-[50px]">Create new post</h1>
-          <div className="bg-neutral-900 flex p-3 rounded-lg">
+          <div className="bg-neutral-900 flex p-3 rounded-lg  w-[300px] h-[545px]  lg:h-[310px] lg:w-[720px]">
             {loading ? (
-              <Spinner />
+              <div className="w-full h-full flex justify-center items-center">
+                <Spinner />
+              </div>
             ) : (
-              <div className="flex flex-col md:flex-row gap-[30px]">
-                <div className="h-[200px] w-[280px] md:h-[300px] md:w-[380px]">
+              <div className="flex flex-col lg:flex-row gap-[30px]">
+                <div className="w-[280px] lg:w-[380px]">
                   {!imageAsset ? (
-                    <label className="flex flex-col justify-center items-center border border-dashed border-[#ED7014] w-full h-full">
+                    <label className="p-2 flex flex-col justify-center items-center border border-dashed border-[#ED7014] w-full h-full">
                       <input
                         type="file"
                         className="w-0 h-0"
@@ -91,7 +131,7 @@ const CreatePost = () => {
                       />
                       <button
                         type="button"
-                        className="absolute bottom-[10px] right-[10px] p-3 rounded-full bg-neutral-900 border-2 border-[#ED7014] text-xl cursor-pointer outline-none hover:shadow-md transition-all duration-500 ease-in-out"
+                        className="absolute bottom-[20px] right-[16px] p-3 rounded-full bg-neutral-900 border-2 border-[#ED7014] text-xl cursor-pointer outline-none hover:shadow-md transition-all duration-500 ease-in-out"
                         onClick={() => setImageAsset(null)}
                       >
                         <MdDelete />
@@ -113,6 +153,8 @@ const CreatePost = () => {
                     name="title"
                     className="bg-black py-2 px-3 rounded-md outline-none w-[280px]"
                     placeholder="What is this post about?"
+                    value={about}
+                    onChange={(e) => setAbout(e.target.value)}
                   />
                   <div>
                     <label>Select category:</label>
@@ -120,6 +162,8 @@ const CreatePost = () => {
                     <select
                       name="category"
                       className="bg-black p-1 w-[70%] mt-2 outline-none border-none"
+                      value={category}
+                      onChange={(e) => setCategory(e.target.value)}
                     >
                       <option value="other">other</option>
                       {categories
@@ -135,7 +179,7 @@ const CreatePost = () => {
                         ))}
                     </select>
                   </div>
-                  <div className="mt-3">
+                  <div className="md:mt-3">
                     <p>Your info:</p>
                     <div className="mt-2 flex items-center gap-2">
                       <img
@@ -152,7 +196,10 @@ const CreatePost = () => {
           </div>
           <div className="flex flex-col items-center gap-6">
             {!loading && (
-              <button className="bg-[#ED7014] text-white rounded-full py-2 px-4">
+              <button
+                onClick={uploadPost}
+                className="bg-[#ED7014] text-white rounded-full py-2 px-4"
+              >
                 Upload Post
               </button>
             )}

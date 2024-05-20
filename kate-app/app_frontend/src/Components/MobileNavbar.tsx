@@ -68,16 +68,14 @@ const MobileNavbar = ({
             <NavLink
               onClick={() => setOpenSidebar(false)}
               className={({ isActive }) =>
-                isActive
-                  ? "border-r-[4px] border-[#ED7014] -mt-[15px] p-1"
-                  : "-mt-[15px]  p-1"
+                isActive ? "border-r-[4px] border-[#ED7014]  p-1" : "p-1"
               }
               to="/"
             >
               <span className="pl-3">Home</span>
             </NavLink>
             <div className="flex flex-col gap-[14px] -mt-[20px] items-start">
-              <p className="text-white text-lg pl-3">Explore Categories</p>
+              <p className="text-white pl-3 mt-3">Explore Categories</p>
               <div className="flex flex-col gap-4  w-full">
                 {categories.map((category, index) => (
                   <NavLink

@@ -10,14 +10,14 @@ import { useNavigate } from "react-router-dom"
 const DesktopNavbar = () => {
   const navigate = useNavigate()
   return (
-    <div className="bg-neutral-900 flex items-center  w-full h-[60px] px-4 gap-6">
-      <div className="w-full flex items-center bg-black px-3 py-2 rounded-lg">
-        <MdOutlineSearch size={20} />
+    <div className="bg-neutral-900 flex items-center  w-full h-[60px] 2xl:h-[80px] px-4 gap-6">
+      <div className="w-full flex items-center bg-black px-3 py-2 2xl:py-4 rounded-lg">
+        <MdOutlineSearch className="text-[20px] 2xl:text-[30px]" />
         <input
           onFocus={() => navigate("search")}
           placeholder="Search posts"
           type="text"
-          className="w-full bg-transparent outline-none px-2 "
+          className="w-full bg-transparent outline-none px-2 2xl:text-xl"
         />
       </div>
       <div>
@@ -30,7 +30,9 @@ const DesktopNavbar = () => {
         </SignedOut>
         <SignedIn>
           <div className="flex items-center gap-4">
-            <UserButton />
+            <div>
+              <UserButton />
+            </div>
             <Link
               to="/create-post"
               className="p-2 bg-black rounded-md border border-[#ED7014] hover:bg-[#ED7014] hover:text-black"
