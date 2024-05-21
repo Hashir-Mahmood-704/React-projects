@@ -28,7 +28,7 @@ const DesktopSidebar = () => {
               to={`category/${category.name}`}
               className={({ isActive }) =>
                 isActive
-                  ? "relative flex items-center gap-3 border-r-[4px] border-[#ED7014] w-full p-1"
+                  ? "relative flex items-center gap-3 border-r-[4px] border-[#ED7014] w-full p-1 hover:bg-[#ED7014] hover:text-black"
                   : "relative flex items-center gap-4 w-full  hover:bg-[#ED7014] hover:text-black p-1"
               }
               key={index}

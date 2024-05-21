@@ -1,0 +1,27 @@
+export const fetchAllPosts = `*[_type == "post"] {
+  image{
+    asset->{
+      url
+    }
+  },
+   _id,
+  referenceToUser->{
+      _id,
+        userName,
+        image
+      },
+     like[]{
+       _key,
+       referenceToUser->{
+         _id
+       }
+     },
+  save[]{
+        _key,
+        referenceToUser->{
+          _id,
+          userName,
+          image
+        },
+      },
+    }`

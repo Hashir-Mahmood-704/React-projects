@@ -10,14 +10,10 @@ import { IoMdCloseCircle } from "react-icons/io"
 import { Link, NavLink } from "react-router-dom"
 import { categories } from "../Utils/data"
 import { MdAdd } from "react-icons/md"
+import { useState } from "react"
 
-const MobileNavbar = ({
-  openSidebar,
-  setOpenSidebar,
-}: {
-  openSidebar: boolean
-  setOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>
-}) => {
+const MobileNavbar = () => {
+  const [openSidebar, setOpenSidebar] = useState(false)
   const { user } = useUser()
   return (
     <div className="w-full relative">

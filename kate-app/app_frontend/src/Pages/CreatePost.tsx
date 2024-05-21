@@ -76,7 +76,6 @@ const CreatePost = () => {
         _ref: user?.id,
       },
     }
-    console.log(newPostDocument)
     sanityClient
       .create(newPostDocument)
       .then(() => {

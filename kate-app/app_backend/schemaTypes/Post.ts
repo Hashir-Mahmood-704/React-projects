@@ -37,6 +37,12 @@ export const Post = {
       type: 'referenceToUser',
     },
     {
+      name: 'like',
+      title: 'Like',
+      type: 'array',
+      of: [{type: 'like'}],
+    },
+    {
       name: 'save',
       title: 'Save',
       type: 'array',
