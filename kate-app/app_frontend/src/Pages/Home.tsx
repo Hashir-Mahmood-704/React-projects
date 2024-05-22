@@ -6,10 +6,10 @@ const Home = ({
   allPosts,
   setFetchAllPostsAgain,
 }: {
-  allPosts: SanityPostResponseType[] | null
+  allPosts: SanityPostResponseType[]
   setFetchAllPostsAgain: React.Dispatch<React.SetStateAction<number>>
 }) => {
-  if (!allPosts)
+  if (allPosts.length === 0)
     return (
       <div className="flex flex-col items-center gap-[20px] mt-[100px]">
         <p className="text-xl">You currently have no posts!</p>
@@ -23,6 +23,7 @@ const Home = ({
     )
   return (
     <div className="p-3">
+      {/* <div className="min-w-[450px] h-full border"></div> */}
       <MasonryLayout
         allPosts={allPosts}
         setFetchAllPostsAgain={setFetchAllPostsAgain}

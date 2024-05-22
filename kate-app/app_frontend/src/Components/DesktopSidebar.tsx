@@ -18,7 +18,7 @@ const DesktopSidebar = () => {
       >
         <span className="pl-4 2xl:text-lg">Home</span>
       </NavLink>
-      <div className="flex flex-col gap-5  items-start">
+      <div className="flex flex-col gap-5 items-start">
         <p className="text-white text-lg 2xl:text-xl pl-4">
           Explore Categories
         </p>

@@ -8,7 +8,11 @@ import { useNavigate } from "react-router-dom"
 import { MdDelete } from "react-icons/md"
 import { categories } from "../Utils/data"
 
-const CreatePost = () => {
+const CreatePost = ({
+  setFetchAllPostsAgain,
+}: {
+  setFetchAllPostsAgain: React.Dispatch<React.SetStateAction<number>>
+}) => {
   const [fieldError, setFieldError] = useState(false)
   const [title, setTitle] = useState("")
   const [about, setAbout] = useState("")
@@ -80,6 +84,7 @@ const CreatePost = () => {
       .create(newPostDocument)
       .then(() => {
         setLoading(false)
+        setFetchAllPostsAgain((prev) => prev + 1)
         navigate("/")
       })
       .catch((err) => console.log("error in post creation\n", err))

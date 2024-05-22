@@ -7,7 +7,13 @@ import {
 import { MdAdd, MdOutlineSearch } from "react-icons/md"
 import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
-const DesktopNavbar = () => {
+const DesktopNavbar = ({
+  searchText,
+  setSearchText,
+}: {
+  searchText: string
+  setSearchText: React.Dispatch<React.SetStateAction<string>>
+}) => {
   const navigate = useNavigate()
   return (
     <div className="bg-neutral-900 flex items-center  w-full h-[60px] 2xl:h-[80px] px-4 gap-6">
@@ -18,6 +24,8 @@ const DesktopNavbar = () => {
           placeholder="Search posts"
           type="text"
           className="w-full bg-transparent outline-none px-2 2xl:text-xl"
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
         />
       </div>
       <div>

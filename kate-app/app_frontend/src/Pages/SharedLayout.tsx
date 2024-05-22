@@ -12,11 +12,13 @@ import { SanityPostResponseType } from "../Type"
 const SharedLayout = ({
   setAllPosts,
   fetchAllPostsAgain,
+  searchText,
+  setSearchText,
 }: {
   fetchAllPostsAgain: number
-  setAllPosts: React.Dispatch<
-    React.SetStateAction<SanityPostResponseType[] | null>
-  >
+  setAllPosts: React.Dispatch<React.SetStateAction<SanityPostResponseType[]>>
+  searchText: string
+  setSearchText: React.Dispatch<React.SetStateAction<string>>
 }) => {
   const [loading, setLoading] = useState(false)
   const { isSignedIn } = useAuth()
@@ -52,16 +54,25 @@ const SharedLayout = ({
   return (
     <div className="flex flex-col md:flex-row">
       {/* Mobile Layout */}
+
       <div className="flex md:hidden">
+        <div className="h-[60px]"></div>
         <MobileNavbar />
       </div>
       {/* Desktop Layout */}
-      <div className="hidden md:block">
-        <DesktopSidebar />
+      <div className="hidden md:flex">
+        <div className="min-w-[250px] 2xl:min-w-[300px] border" />
+        <div className="fixed">
+          <DesktopSidebar />
+        </div>
       </div>
+
       <div className="w-full">
-        <div className="hidden md:block">
-          <DesktopNavbar />
+        <div className="hidden md:block w-full z-50">
+          <DesktopNavbar
+            searchText={searchText}
+            setSearchText={setSearchText}
+          />
         </div>
 
         <div>

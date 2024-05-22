@@ -20,15 +20,20 @@ const MasonryLayout = ({
   setFetchAllPostsAgain: React.Dispatch<React.SetStateAction<number>>
 }) => {
   return (
-    <Masonry className="flex gap-[10px]" breakpointCols={breakpointColumnsObj}>
-      {allPosts.map((item) => (
-        <SinglePost
-          key={item._id}
-          item={item}
-          setFetchAllPostsAgain={setFetchAllPostsAgain}
-        />
-      ))}
-    </Masonry>
+    <div>
+      <Masonry
+        className="flex gap-[10px] mt-[30px] md:mt-[0px]"
+        breakpointCols={breakpointColumnsObj}
+      >
+        {allPosts.map((item) => (
+          <SinglePost
+            key={item._id}
+            item={item}
+            setFetchAllPostsAgain={setFetchAllPostsAgain}
+          />
+        ))}
+      </Masonry>
+    </div>
   )
 }
 

@@ -16,7 +16,7 @@ const MobileNavbar = () => {
   const [openSidebar, setOpenSidebar] = useState(false)
   const { user } = useUser()
   return (
-    <div className="w-full relative">
+    <div className="w-full fixed top-0 z-50">
       <div className="flex justify-between items-center rounded-t-md w-full h-[60px] px-4 bg-neutral-900">
         <div className="cursor-pointer" onClick={() => setOpenSidebar(true)}>
           <GiHamburgerMenu size={20} />
@@ -49,7 +49,7 @@ const MobileNavbar = () => {
       {openSidebar && (
         <div
           onClick={() => setOpenSidebar(false)}
-          className="absolute h-screen w-full z-20 top-0 left-0 bg-black/60"
+          className="fixed h-screen w-full z-20 top-0 left-0 bg-black/60"
         >
           <div
             onClick={(e) => e.stopPropagation()}

@@ -5,6 +5,9 @@ export const fetchAllPosts = `*[_type == "post"] {
     }
   },
    _id,
+  title,
+     about,
+  category,
   referenceToUser->{
       _id,
         userName,

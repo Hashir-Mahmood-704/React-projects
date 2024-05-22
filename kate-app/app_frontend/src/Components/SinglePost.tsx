@@ -62,7 +62,10 @@ const SinglePost = ({
           setAlreadySaved(true)
           setLoading(false)
         })
-        .catch((err) => console.log("error in saving post\n", err))
+        .catch((err) => {
+          console.log("error in saving post\n", err)
+          setLoading(false)
+        })
     } else if (alreadySaved) {
       setLoading(true)
       const indexToRemove = item.save?.findIndex(
@@ -77,7 +80,10 @@ const SinglePost = ({
           setAlreadySaved(false)
           setLoading(false)
         })
-        .catch((err) => console.log("error in unsaving post\n", err))
+        .catch((err) => {
+          console.log("error in unsaving post\n", err)
+          setLoading(false)
+        })
     }
   }
 
@@ -102,7 +108,10 @@ const SinglePost = ({
           setAlreadyLiked(true)
           setLoading(false)
         })
-        .catch((err) => console.log("error in liking post\n", err))
+        .catch((err) => {
+          console.log("error in liking post\n", err)
+          setLoading(false)
+        })
     } else if (alreadyLiked) {
       setLoading(true)
       const indexToRemove = item.like?.findIndex(
@@ -117,14 +126,29 @@ const SinglePost = ({
           setAlreadyLiked(false)
           setLoading(false)
         })
-        .catch((err) => console.log("error in unliking post\n", err))
+        .catch((err) => {
+          console.log("error in unliking post\n", err)
+          setLoading(false)
+        })
     }
   }
 
-  function removePost() {}
+  function removePost() {
+    setLoading(true)
+    sanityClient
+      .delete(item._id)
+      .then(() => {
+        setFetchAllPostsAgain((prev) => prev + 1)
+        setLoading(false)
+      })
+      .catch((err) => {
+        console.log("error in deleting post\n", err)
+        setLoading(false)
+      })
+  }
 
   return (
-    <div className="bg-neutral-900 pb-[10px] rounded-md relative">
+    <div className="bg-neutral-900 pb-[10px] rounded-md relative mt-[20px]">
       {loading && (
         <div className="bg-black/70 absolute top-0 left-0 z-20 w-full h-full flex justify-center items-center">
           <Spinner size={50} />
@@ -136,50 +160,57 @@ const SinglePost = ({
         alt="image"
       />
 
-      <div className="flex justify-between items-center mt-3 px-3">
-        <div className="flex items-center gap-2">
-          <img
-            src={item.referenceToUser.image}
-            alt="user-image"
-            className="w-[30px] rounded-full"
-          />
-          <p>{item.referenceToUser.userName}</p>
+      <div className="flex  flex-col mt-1 px-3">
+        <div className="mt-1 mb-3 text-lg text-white capitalize">
+          {item.title.length > 20
+            ? `${item.title.slice(0, 20)} .....`
+            : item.title}
         </div>
-        <div className="flex items-center gap-3">
-          <button
-            className="flex items-center gap-1 text-lg
-            "
-            onClick={likePost}
-          >
-            {item.like?.length}
-            {alreadyLiked ? (
-              <span className="hover:scale-125">
-                <IoHeartSharp size={20} />
-              </span>
-            ) : (
-              <span className="hover:scale-125">
-                <IoHeartOutline size={20} />
-              </span>
-            )}
-          </button>
-          <button
-            className="flex items-center gap-1 text-xl hover:scale-125"
-            onClick={savePost}
-          >
-            {alreadySaved ? (
-              <IoBookmark size={20} />
-            ) : (
-              <IoBookmarkOutline size={20} />
-            )}
-          </button>
-          {item.referenceToUser._id === userId && (
+        <div className="flex justify-between w-full">
+          <div className="flex items-center gap-2">
+            <img
+              src={item.referenceToUser.image}
+              alt="user-image"
+              className="w-[30px] rounded-full"
+            />
+            <p>{item.referenceToUser.userName}</p>
+          </div>
+          <div className="flex items-center gap-3">
             <button
-              onClick={removePost}
-              className="hover:scale-125 text-red-600"
+              className="flex items-center gap-1 text-lg
+            "
+              onClick={likePost}
             >
-              <RiDeleteBin6Fill size={20} />
+              {item.like?.length}
+              {alreadyLiked ? (
+                <span className="hover:scale-125">
+                  <IoHeartSharp size={20} />
+                </span>
+              ) : (
+                <span className="hover:scale-125">
+                  <IoHeartOutline size={20} />
+                </span>
+              )}
             </button>
-          )}
+            <button
+              className="flex items-center gap-1 text-xl hover:scale-125"
+              onClick={savePost}
+            >
+              {alreadySaved ? (
+                <IoBookmark size={20} />
+              ) : (
+                <IoBookmarkOutline size={20} />
+              )}
+            </button>
+            {item.referenceToUser._id === userId && (
+              <button
+                onClick={removePost}
+                className="hover:scale-125 text-red-600"
+              >
+                <RiDeleteBin6Fill size={20} />
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>

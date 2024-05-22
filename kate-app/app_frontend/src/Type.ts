@@ -5,6 +5,9 @@ export type SanityPostResponseType = {
     }
   }
   _id: string
+  title: string
+  about: string
+  category: string
   referenceToUser: {
     _id: string
     userName: string

@@ -9,12 +9,11 @@ import { useState } from "react"
 import { SanityPostResponseType } from "./Type"
 
 const App = () => {
-  const [allPosts, setAllPosts] = useState<SanityPostResponseType[] | null>(
-    null
-  )
+  const [allPosts, setAllPosts] = useState<SanityPostResponseType[]>([])
   const [fetchAllPostsAgain, setFetchAllPostsAgain] = useState(1)
+  const [searchText, setSearchText] = useState("")
   return (
-    <div className="font-poppins">
+    <div className="font-poppins hide-scrollbar">
       <Routes>
         <Route
           path="/"
@@ -22,22 +21,48 @@ const App = () => {
             <SharedLayout
               setAllPosts={setAllPosts}
               fetchAllPostsAgain={fetchAllPostsAgain}
+              searchText={searchText}
+              setSearchText={setSearchText}
             />
           }
         >
           <Route
             index
             element={
-              <Home
+              <div className="flex">
+                <Home
+                  allPosts={allPosts}
+                  setFetchAllPostsAgain={setFetchAllPostsAgain}
+                />
+              </div>
+            }
+          />
+          <Route
+            path="category/:categoryName"
+            element={
+              <CategoryPage
                 allPosts={allPosts}
                 setFetchAllPostsAgain={setFetchAllPostsAgain}
               />
             }
           />
-          <Route path="category/:categoryName" element={<CategoryPage />} />
-          <Route path="/search" element={<Search />} />
+          <Route
+            path="/search"
+            element={
+              <Search
+                allPosts={allPosts}
+                setFetchAllPostsAgain={setFetchAllPostsAgain}
+                searchText={searchText}
+              />
+            }
+          />
           <Route path="user-profile/:userId" element={<UserProfile />} />
-          <Route path="/create-post" element={<CreatePost />} />
+          <Route
+            path="/create-post"
+            element={
+              <CreatePost setFetchAllPostsAgain={setFetchAllPostsAgain} />
+            }
+          />
         </Route>
       </Routes>
     </div>
