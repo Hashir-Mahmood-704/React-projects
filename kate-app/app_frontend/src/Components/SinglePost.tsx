@@ -1,6 +1,7 @@
 import { SanityPostResponseType } from "../Type"
 import { sanityClient, sanityImageBuilder } from "../sanityClient"
 import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 import { useAuth } from "@clerk/clerk-react"
 import { RiDeleteBin6Fill } from "react-icons/ri"
 import { v4 } from "uuid"
@@ -10,6 +11,7 @@ import {
   IoHeartOutline,
   IoHeartSharp,
 } from "react-icons/io5"
+import { useNavigate } from "react-router-dom"
 import Spinner from "./Spinner"
 
 const SinglePost = ({
@@ -23,6 +25,7 @@ const SinglePost = ({
   const [alreadySaved, setAlreadySaved] = useState(false)
   const [loading, setLoading] = useState(false)
   const { userId, isSignedIn } = useAuth()
+  const navigate = useNavigate()
   useEffect(() => {
     if (item.save?.find((x) => x.referenceToUser._id === userId)) {
       console.log("this post is already saved by user")
@@ -40,7 +43,9 @@ const SinglePost = ({
     }
   }, [isSignedIn])
 
-  function savePost() {
+  function savePost(e: any) {
+    e.stopPropagation()
+    console.log("meelab")
     if (!alreadySaved) {
       setLoading(true)
       sanityClient
@@ -148,7 +153,14 @@ const SinglePost = ({
   }
 
   return (
-    <div className="bg-neutral-900 pb-[10px] rounded-md relative mt-[20px]">
+    // <Link to={`post-detail/${item._id}`}>
+    <div
+      onClick={() => {
+        console.log("navigating")
+        // navigate(`post-detail/${item._id}`)
+      }}
+      className="bg-neutral-900 pb-[10px] rounded-md relative mt-4"
+    >
       {loading && (
         <div className="bg-black/70 absolute top-0 left-0 z-20 w-full h-full flex justify-center items-center">
           <Spinner size={50} />
@@ -166,7 +178,7 @@ const SinglePost = ({
             ? `${item.title.slice(0, 20)} .....`
             : item.title}
         </div>
-        <div className="flex justify-between w-full">
+        <div className="flex justify-between w-full relative">
           <div className="flex items-center gap-2">
             <img
               src={item.referenceToUser.image}
@@ -214,6 +226,7 @@ const SinglePost = ({
         </div>
       </div>
     </div>
+    // </Link>
   )
 }
 

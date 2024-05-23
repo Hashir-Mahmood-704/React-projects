@@ -7,13 +7,14 @@ import Search from "./Pages/Search"
 import Home from "./Pages/Home"
 import { useState } from "react"
 import { SanityPostResponseType } from "./Type"
+import PostDetail from "./Pages/PostDetail"
 
 const App = () => {
   const [allPosts, setAllPosts] = useState<SanityPostResponseType[]>([])
   const [fetchAllPostsAgain, setFetchAllPostsAgain] = useState(1)
   const [searchText, setSearchText] = useState("")
   return (
-    <div className="font-poppins hide-scrollbar">
+    <div className="font-poppins">
       <Routes>
         <Route
           path="/"
@@ -63,6 +64,7 @@ const App = () => {
               <CreatePost setFetchAllPostsAgain={setFetchAllPostsAgain} />
             }
           />
+          <Route path="post-detail/:postId" element={<PostDetail />} />
         </Route>
       </Routes>
     </div>

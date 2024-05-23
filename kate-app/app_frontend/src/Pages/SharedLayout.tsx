@@ -54,10 +54,9 @@ const SharedLayout = ({
   return (
     <div className="flex flex-col md:flex-row">
       {/* Mobile Layout */}
-
       <div className="flex md:hidden">
-        <div className="h-[60px]"></div>
-        <MobileNavbar />
+        <div className="h-[60px]" />
+        <MobileNavbar searchText={searchText} setSearchText={setSearchText} />
       </div>
       {/* Desktop Layout */}
       <div className="hidden md:flex">
@@ -68,11 +67,14 @@ const SharedLayout = ({
       </div>
 
       <div className="w-full">
-        <div className="hidden md:block w-full z-50">
-          <DesktopNavbar
-            searchText={searchText}
-            setSearchText={setSearchText}
-          />
+        <div className="hidden md:block">
+          <div className=" left-[250px] 2xl:left-[300px] right-0 z-50 fixed">
+            <DesktopNavbar
+              searchText={searchText}
+              setSearchText={setSearchText}
+            />
+          </div>
+          <div className="w-full h-[60px]" />
         </div>
 
         <div>
@@ -82,7 +84,9 @@ const SharedLayout = ({
               <p className="text-2xl mt-4">Fetching posts...</p>
             </div>
           ) : (
-            <Outlet />
+            <div className="p-4 mt-[10px] md:mt-0  ">
+              <Outlet />
+            </div>
           )}
         </div>
       </div>

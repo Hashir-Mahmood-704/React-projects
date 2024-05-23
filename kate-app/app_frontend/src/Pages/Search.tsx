@@ -42,7 +42,7 @@ const Search = ({
       </div>
     )
   return (
-    <div className="p-3">
+    <div>
       <MasonryLayout
         allPosts={searchedPosts}
         setFetchAllPostsAgain={setFetchAllPostsAgain}

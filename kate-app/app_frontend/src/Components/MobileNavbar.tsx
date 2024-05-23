@@ -9,11 +9,19 @@ import { GiHamburgerMenu } from "react-icons/gi"
 import { IoMdCloseCircle } from "react-icons/io"
 import { Link, NavLink } from "react-router-dom"
 import { categories } from "../Utils/data"
-import { MdAdd } from "react-icons/md"
+import { MdAdd, MdOutlineSearch } from "react-icons/md"
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 
-const MobileNavbar = () => {
+const MobileNavbar = ({
+  searchText,
+  setSearchText,
+}: {
+  searchText: string
+  setSearchText: React.Dispatch<React.SetStateAction<string>>
+}) => {
   const [openSidebar, setOpenSidebar] = useState(false)
+  const navigate = useNavigate()
   const { user } = useUser()
   return (
     <div className="w-full fixed top-0 z-50">
@@ -39,12 +47,25 @@ const MobileNavbar = () => {
             <Link
               onClick={() => setOpenSidebar(false)}
               to="/create-post"
-              className="p-2 bg-neutral-900 rounded-md  absolute top-[75px]"
+              className="p-2 bg-neutral-900 rounded-md absolute top-[125px]"
             >
               <MdAdd />
             </Link>
           </div>
         </SignedIn>
+      </div>
+      <div className="py-4 bg-black flex justify-center">
+        <div className="w-[95%] flex items-center bg-neutral-900 px-3 py-1 2xl:py-4 rounded-lg">
+          <MdOutlineSearch className="text-[20px] 2xl:text-[30px]" />
+          <input
+            onFocus={() => navigate("search")}
+            placeholder="Search posts"
+            type="text"
+            className="w-full bg-transparent outline-none px-2 2xl:text-xl"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+        </div>
       </div>
       {openSidebar && (
         <div

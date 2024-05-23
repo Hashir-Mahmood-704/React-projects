@@ -22,8 +22,7 @@ const Home = ({
       </div>
     )
   return (
-    <div className="p-3">
-      {/* <div className="min-w-[450px] h-full border"></div> */}
+    <div>
       <MasonryLayout
         allPosts={allPosts}
         setFetchAllPostsAgain={setFetchAllPostsAgain}
