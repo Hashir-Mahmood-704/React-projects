@@ -20,7 +20,6 @@ const SharedLayout = ({
   searchText: string
   setSearchText: React.Dispatch<React.SetStateAction<string>>
 }) => {
-  console.log("anushay")
   const [loading, setLoading] = useState(false)
   const { isSignedIn } = useAuth()
   const { user } = useUser()
@@ -62,7 +61,7 @@ const SharedLayout = ({
       </div>
       {/* Desktop Layout */}
       <div className="hidden md:flex">
-        <div className="min-w-[250px] 2xl:min-w-[300px]" />
+        {/* <div className="min-w-[250px] 2xl:min-w-[300px]" /> */}
         <div className="fixed">
           <DesktopSidebar />
         </div>
@@ -76,7 +75,6 @@ const SharedLayout = ({
               setSearchText={setSearchText}
             />
           </div>
-          <div className="w-full h-[60px]" />
         </div>
 
         <div>
@@ -86,7 +84,7 @@ const SharedLayout = ({
               <p className="text-2xl mt-4">Fetching posts...</p>
             </div>
           ) : (
-            <div className="p-4 mt-[10px] md:mt-0">
+            <div className="p-4 mt-[70px]  md:ml-[250px] 2xl:ml-[300px]">
               <Outlet />
             </div>
           )}

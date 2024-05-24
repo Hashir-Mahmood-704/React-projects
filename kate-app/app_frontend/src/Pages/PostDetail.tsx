@@ -5,7 +5,6 @@ import { sanityClient, sanityImageBuilder } from "../sanityClient"
 import { postDetailQuery } from "../Utils/SanityQueries"
 import { SanityPostDetailsResponseType } from "../Type"
 import { useAuth } from "@clerk/clerk-react"
-import { memo } from "react"
 import {
   IoBookmarkOutline,
   IoBookmark,
@@ -15,6 +14,7 @@ import {
 import { RiDeleteBin6Fill } from "react-icons/ri"
 import { useNavigate } from "react-router-dom"
 import { v4 } from "uuid"
+import CommentSection from "../Components/CommentSection"
 
 const PostDetail = ({
   setFetchAllPostsAgain,
@@ -102,7 +102,6 @@ const PostDetail = ({
   function likePost() {
     if (postDetailedData) {
       if (!alreadyLiked) {
-        console.log("not liked")
         setProcessing(true)
         sanityClient
           .patch(postDetailedData._id)
@@ -165,99 +164,104 @@ const PostDetail = ({
   }
   if (loading)
     return (
-      <div className="flex flex-col items-center mt-[200px]">
+      <div className="flex flex-col items-center justify-center mt-[185px]">
         <Spinner />
-        <p>Loading data...</p>
+        <p className="text-2xl mt-4">Fetching posts...</p>
       </div>
     )
-  else if (!postDetailedData) return <div></div>
+  else if (!postDetailedData) return <div>No data found!</div>
   return (
     <div className="flex justify-center">
-      <div className="flex flex-col items-center bg-neutral-900 p-4 rounded-md md:mt-[20px] mt-[85px] relative">
-        {processing && (
-          <div className="flex justify-center items-center absolute bg-black/70 top-0 left-0 right-0 bottom-0">
-            <Spinner />
-          </div>
-        )}
-        <div className="flex flex-col md:flex-row gap-6">
-          <div className="min-w-[350px] min-h-[250px]">
-            <img
-              className="max-h-[350px] rounded-md"
-              src={sanityImageBuilder(postDetailedData.image.asset.url)
-                .width(450)
-                .url()}
-              alt="image"
-            />
-          </div>
-          <div className="flex flex-col gap-4 max-w-[200px]">
-            <p className="text-2xl text-white flex">
-              Title:
-              <span
-                className="font-semibold text-[#ED7014] ml-2 capitalize w-full"
-                style={{ overflowWrap: "break-word" }}
-              >
-                {postDetailedData.title}
-              </span>
-            </p>
-            <p className="text-lg text-white">
-              About:
-              <span
-                className="font-semibold text-[#ED7014] ml-2 capitalize w-full"
-                style={{ overflowWrap: "break-word" }}
-              >
-                {postDetailedData.about}
-              </span>
-            </p>
-            <div>
-              <p>Posted by:</p>
-              <div
-                className="flex items-center gap-2 cursor-pointer mt-[10px]"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  navigate(`/user-profile/${userId}`)
-                }}
-              >
-                <img
-                  src={postDetailedData.referenceToUser.image}
-                  alt="user-image"
-                  className="w-[30px] rounded-full"
-                />
-                <p>{postDetailedData.referenceToUser.userName}</p>
+      <div className="flex flex-col items-center justify-center  md:mt-[0px] mt-[85px]">
+        <div className="flex flex-col items-center  p-4 rounded-md bg-neutral-900 relative">
+          {processing && (
+            <div className="flex justify-center items-center absolute bg-black/70 top-0 left-0 right-0 bottom-0">
+              <Spinner />
+            </div>
+          )}
+          <div className="flex flex-col md:flex-row gap-6">
+            <div className="md:min-w-[350px] md:min-h-[250px]">
+              <img
+                className="max-h-[350px] rounded-md w-[320px] md:w-full"
+                src={sanityImageBuilder(postDetailedData.image.asset.url)
+                  .width(450)
+                  .url()}
+                alt="image"
+              />
+            </div>
+            <div className="flex flex-col gap-4 max-w-[200px]">
+              <p className="text-2xl text-white flex">
+                Title:
+                <span
+                  className="font-semibold text-[#ED7014] ml-2 capitalize w-full"
+                  style={{ overflowWrap: "break-word" }}
+                >
+                  {postDetailedData.title}
+                </span>
+              </p>
+              <p className="text-lg text-white">
+                About:
+                <span
+                  className="font-semibold text-[#ED7014] ml-2 capitalize w-full"
+                  style={{ overflowWrap: "break-word" }}
+                >
+                  {postDetailedData.about}
+                </span>
+              </p>
+              <div>
+                <p>Posted by:</p>
+                <div
+                  className="flex items-center gap-2 cursor-pointer mt-[10px]"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    navigate(`/user-profile/${userId}`)
+                  }}
+                >
+                  <img
+                    src={postDetailedData.referenceToUser.image}
+                    alt="user-image"
+                    className="w-[30px] rounded-full"
+                  />
+                  <p>{postDetailedData.referenceToUser.userName}</p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="flex w-full gap-[10px] mt-[20px]">
-          <button
-            className="flex items-center gap-1 text-lg hover:scale-125"
-            onClick={likePost}
-          >
-            {postDetailedData.like?.length}
-            {alreadyLiked ? (
-              <IoHeartSharp size={30} />
-            ) : (
-              <IoHeartOutline size={30} />
-            )}
-          </button>
-          <button
-            className="flex items-center gap-1 hover:scale-125"
-            onClick={savePost}
-          >
-            {alreadySaved ? (
-              <IoBookmark size={30} />
-            ) : (
-              <IoBookmarkOutline size={30} />
-            )}
-          </button>
-
-          {postDetailedData.referenceToUser._id === userId && (
+          <div className="flex w-full gap-[10px] mt-[20px]">
             <button
-              onClick={removePost}
-              className="hover:scale-125 text-red-600"
+              className="flex items-center gap-1 text-lg hover:scale-125"
+              onClick={likePost}
             >
-              <RiDeleteBin6Fill size={30} />
+              {postDetailedData.like?.length}
+              {alreadyLiked ? (
+                <IoHeartSharp size={30} />
+              ) : (
+                <IoHeartOutline size={30} />
+              )}
             </button>
-          )}
+            <button
+              className="flex items-center gap-1 hover:scale-125"
+              onClick={savePost}
+            >
+              {alreadySaved ? (
+                <IoBookmark size={30} />
+              ) : (
+                <IoBookmarkOutline size={30} />
+              )}
+            </button>
+
+            {postDetailedData.referenceToUser._id === userId && (
+              <button
+                onClick={removePost}
+                className="hover:scale-125 text-red-600"
+              >
+                <RiDeleteBin6Fill size={30} />
+              </button>
+            )}
+          </div>
+        </div>
+        <div className="w-full  bg-neutral-900 mt-[15px]">
+          <CommentSection postDetailedData={postDetailedData} />
         </div>
       </div>
     </div>
