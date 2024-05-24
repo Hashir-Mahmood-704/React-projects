@@ -8,5 +8,10 @@ export const Like = {
       title: 'Reference to User',
       type: 'referenceToUser',
     },
+    {
+      name: 'userId',
+      title: 'UserId',
+      type: 'string',
+    },
   ],
 }

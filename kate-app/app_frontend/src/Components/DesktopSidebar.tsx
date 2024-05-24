@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom"
 import { categories } from "../Utils/data"
 const DesktopSidebar = () => {
   const { user } = useUser()
+
   return (
     <div className="bg-neutral-900 h-screen w-[250px] 2xl:w-[300px] flex flex-col pt-2 justify-between">
       <p className="font-semibold text-2xl pl-4 bg-black p-1 2xl:text-3xl 2xl:p-2 2xl:pl-5">

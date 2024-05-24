@@ -1,7 +1,6 @@
 import { SanityPostResponseType } from "../Type"
 import { sanityClient, sanityImageBuilder } from "../sanityClient"
-import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
+import { useState } from "react"
 import { useAuth } from "@clerk/clerk-react"
 import { RiDeleteBin6Fill } from "react-icons/ri"
 import { v4 } from "uuid"
@@ -21,31 +20,17 @@ const SinglePost = ({
   item: SanityPostResponseType
   setFetchAllPostsAgain: React.Dispatch<React.SetStateAction<number>>
 }) => {
-  const [alreadyLiked, setAlreadyLiked] = useState(false)
-  const [alreadySaved, setAlreadySaved] = useState(false)
   const [loading, setLoading] = useState(false)
   const { userId, isSignedIn } = useAuth()
   const navigate = useNavigate()
-  useEffect(() => {
-    if (item.save?.find((x) => x.referenceToUser._id === userId)) {
-      console.log("this post is already saved by user")
-      setAlreadySaved(true)
-    } else {
-      console.log("this post is not saved by user")
-      setAlreadySaved(false)
-    }
-    if (item.like?.find((x) => x.referenceToUser._id === userId)) {
-      console.log("this post is already liked by user")
-      setAlreadyLiked(true)
-    } else {
-      console.log("this post is not liked by user")
-      setAlreadyLiked(false)
-    }
-  }, [isSignedIn])
-
-  function savePost(e: any) {
+  const alreadySaved = item.save?.find((x) => x.referenceToUser._id === userId)
+  const alreadyLiked = item.like?.find((x) => x.referenceToUser._id === userId)
+  function savePost(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.stopPropagation()
-    console.log("meelab")
+    if (!isSignedIn) {
+      navigate("/sign-in")
+      return
+    }
     if (!alreadySaved) {
       setLoading(true)
       sanityClient
@@ -64,7 +49,7 @@ const SinglePost = ({
         .commit()
         .then(() => {
           setFetchAllPostsAgain((prev) => prev + 1)
-          setAlreadySaved(true)
+          // setAlreadySaved(true)
           setLoading(false)
         })
         .catch((err) => {
@@ -82,7 +67,6 @@ const SinglePost = ({
         .commit()
         .then(() => {
           setFetchAllPostsAgain((prev) => prev + 1)
-          setAlreadySaved(false)
           setLoading(false)
         })
         .catch((err) => {
@@ -92,7 +76,12 @@ const SinglePost = ({
     }
   }
 
-  function likePost() {
+  function likePost(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.stopPropagation()
+    if (!isSignedIn) {
+      navigate("/sign-in")
+      return
+    }
     if (!alreadyLiked) {
       setLoading(true)
       sanityClient
@@ -101,6 +90,7 @@ const SinglePost = ({
         .insert("after", "like[-1]", [
           {
             _key: v4(),
+            userId: userId,
             referenceToUser: {
               _type: "referenceToUser",
               _ref: userId,
@@ -110,7 +100,6 @@ const SinglePost = ({
         .commit()
         .then(() => {
           setFetchAllPostsAgain((prev) => prev + 1)
-          setAlreadyLiked(true)
           setLoading(false)
         })
         .catch((err) => {
@@ -128,7 +117,6 @@ const SinglePost = ({
         .commit()
         .then(() => {
           setFetchAllPostsAgain((prev) => prev + 1)
-          setAlreadyLiked(false)
           setLoading(false)
         })
         .catch((err) => {
@@ -138,7 +126,8 @@ const SinglePost = ({
     }
   }
 
-  function removePost() {
+  function removePost(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.stopPropagation()
     setLoading(true)
     sanityClient
       .delete(item._id)
@@ -153,12 +142,8 @@ const SinglePost = ({
   }
 
   return (
-    // <Link to={`post-detail/${item._id}`}>
     <div
-      onClick={() => {
-        console.log("navigating")
-        // navigate(`post-detail/${item._id}`)
-      }}
+      onClick={() => navigate(`/post-detail/${item._id}`)}
       className="bg-neutral-900 pb-[10px] rounded-md relative mt-4"
     >
       {loading && (
@@ -179,7 +164,13 @@ const SinglePost = ({
             : item.title}
         </div>
         <div className="flex justify-between w-full relative">
-          <div className="flex items-center gap-2">
+          <div
+            className="flex items-center gap-2 cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation()
+              navigate(`user-profile/${userId}`)
+            }}
+          >
             <img
               src={item.referenceToUser.image}
               alt="user-image"
@@ -189,23 +180,18 @@ const SinglePost = ({
           </div>
           <div className="flex items-center gap-3">
             <button
-              className="flex items-center gap-1 text-lg
-            "
+              className="flex items-center gap-1 text-lg hover:scale-125"
               onClick={likePost}
             >
               {item.like?.length}
               {alreadyLiked ? (
-                <span className="hover:scale-125">
-                  <IoHeartSharp size={20} />
-                </span>
+                <IoHeartSharp size={20} />
               ) : (
-                <span className="hover:scale-125">
-                  <IoHeartOutline size={20} />
-                </span>
+                <IoHeartOutline size={20} />
               )}
             </button>
             <button
-              className="flex items-center gap-1 text-xl hover:scale-125"
+              className="flex items-center gap-1 hover:scale-125"
               onClick={savePost}
             >
               {alreadySaved ? (
@@ -226,7 +212,6 @@ const SinglePost = ({
         </div>
       </div>
     </div>
-    // </Link>
   )
 }
 

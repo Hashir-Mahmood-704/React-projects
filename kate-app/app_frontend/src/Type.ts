@@ -31,3 +31,15 @@ export type SanityPostResponseType = {
     }
   }[]
 }
+
+export type SanityPostDetailsResponseType = SanityPostResponseType & {
+  comments?: {
+    _key: string
+    comment: string
+    referenceToUser: {
+      _id: string
+      userName: string
+      image: string
+    }
+  }[]
+}

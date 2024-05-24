@@ -20,6 +20,7 @@ const SharedLayout = ({
   searchText: string
   setSearchText: React.Dispatch<React.SetStateAction<string>>
 }) => {
+  console.log("anushay")
   const [loading, setLoading] = useState(false)
   const { isSignedIn } = useAuth()
   const { user } = useUser()
@@ -51,6 +52,7 @@ const SharedLayout = ({
       })
       .catch((err) => console.log("error in fetching posts\n", err))
   }, [fetchAllPostsAgain])
+
   return (
     <div className="flex flex-col md:flex-row">
       {/* Mobile Layout */}
@@ -60,7 +62,7 @@ const SharedLayout = ({
       </div>
       {/* Desktop Layout */}
       <div className="hidden md:flex">
-        <div className="min-w-[250px] 2xl:min-w-[300px] border" />
+        <div className="min-w-[250px] 2xl:min-w-[300px]" />
         <div className="fixed">
           <DesktopSidebar />
         </div>
@@ -68,7 +70,7 @@ const SharedLayout = ({
 
       <div className="w-full">
         <div className="hidden md:block">
-          <div className=" left-[250px] 2xl:left-[300px] right-0 z-50 fixed">
+          <div className="left-[250px] 2xl:left-[300px] right-0 z-50 fixed">
             <DesktopNavbar
               searchText={searchText}
               setSearchText={setSearchText}
@@ -84,7 +86,7 @@ const SharedLayout = ({
               <p className="text-2xl mt-4">Fetching posts...</p>
             </div>
           ) : (
-            <div className="p-4 mt-[10px] md:mt-0  ">
+            <div className="p-4 mt-[10px] md:mt-0">
               <Outlet />
             </div>
           )}

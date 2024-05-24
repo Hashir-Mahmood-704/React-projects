@@ -31,7 +31,8 @@ const CreatePost = ({
       selectedFile.type === "image/svg" ||
       selectedFile.type === "image/jpeg" ||
       selectedFile.type === "image/gif" ||
-      selectedFile.type === "image/tiff"
+      selectedFile.type === "image/tiff" ||
+      selectedFile.type === "image/webp"
     ) {
       setWrongImageType(false)
       setLoading(true)
@@ -123,7 +124,7 @@ const CreatePost = ({
                       <IoCloudUpload size={35} />
                       <p className="mt-2">Click to upload</p>
                       <p className="text-white/60 text-sm mt-[60px] text-center">
-                        Upload JPG, SVG, JPEG, <br /> PNG less then 20MB
+                        Upload JPG, SVG, JPEG, WEBP <br /> PNG less then 20MB
                       </p>
                     </label>
                   ) : (

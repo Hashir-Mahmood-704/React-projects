@@ -8,6 +8,7 @@ import Home from "./Pages/Home"
 import { useState } from "react"
 import { SanityPostResponseType } from "./Type"
 import PostDetail from "./Pages/PostDetail"
+import SignIn from "./Pages/Sign-in"
 
 const App = () => {
   const [allPosts, setAllPosts] = useState<SanityPostResponseType[]>([])
@@ -48,7 +49,7 @@ const App = () => {
             }
           />
           <Route
-            path="/search"
+            path="search"
             element={
               <Search
                 allPosts={allPosts}
@@ -59,12 +60,18 @@ const App = () => {
           />
           <Route path="user-profile/:userId" element={<UserProfile />} />
           <Route
-            path="/create-post"
+            path="create-post"
             element={
               <CreatePost setFetchAllPostsAgain={setFetchAllPostsAgain} />
             }
           />
-          <Route path="post-detail/:postId" element={<PostDetail />} />
+          <Route
+            path="post-detail/:postId"
+            element={
+              <PostDetail setFetchAllPostsAgain={setFetchAllPostsAgain} />
+            }
+          />
+          <Route path="sign-in" element={<SignIn />} />
         </Route>
       </Routes>
     </div>
