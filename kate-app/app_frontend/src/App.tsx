@@ -1,19 +1,19 @@
-import { Routes, Route } from "react-router-dom"
-import SharedLayout from "./Pages/SharedLayout"
-import UserProfile from "./Pages/UserProfile"
-import CategoryPage from "./Pages/CategoryPage"
-import CreatePost from "./Pages/CreatePost"
-import Search from "./Pages/Search"
-import Home from "./Pages/Home"
-import { useState } from "react"
-import { SanityPostResponseType } from "./Type"
-import PostDetail from "./Pages/PostDetail"
-import SignIn from "./Pages/Sign-in"
+import { Routes, Route } from "react-router-dom";
+import SharedLayout from "./Pages/SharedLayout";
+import UserProfile from "./Pages/UserProfile";
+import CategoryPage from "./Pages/CategoryPage";
+import CreatePost from "./Pages/CreatePost";
+import Search from "./Pages/Search";
+import Home from "./Pages/Home";
+import { useState } from "react";
+import { SanityPostResponseType } from "./Type";
+import PostDetail from "./Pages/PostDetail";
+import SignIn from "./Pages/Sign-in";
 
 const App = () => {
-  const [allPosts, setAllPosts] = useState<SanityPostResponseType[]>([])
-  const [fetchAllPostsAgain, setFetchAllPostsAgain] = useState(1)
-  const [searchText, setSearchText] = useState("")
+  const [allPosts, setAllPosts] = useState<SanityPostResponseType[]>([]);
+  const [fetchAllPostsAgain, setFetchAllPostsAgain] = useState(1);
+  const [searchText, setSearchText] = useState("");
   return (
     <div className="font-poppins">
       <Routes>
@@ -75,7 +75,7 @@ const App = () => {
         </Route>
       </Routes>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;

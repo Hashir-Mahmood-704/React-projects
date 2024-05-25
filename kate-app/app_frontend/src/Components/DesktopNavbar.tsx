@@ -7,6 +7,7 @@ import {
 import { MdAdd, MdOutlineSearch } from "react-icons/md"
 import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom"
+import React from "react";
 const DesktopNavbar = ({
   searchText,
   setSearchText,

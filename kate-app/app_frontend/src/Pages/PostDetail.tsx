@@ -26,6 +26,7 @@ const PostDetail = ({
     useState<SanityPostDetailsResponseType>()
   const [loading, setLoading] = useState(false)
   const [processing, setProcessing] = useState(false)
+  const [fetchDetailsAgain, setFetchDetailsAgain] = useState(1)
   const { userId } = useAuth()
   const navigate = useNavigate()
   const alreadySaved = postDetailedData?.save?.find(
@@ -49,7 +50,7 @@ const PostDetail = ({
           setLoading(false)
         })
     }
-  }, [])
+  }, [fetchDetailsAgain])
 
   function savePost() {
     if (postDetailedData) {
@@ -166,102 +167,83 @@ const PostDetail = ({
     return (
       <div className="flex flex-col items-center justify-center mt-[185px]">
         <Spinner />
-        <p className="text-2xl mt-4">Fetching posts...</p>
+        <p className="text-2xl mt-4">Fetching details...</p>
       </div>
     )
   else if (!postDetailedData) return <div>No data found!</div>
   return (
     <div className="flex justify-center">
-      <div className="flex flex-col items-center justify-center  md:mt-[0px] mt-[85px]">
-        <div className="flex flex-col items-center  p-4 rounded-md bg-neutral-900 relative">
+      {/* container  */}
+      <div className="w-full md:w-[55%] 2xl:w-[65%]">
+        {/* image , buttons and loader */}
+        <div className=" relative">
           {processing && (
-            <div className="flex justify-center items-center absolute bg-black/70 top-0 left-0 right-0 bottom-0">
+            <div className="absolute left-0 right-0 bottom-0 top-0 bg-black/70 flex justify-center items-center">
               <Spinner />
             </div>
           )}
-          <div className="flex flex-col md:flex-row gap-6">
-            <div className="md:min-w-[350px] md:min-h-[250px]">
-              <img
-                className="max-h-[350px] rounded-md w-[320px] md:w-full"
-                src={sanityImageBuilder(postDetailedData.image.asset.url)
-                  .width(450)
-                  .url()}
-                alt="image"
-              />
-            </div>
-            <div className="flex flex-col gap-4 max-w-[200px]">
-              <p className="text-2xl text-white flex">
-                Title:
-                <span
-                  className="font-semibold text-[#ED7014] ml-2 capitalize w-full"
-                  style={{ overflowWrap: "break-word" }}
-                >
-                  {postDetailedData.title}
-                </span>
-              </p>
-              <p className="text-lg text-white">
-                About:
-                <span
-                  className="font-semibold text-[#ED7014] ml-2 capitalize w-full"
-                  style={{ overflowWrap: "break-word" }}
-                >
-                  {postDetailedData.about}
-                </span>
-              </p>
-              <div>
-                <p>Posted by:</p>
-                <div
-                  className="flex items-center gap-2 cursor-pointer mt-[10px]"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    navigate(`/user-profile/${userId}`)
-                  }}
-                >
-                  <img
-                    src={postDetailedData.referenceToUser.image}
-                    alt="user-image"
-                    className="w-[30px] rounded-full"
-                  />
-                  <p>{postDetailedData.referenceToUser.userName}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="flex w-full gap-[10px] mt-[20px]">
-            <button
-              className="flex items-center gap-1 text-lg hover:scale-125"
-              onClick={likePost}
-            >
-              {postDetailedData.like?.length}
-              {alreadyLiked ? (
-                <IoHeartSharp size={30} />
-              ) : (
-                <IoHeartOutline size={30} />
-              )}
-            </button>
-            <button
-              className="flex items-center gap-1 hover:scale-125"
-              onClick={savePost}
-            >
-              {alreadySaved ? (
-                <IoBookmark size={30} />
-              ) : (
-                <IoBookmarkOutline size={30} />
-              )}
-            </button>
-
-            {postDetailedData.referenceToUser._id === userId && (
+          {/* image */}
+          <img
+            src={sanityImageBuilder(postDetailedData.image.asset.url).url()}
+            alt="image"
+            className=" object-cover rounded-md w-full"
+          />
+          {/* buttons */}
+          {!processing && (
+            <div className="flex md:flex-col gap-[15px] absolute text-[20px] md:text-[25px] left-0  md:left-[102%] md:top-0">
               <button
-                onClick={removePost}
-                className="hover:scale-125 text-red-600"
+                className="flex gap-[5px] items-center hover:scale-125"
+                onClick={likePost}
               >
-                <RiDeleteBin6Fill size={30} />
+                {alreadyLiked ? <IoHeartSharp /> : <IoHeartOutline />}
+                <span>
+                  {postDetailedData.like ? postDetailedData.like.length : 0}
+                </span>
               </button>
-            )}
+              <button className="hover:scale-125" onClick={savePost}>
+                {alreadySaved ? <IoBookmark /> : <IoBookmarkOutline />}
+              </button>
+              <button
+                className="text-red-600 hover:scale-125"
+                onClick={removePost}
+              >
+                <RiDeleteBin6Fill />
+              </button>
+            </div>
+          )}
+        </div>
+        {/* details */}
+        <div className=" bg-neutral-900 mt-[50px] md:mt-[20px]  rounded-md p-4 flex flex-col gap-[10px]">
+          <p className="font-semibold text-lg md:text-xl">
+            Title:
+            <span className="text-white text-xl md:text-2xl capitalize ml-[7px]">
+              {postDetailedData.title}
+            </span>
+          </p>
+          <p className="text-base md:text-lg font-semibold">
+            About:
+            <span className="text-white text-lg md:text-xl capitalize ml-[7px]">
+              {postDetailedData.about}
+            </span>
+          </p>
+          <div className="flex items-center gap-[10px]">
+            <img
+              src={postDetailedData.referenceToUser.image}
+              alt="image"
+              className="w-[30px] md:w-[40px] rounded-full"
+            />
+            <span className="text-white font-semibold">
+              {postDetailedData.referenceToUser.userName}
+            </span>
           </div>
         </div>
-        <div className="w-full  bg-neutral-900 mt-[15px]">
-          <CommentSection postDetailedData={postDetailedData} />
+
+        {/* comments */}
+        <div className="mt-[50px] md:mt-[20px] bg-neutral-900 pt-[10px]">
+          <CommentSection
+            setFetchDetailsAgain={setFetchDetailsAgain}
+            postDetailedData={postDetailedData}
+          />
         </div>
       </div>
     </div>
