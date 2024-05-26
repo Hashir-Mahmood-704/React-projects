@@ -1,22 +1,23 @@
-import { SanityPostResponseType } from "../Type"
-import { Link } from "react-router-dom"
-import MasonryLayout from "../Components/MasonryLayout"
+import { SanityPostResponseType } from "../Type";
+import { Link } from "react-router-dom";
+import MasonryLayout from "../Components/MasonryLayout";
+import React from "react";
 
 const Search = ({
   allPosts,
   setFetchAllPostsAgain,
   searchText,
 }: {
-  allPosts: SanityPostResponseType[]
-  setFetchAllPostsAgain: React.Dispatch<React.SetStateAction<number>>
-  searchText: string
+  allPosts: SanityPostResponseType[];
+  setFetchAllPostsAgain: React.Dispatch<React.SetStateAction<number>>;
+  searchText: string;
 }) => {
   const searchedPosts = allPosts.filter(
     (post) =>
       post.category.includes(searchText) ||
       post.title.includes(searchText) ||
-      post.about.includes(searchText)
-  )
+      post.about.includes(searchText),
+  );
   if (allPosts.length === 0)
     return (
       <div className="flex flex-col items-center gap-[20px] mt-[250px] md:mt-[100px]">
@@ -28,7 +29,7 @@ const Search = ({
           Create post
         </Link>
       </div>
-    )
+    );
   else if (searchedPosts.length === 0)
     return (
       <div className="flex flex-col items-center gap-[20px] mt-[250px]  md:mt-[100px]">
@@ -40,7 +41,7 @@ const Search = ({
           Create some posts
         </Link>
       </div>
-    )
+    );
   return (
     <div>
       <MasonryLayout
@@ -48,7 +49,7 @@ const Search = ({
         setFetchAllPostsAgain={setFetchAllPostsAgain}
       />
     </div>
-  )
-}
+  );
+};
 
-export default Search
+export default Search;

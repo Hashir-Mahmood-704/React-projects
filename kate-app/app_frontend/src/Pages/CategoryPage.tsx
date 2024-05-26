@@ -2,6 +2,7 @@ import { SanityPostResponseType } from "../Type"
 import { useParams } from "react-router-dom"
 import { Link } from "react-router-dom"
 import MasonryLayout from "../Components/MasonryLayout"
+import React from "react";
 
 const CategoryPage = ({
   allPosts,

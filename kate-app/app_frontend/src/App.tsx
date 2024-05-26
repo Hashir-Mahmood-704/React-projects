@@ -1,14 +1,13 @@
 import { Routes, Route } from "react-router-dom";
-import SharedLayout from "./Pages/SharedLayout";
-import UserProfile from "./Pages/UserProfile";
-import CategoryPage from "./Pages/CategoryPage";
-import CreatePost from "./Pages/CreatePost";
-import Search from "./Pages/Search";
 import Home from "./Pages/Home";
 import { useState } from "react";
-import { SanityPostResponseType } from "./Type";
-import PostDetail from "./Pages/PostDetail";
 import SignIn from "./Pages/Sign-in";
+import SharedLayout from "./Pages/SharedLayout.tsx";
+import CommonDataSharedLayout from "./Pages/CommonDataSharedLayout.tsx";
+import { SanityPostResponseType } from "./Type.ts";
+import CategoryPage from "./Pages/CategoryPage";
+import Search from "./Pages/Search.tsx";
+import PostDetail from "./Pages/PostDetail.tsx";
 
 const App = () => {
   const [allPosts, setAllPosts] = useState<SanityPostResponseType[]>([]);
@@ -21,50 +20,49 @@ const App = () => {
           path="/"
           element={
             <SharedLayout
-              setAllPosts={setAllPosts}
-              fetchAllPostsAgain={fetchAllPostsAgain}
               searchText={searchText}
               setSearchText={setSearchText}
             />
           }
         >
           <Route
-            index
+            path="*"
             element={
-              <div className="flex">
+              <CommonDataSharedLayout
+                fetchAllPostsAgain={fetchAllPostsAgain}
+                setAllPosts={setAllPosts}
+              />
+            }
+          >
+            <Route
+              index
+              element={
                 <Home
                   allPosts={allPosts}
                   setFetchAllPostsAgain={setFetchAllPostsAgain}
                 />
-              </div>
-            }
-          />
-          <Route
-            path="category/:categoryName"
-            element={
-              <CategoryPage
-                allPosts={allPosts}
-                setFetchAllPostsAgain={setFetchAllPostsAgain}
-              />
-            }
-          />
-          <Route
-            path="search"
-            element={
-              <Search
-                allPosts={allPosts}
-                setFetchAllPostsAgain={setFetchAllPostsAgain}
-                searchText={searchText}
-              />
-            }
-          />
-          <Route path="user-profile/:userId" element={<UserProfile />} />
-          <Route
-            path="create-post"
-            element={
-              <CreatePost setFetchAllPostsAgain={setFetchAllPostsAgain} />
-            }
-          />
+              }
+            />
+            <Route
+              path="category/:categoryName"
+              element={
+                <CategoryPage
+                  allPosts={allPosts}
+                  setFetchAllPostsAgain={setFetchAllPostsAgain}
+                />
+              }
+            />
+            <Route
+              path="search"
+              element={
+                <Search
+                  allPosts={allPosts}
+                  setFetchAllPostsAgain={setFetchAllPostsAgain}
+                  searchText={searchText}
+                />
+              }
+            />
+          </Route>
           <Route
             path="post-detail/:postId"
             element={

@@ -1,28 +1,20 @@
-import { Outlet } from "react-router-dom"
-import MobileNavbar from "../Components/MobileNavbar"
-import DesktopSidebar from "../Components/DesktopSidebar"
-import DesktopNavbar from "../Components/DesktopNavbar"
-import { useEffect, useState } from "react"
-import { useAuth, useUser } from "@clerk/clerk-react"
-import { sanityClient } from "../sanityClient"
-import { fetchAllPosts } from "../Utils/SanityQueries"
-import Spinner from "../Components/Spinner"
-import { SanityPostResponseType } from "../Type"
+import { Outlet } from "react-router-dom";
+import MobileNavbar from "../Components/MobileNavbar.tsx";
+import DesktopSidebar from "../Components/DesktopSidebar.tsx";
+import DesktopNavbar from "../Components/DesktopNavbar.tsx";
+import React, { useEffect } from "react";
+import { useAuth, useUser } from "@clerk/clerk-react";
+import { sanityClient } from "../sanityClient.ts";
 
 const SharedLayout = ({
-  setAllPosts,
-  fetchAllPostsAgain,
   searchText,
   setSearchText,
 }: {
-  fetchAllPostsAgain: number
-  setAllPosts: React.Dispatch<React.SetStateAction<SanityPostResponseType[]>>
-  searchText: string
-  setSearchText: React.Dispatch<React.SetStateAction<string>>
+  searchText: string;
+  setSearchText: React.Dispatch<React.SetStateAction<string>>;
 }) => {
-  const [loading, setLoading] = useState(false)
-  const { isSignedIn } = useAuth()
-  const { user } = useUser()
+  const { isSignedIn } = useAuth();
+  const { user } = useUser();
   useEffect(() => {
     if (isSignedIn && user) {
       // console.log("signed in, sending request")
@@ -31,35 +23,24 @@ const SharedLayout = ({
         _type: "user",
         userName: user.fullName,
         image: user.imageUrl,
-      }
+      };
       sanityClient
         .createIfNotExists(newUserDocument)
         .then(() => {
           // console.log("successfully created new user\n")
         })
-        .catch((err) => console.log("error occurred\n", err))
-    } else console.log("not signed in, not sending req")
-  }, [isSignedIn])
-
-  useEffect(() => {
-    setLoading(true)
-    sanityClient
-      .fetch(fetchAllPosts)
-      .then((data) => {
-        setLoading(false)
-        setAllPosts(data)
-      })
-      .catch((err) => console.log("error in fetching posts\n", err))
-  }, [fetchAllPostsAgain])
+        .catch((err) => console.log("error occurred\n", err));
+    } else console.log("not signed in, not sending req");
+  }, [isSignedIn]);
 
   return (
     <div className="flex flex-col md:flex-row">
-      {/* Mobile Layout */}
+      {/* Mobile SharedLayout */}
       <div className="flex md:hidden">
         <div className="h-[60px]" />
         <MobileNavbar searchText={searchText} setSearchText={setSearchText} />
       </div>
-      {/* Desktop Layout */}
+      {/* Desktop SharedLayout */}
       <div className="hidden md:flex">
         {/* <div className="min-w-[250px] 2xl:min-w-[300px]" /> */}
         <div className="fixed">
@@ -77,21 +58,12 @@ const SharedLayout = ({
           </div>
         </div>
 
-        <div>
-          {loading ? (
-            <div className="flex flex-col items-center justify-center mt-[200px]">
-              <Spinner />
-              <p className="text-2xl mt-4">Fetching posts...</p>
-            </div>
-          ) : (
-            <div className="p-4 mt-[70px]  md:ml-[250px] 2xl:ml-[300px]">
-              <Outlet />
-            </div>
-          )}
+        <div className="p-4 mt-[70px]  md:ml-[250px] 2xl:ml-[300px]">
+          <Outlet />
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SharedLayout
+export default SharedLayout;
