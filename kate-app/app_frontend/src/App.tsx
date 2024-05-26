@@ -8,6 +8,8 @@ import { SanityPostResponseType } from "./Type.ts";
 import CategoryPage from "./Pages/CategoryPage";
 import Search from "./Pages/Search.tsx";
 import PostDetail from "./Pages/PostDetail.tsx";
+import UserProfile from "./Pages/UserProfile.tsx";
+import CreatePost from "./Pages/CreatePost.tsx";
 
 const App = () => {
   const [allPosts, setAllPosts] = useState<SanityPostResponseType[]>([]);
@@ -62,11 +64,26 @@ const App = () => {
                 />
               }
             />
+            <Route
+              path="user-profile/:userId"
+              element={
+                <UserProfile
+                  setFetchAllPostsAgain={setFetchAllPostsAgain}
+                  allPosts={allPosts}
+                />
+              }
+            />
           </Route>
           <Route
             path="post-detail/:postId"
             element={
               <PostDetail setFetchAllPostsAgain={setFetchAllPostsAgain} />
+            }
+          />
+          <Route
+            path="create-post"
+            element={
+              <CreatePost setFetchAllPostsAgain={setFetchAllPostsAgain} />
             }
           />
           <Route path="sign-in" element={<SignIn />} />

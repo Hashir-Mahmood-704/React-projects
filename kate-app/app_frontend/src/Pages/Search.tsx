@@ -14,9 +14,9 @@ const Search = ({
 }) => {
   const searchedPosts = allPosts.filter(
     (post) =>
-      post.category.includes(searchText) ||
-      post.title.includes(searchText) ||
-      post.about.includes(searchText),
+      post.category.toLowerCase().includes(searchText) ||
+      post.title.toLowerCase().includes(searchText) ||
+      post.about.toLowerCase().includes(searchText),
   );
   if (allPosts.length === 0)
     return (

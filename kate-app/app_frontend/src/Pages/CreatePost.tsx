@@ -1,31 +1,31 @@
-import { useUser, SignInButton } from "@clerk/clerk-react"
-import { IoCloudUpload } from "react-icons/io5"
-import { useState } from "react"
-import { sanityClient } from "../sanityClient"
-import { SanityImageAssetDocument } from "@sanity/client"
-import Spinner from "../Components/Spinner"
-import { useNavigate } from "react-router-dom"
-import { MdDelete } from "react-icons/md"
-import { categories } from "../Utils/data"
+import { useUser, SignInButton } from "@clerk/clerk-react";
+import { IoCloudUpload } from "react-icons/io5";
+import React, { useState } from "react";
+import { sanityClient } from "../sanityClient";
+import { SanityImageAssetDocument } from "@sanity/client";
+import Spinner from "../Components/Spinner";
+import { useNavigate } from "react-router-dom";
+import { MdDelete } from "react-icons/md";
+import { categories } from "../Utils/data";
 
 const CreatePost = ({
   setFetchAllPostsAgain,
 }: {
-  setFetchAllPostsAgain: React.Dispatch<React.SetStateAction<number>>
+  setFetchAllPostsAgain: React.Dispatch<React.SetStateAction<number>>;
 }) => {
-  const [fieldError, setFieldError] = useState(false)
-  const [title, setTitle] = useState("")
-  const [about, setAbout] = useState("")
-  const [category, setCategory] = useState("other")
-  const [wrongImageType, setWrongImageType] = useState(false)
-  const [loading, setLoading] = useState(false)
+  const [fieldError, setFieldError] = useState(false);
+  const [title, setTitle] = useState("");
+  const [about, setAbout] = useState("");
+  const [category, setCategory] = useState("other");
+  const [wrongImageType, setWrongImageType] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [imageAsset, setImageAsset] = useState<SanityImageAssetDocument | null>(
-    null
-  )
-  const navigate = useNavigate()
-  const { isSignedIn, user } = useUser()
+    null,
+  );
+  const navigate = useNavigate();
+  const { isSignedIn, user } = useUser();
   function uploadImage(e: any) {
-    const selectedFile = e.target.files[0]
+    const selectedFile = e.target.files[0];
     if (
       selectedFile.type === "image/png" ||
       selectedFile.type === "image/svg" ||
@@ -34,35 +34,38 @@ const CreatePost = ({
       selectedFile.type === "image/tiff" ||
       selectedFile.type === "image/webp"
     ) {
-      setWrongImageType(false)
-      setLoading(true)
+      setWrongImageType(false);
+      setLoading(true);
       sanityClient.assets
         .upload("image", selectedFile, {
           contentType: selectedFile.type,
           filename: selectedFile.name,
         })
         .then((document) => {
-          setImageAsset(document)
-          setLoading(false)
+          setImageAsset(document);
+          setLoading(false);
         })
-        .catch((err) => console.log("error in upload image", err))
+        .catch((err) => {
+          setLoading(false);
+          console.log("error in upload image", err);
+        });
     } else {
-      setWrongImageType(true)
+      setWrongImageType(true);
 
       setTimeout(() => {
-        setWrongImageType(false)
-      }, 2000)
+        setWrongImageType(false);
+      }, 2000);
     }
   }
   function uploadPost() {
     if (!title || !about || !category || !imageAsset?._id) {
-      setFieldError(true)
+      setFieldError(true);
       setTimeout(() => {
-        setFieldError(false)
-      }, 2000)
-      return
+        setFieldError(false);
+      }, 2000);
+      return;
     }
-    setLoading(true)
+    setLoading(true);
     const newPostDocument = {
       _type: "post",
       title: title,
@@ -80,15 +83,15 @@ const CreatePost = ({
         _type: "referenceToUser",
         _ref: user?.id,
       },
-    }
+    };
     sanityClient
       .create(newPostDocument)
       .then(() => {
-        setLoading(false)
-        setFetchAllPostsAgain((prev) => prev + 1)
-        navigate("/")
+        setLoading(false);
+        setFetchAllPostsAgain((prev) => prev + 1);
+        navigate("/");
       })
-      .catch((err) => console.log("error in post creation\n", err))
+      .catch((err) => console.log("error in post creation\n", err));
   }
   return (
     <div className="flex justify-center items-center">
@@ -222,7 +225,7 @@ const CreatePost = ({
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default CreatePost
+export default CreatePost;

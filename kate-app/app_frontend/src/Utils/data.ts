@@ -10,11 +10,6 @@ export const categories = [
       "https://i.pinimg.com/236x/25/14/29/251429345940a47490cc3d47dfe0a8eb.jpg",
   },
   {
-    name: "wallpaper",
-    image:
-      "https://i.pinimg.com/236x/03/48/b6/0348b65919fcbe1e4f559dc4feb0ee13.jpg",
-  },
-  {
     name: "food",
     image:
       "https://i.pinimg.com/236x/7d/ef/15/7def15ac734837346dac01fad598fc87.jpg",
@@ -40,18 +35,13 @@ export const categories = [
       "https://i.pinimg.com/236x/46/7c/17/467c17277badb00b638f8ec4da89a358.jpg",
   },
   {
-    name: "cats",
+    name: "animals",
     image:
       "https://i.pinimg.com/236x/6c/3c/52/6c3c529e8dadc7cffc4fddedd4caabe1.jpg",
-  },
-  {
-    name: "dogs",
-    image:
-      "https://i.pinimg.com/236x/1b/c8/30/1bc83077e363db1a394bf6a64b071e9f.jpg",
   },
   {
     name: "other",
     image:
       "https://i.pinimg.com/236x/2e/63/c8/2e63c82dfd49aca8dccf9de3f57e8588.jpg",
   },
-]
+];
