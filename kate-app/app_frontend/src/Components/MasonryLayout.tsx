@@ -1,6 +1,7 @@
-import { SanityPostResponseType } from "../Type"
-import Masonry from "react-masonry-css"
-import SinglePost from "./SinglePost"
+import { SanityPostResponseType } from "../Type";
+import Masonry from "react-masonry-css";
+import SinglePost from "./SinglePost";
+import React from "react";
 
 const breakpointColumnsObj = {
   default: 4,
@@ -10,14 +11,14 @@ const breakpointColumnsObj = {
   1200: 3,
   1000: 2,
   500: 1,
-}
+};
 
 const MasonryLayout = ({
   allPosts,
   setFetchAllPostsAgain,
 }: {
-  allPosts: SanityPostResponseType[]
-  setFetchAllPostsAgain: React.Dispatch<React.SetStateAction<number>>
+  allPosts: SanityPostResponseType[];
+  setFetchAllPostsAgain: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   return (
     <div>
@@ -34,7 +35,7 @@ const MasonryLayout = ({
         ))}
       </Masonry>
     </div>
-  )
-}
+  );
+};
 
-export default MasonryLayout
+export default MasonryLayout;

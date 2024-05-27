@@ -3,22 +3,22 @@ import {
   SignedOut,
   UserButton,
   SignInButton,
-} from "@clerk/clerk-react"
-import { MdAdd, MdOutlineSearch } from "react-icons/md"
-import { Link } from "react-router-dom"
-import { useNavigate } from "react-router-dom"
+} from "@clerk/clerk-react";
+import { MdAdd, MdOutlineSearch } from "react-icons/md";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import React from "react";
 const DesktopNavbar = ({
   searchText,
   setSearchText,
 }: {
-  searchText: string
-  setSearchText: React.Dispatch<React.SetStateAction<string>>
+  searchText: string;
+  setSearchText: React.Dispatch<React.SetStateAction<string>>;
 }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
-    <div className="bg-neutral-900 flex items-center  w-full h-[60px] 2xl:h-[80px] px-4 gap-6">
-      <div className="w-full flex items-center bg-black px-3 py-2 2xl:py-4 rounded-lg">
+    <div className="bg-neutral-900 flex items-center  w-full h-[70px] 2xl:h-[80px] px-4 gap-6">
+      <div className="w-full flex items-center bg-black px-3 py-2 2xl:py-3 rounded-lg">
         <MdOutlineSearch className="text-[20px] 2xl:text-[30px]" />
         <input
           onFocus={() => navigate("search")}
@@ -52,7 +52,7 @@ const DesktopNavbar = ({
         </SignedIn>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default DesktopNavbar
+export default DesktopNavbar;

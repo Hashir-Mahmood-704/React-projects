@@ -177,7 +177,7 @@ const PostDetail = ({
     );
   else if (!postDetailedData) return <div>No data found!</div>;
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center mt-[20px]">
       {/* container  */}
       <div className="w-full md:w-[55%] 2xl:w-[65%]">
         {/* image , buttons and loader */}
@@ -191,12 +191,12 @@ const PostDetail = ({
           <img
             src={sanityImageBuilder(postDetailedData.image.asset.url).url()}
             alt="image"
-            className=" object-cover rounded-md w-full"
+            className="object-cover rounded-md w-full max-h-[500px]"
           />
         </div>
         {/* details */}
-        <div className="flex bg-neutral-900 mt-[50px] md:mt-[20px]  rounded-md p-4 justify-between items-baseline">
-          <div className="flex flex-col gap-[10px]">
+        <div className="flex bg-neutral-900 p-4 pt-2 justify-between items-baseline">
+          <div className="flex flex-col gap-[16px]">
             <p className="font-semibold text-lg md:text-xl">
               Title:
               <span className="text-white text-xl md:text-2xl capitalize ml-[7px]">

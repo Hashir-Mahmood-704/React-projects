@@ -58,7 +58,7 @@ const SharedLayout = ({
           </div>
         </div>
 
-        <div className="p-4 mt-[70px]  md:ml-[250px] 2xl:ml-[300px]">
+        <div className="p-4 mt-[55px] md:ml-[250px] 2xl:ml-[300px]">
           <Outlet />
         </div>
       </div>
