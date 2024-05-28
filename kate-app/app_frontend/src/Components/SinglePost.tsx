@@ -1,7 +1,6 @@
-import { SanityPostResponseType } from "../Type";
+import { SanityPostResponseType, SanityUserResponseType } from "../Type";
 import { sanityClient, sanityImageBuilder } from "../sanityClient";
 import React, { useState } from "react";
-import { useAuth } from "@clerk/clerk-react";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import { v4 } from "uuid";
 import {
@@ -16,19 +15,24 @@ import Spinner from "./Spinner";
 const SinglePost = ({
   item,
   setFetchAllPostsAgain,
+  userData,
 }: {
   item: SanityPostResponseType;
   setFetchAllPostsAgain: React.Dispatch<React.SetStateAction<number>>;
+  userData: SanityUserResponseType | null;
 }) => {
   const [loading, setLoading] = useState(false);
-  const { userId, isSignedIn } = useAuth();
   const navigate = useNavigate();
-  const alreadySaved = item.save?.find((x) => x.referenceToUser._id === userId);
-  const alreadyLiked = item.like?.find((x) => x.referenceToUser._id === userId);
+  const alreadySaved = item.save?.find(
+    (x) => x.referenceToUser._id === userData?._id,
+  );
+  const alreadyLiked = item.like?.find(
+    (x) => x.referenceToUser._id === userData?._id,
+  );
 
   function savePost(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.stopPropagation();
-    if (!isSignedIn) {
+    if (!userData) {
       navigate("/sign-in");
       return;
     }
@@ -40,10 +44,10 @@ const SinglePost = ({
         .insert("after", "save[-1]", [
           {
             _key: v4(),
-            userId: userId,
+            userId: userData._id,
             referenceToUser: {
               _type: "referenceToUser",
-              _ref: userId,
+              _ref: userData._id,
             },
           },
         ])
@@ -60,7 +64,7 @@ const SinglePost = ({
     } else if (alreadySaved) {
       setLoading(true);
       const indexToRemove = item.save?.findIndex(
-        (x) => x.referenceToUser._id === userId,
+        (x) => x.referenceToUser._id === userData._id,
       );
       sanityClient
         .patch(item._id)
@@ -79,7 +83,7 @@ const SinglePost = ({
 
   function likePost(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.stopPropagation();
-    if (!isSignedIn) {
+    if (!userData) {
       navigate("/sign-in");
       return;
     }
@@ -91,10 +95,10 @@ const SinglePost = ({
         .insert("after", "like[-1]", [
           {
             _key: v4(),
-            userId: userId,
+            userId: userData._id,
             referenceToUser: {
               _type: "referenceToUser",
-              _ref: userId,
+              _ref: userData._id,
             },
           },
         ])
@@ -110,7 +114,7 @@ const SinglePost = ({
     } else if (alreadyLiked) {
       setLoading(true);
       const indexToRemove = item.like?.findIndex(
-        (x) => x.referenceToUser._id === userId,
+        (x) => x.referenceToUser._id === userData._id,
       );
       sanityClient
         .patch(item._id)
@@ -169,7 +173,7 @@ const SinglePost = ({
             className="flex items-center gap-2 cursor-pointer"
             onClick={(e) => {
               e.stopPropagation();
-              navigate(`user-profile/${userId}`);
+              navigate(`/user-profile/${item.referenceToUser._id}`);
             }}
           >
             <img
@@ -201,7 +205,7 @@ const SinglePost = ({
                 <IoBookmarkOutline size={20} />
               )}
             </button>
-            {item.referenceToUser._id === userId && (
+            {userData && item.referenceToUser._id === userData._id && (
               <button
                 onClick={removePost}
                 className="hover:scale-125 text-red-600"

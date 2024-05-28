@@ -1,33 +1,34 @@
-import { useState } from "react"
-import { useUser } from "@clerk/clerk-react"
-import { IoSend } from "react-icons/io5"
-import { v4 } from "uuid"
-import { useNavigate } from "react-router-dom"
-import { SanityPostDetailsResponseType } from "../Type"
-import { sanityClient } from "../sanityClient"
-import SingleComment from "./SingleComment"
-import Spinner from "./Spinner"
+import { useState } from "react";
+import { useUser } from "@clerk/clerk-react";
+import { IoSend } from "react-icons/io5";
+import { v4 } from "uuid";
+import { useNavigate } from "react-router-dom";
+import { SanityPostDetailsResponseType } from "../Type";
+import { sanityClient } from "../sanityClient";
+import SingleComment from "./SingleComment";
+import Spinner from "./Spinner";
 
 const CommentSection = ({
   postDetailedData,
   setFetchDetailsAgain,
 }: {
-  postDetailedData: SanityPostDetailsResponseType
-  setFetchDetailsAgain: React.Dispatch<React.SetStateAction<number>>
+  postDetailedData: SanityPostDetailsResponseType;
+  setFetchDetailsAgain: React.Dispatch<React.SetStateAction<number>>;
 }) => {
-  const [commentText, setCommentText] = useState("")
-  const { isSignedIn, user } = useUser()
-  const [addingCommentLoading, setAddingCommentLoading] = useState(false)
-  const navigate = useNavigate()
+  const [commentText, setCommentText] = useState("");
+  const { isSignedIn, user } = useUser();
+  const [addingCommentLoading, setAddingCommentLoading] = useState(false);
+  const navigate = useNavigate();
+
   function addComment() {
     if (!isSignedIn) {
-      navigate("/sign-in")
-      return
+      navigate("/sign-in");
+      return;
     }
     if (!commentText) {
-      return
+      return;
     }
-    setAddingCommentLoading(true)
+    setAddingCommentLoading(true);
     sanityClient
       .patch(postDetailedData._id)
       .setIfMissing({ comments: [] })
@@ -43,17 +44,17 @@ const CommentSection = ({
       ])
       .commit()
       .then(() => {
-        setAddingCommentLoading(false)
-        setFetchDetailsAgain((prev) => prev + 1)
-        console.log("comment added")
+        setAddingCommentLoading(false);
+        setFetchDetailsAgain((prev) => prev + 1);
+        // console.log("comment added");
       })
       .catch((err) => {
-        console.log("Error in adding comment\n", err)
-        setAddingCommentLoading(false)
-      })
+        console.log("Error in adding comment\n", err);
+        setAddingCommentLoading(false);
+      });
   }
   return (
-    <div className="px-[10px] text-center pb-[10px]">
+    <div className="px-[15px] text-center pb-[30px]">
       <p>Comments</p>
       <div className="w-full h-[40px] flex justify-center mt-2 bg-black items-center rounded-lg">
         <input
@@ -63,17 +64,21 @@ const CommentSection = ({
           value={commentText}
           onChange={(e) => setCommentText(e.target.value)}
         />
-        <button className="mx-[10px]" onClick={addComment}>
+        <button
+          className={`mx-[10px] ${!commentText && "cursor-not-allowed"}`}
+          onClick={addComment}
+        >
           {!addingCommentLoading ? <IoSend size={20} /> : <Spinner size={30} />}
         </button>
       </div>
       <div className="flex flex-col gap-[5px]">
         {!postDetailedData.comments ? (
-          <div>
-            <p>This post have no comments currently!</p>
-          </div>
+          <p className="mt-[50px]">This post have no comments currently!</p>
         ) : (
-          <div className="mt-[20px] flex flex-col gap-[10px] overflow-y-auto max-h-[300px]">
+          <div
+            className="mt-[20px] flex flex-col gap-[10px] overflow-y-auto max-h-[300px] custom-scrollbar"
+            style={{ overflowY: "auto", WebkitOverflowScrolling: "touch" }}
+          >
             {postDetailedData.comments.map((item) => (
               <SingleComment key={item._key} {...item} />
             ))}
@@ -81,7 +86,7 @@ const CommentSection = ({
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default CommentSection
+export default CommentSection;

@@ -3,11 +3,13 @@ import {
   SignedOut,
   UserButton,
   SignInButton,
+  useUser,
 } from "@clerk/clerk-react";
 import { MdAdd, MdOutlineSearch } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import React from "react";
+import React, { useEffect } from "react";
+import { sanityClient } from "../sanityClient.ts";
 const DesktopNavbar = ({
   searchText,
   setSearchText,
@@ -15,7 +17,25 @@ const DesktopNavbar = ({
   searchText: string;
   setSearchText: React.Dispatch<React.SetStateAction<string>>;
 }) => {
+  const { isSignedIn, user } = useUser();
   const navigate = useNavigate();
+  useEffect(() => {
+    // console.log("running use effect");
+    if (isSignedIn) {
+      const { imageUrl, fullName, id } = user;
+      const newUserDocument = {
+        _id: id,
+        _type: "user",
+        userName: fullName,
+        image: imageUrl,
+      };
+      console.log("Creating new user");
+      sanityClient
+        .createIfNotExists(newUserDocument)
+        .then(() => navigate("/"))
+        .catch((err) => console.log("error in creating new user\n", err));
+    }
+  }, []);
   return (
     <div className="bg-neutral-900 flex items-center  w-full h-[70px] 2xl:h-[80px] px-4 gap-6">
       <div className="w-full flex items-center bg-black px-3 py-2 2xl:py-3 rounded-lg">

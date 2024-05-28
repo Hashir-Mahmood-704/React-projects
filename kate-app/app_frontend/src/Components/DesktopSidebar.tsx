@@ -1,9 +1,12 @@
-import { SignedIn, SignInButton, SignedOut, useUser } from "@clerk/clerk-react";
+import { SignedIn, SignInButton, SignedOut } from "@clerk/clerk-react";
 import { NavLink } from "react-router-dom";
 import { categories } from "../Utils/data";
-const DesktopSidebar = () => {
-  const { user } = useUser();
-
+import { SanityUserResponseType } from "../Type.ts";
+const DesktopSidebar = ({
+  userData,
+}: {
+  userData: SanityUserResponseType | null;
+}) => {
   return (
     <div className="bg-neutral-900 h-screen w-[250px] 2xl:w-[300px] flex flex-col justify-between">
       <p className="mt-[15px] font-semibold text-2xl pl-4 bg-black p-1 2xl:text-3xl 2xl:p-2 2xl:pl-5">
@@ -48,16 +51,18 @@ const DesktopSidebar = () => {
       </div>
       <div className="bg-[#ED7014] text-white">
         <SignedIn>
-          <NavLink to={`user-profile/${user?.id}`}>
-            <div className="flex items-center gap-3 p-2 2xl:text-xl">
-              <img
-                className="w-[35px] rounded-full"
-                src={user?.imageUrl}
-                alt="user-image"
-              />
-              <span>{user?.fullName}</span>
-            </div>
-          </NavLink>
+          {userData && (
+            <NavLink to={`user-profile/${userData._id}`}>
+              <div className="flex items-center gap-3 p-2 2xl:text-xl">
+                <img
+                  className="w-[35px] rounded-full"
+                  src={userData.image}
+                  alt="user-image"
+                />
+                <span>{userData.userName}</span>
+              </div>
+            </NavLink>
+          )}
         </SignedIn>
         <SignedOut>
           <SignInButton mode="modal">

@@ -27,7 +27,7 @@ export const fetchAllPosts = `*[_type == "post"] {
           image
         },
       },
-    }`
+    }`;
 
 export const postDetailQuery = (postId: string) => {
   const query = `*[_type == "post" && _id == '${postId}']{
@@ -68,6 +68,10 @@ export const postDetailQuery = (postId: string) => {
             image
           },
         }
-      }`
-  return query
-}
+      }`;
+  return query;
+};
+
+export const userQuery = (userId: string) => {
+  return `*[_type == "user" && _id == '${userId}']`;
+};

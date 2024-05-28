@@ -1,10 +1,11 @@
 import { useParams } from "react-router-dom";
-import { SanityPostResponseType } from "../Type.ts";
+import { SanityPostResponseType, SanityUserResponseType } from "../Type.ts";
 import bgImage from "../assets/social-media.jpg";
-import { useUser } from "@clerk/clerk-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import MasonryLayout from "../Components/MasonryLayout.tsx";
 import React from "react";
+import { sanityClient } from "../sanityClient.ts";
+import { userQuery } from "../Utils/SanityQueries.ts";
 
 function filterPosts(
   option: "created" | "liked" | "saved",
@@ -35,20 +36,34 @@ function filterPosts(
 const UserProfile = ({
   allPosts,
   setFetchAllPostsAgain,
+  userData,
 }: {
   allPosts: SanityPostResponseType[];
   setFetchAllPostsAgain: React.Dispatch<React.SetStateAction<number>>;
+  userData: SanityUserResponseType | null;
 }) => {
   const [toDisplay, setToDisplay] = useState<"created" | "liked" | "saved">(
     "created",
   );
+  const [userProfileData, setUserProfileData] =
+    useState<SanityUserResponseType | null>();
   const { userId } = useParams();
-  const { user } = useUser();
   const posts = useMemo(
     () => filterPosts(toDisplay, allPosts, userId),
     [toDisplay, allPosts, userId],
   );
 
+  useEffect(() => {
+    if (userId) {
+      const query: string = userQuery(userId);
+      sanityClient
+        .fetch(query)
+        .then((doc) => setUserProfileData(doc[0]))
+        .catch((err) =>
+          console.log("Error in fetching user profile data\n", err),
+        );
+    }
+  }, [userId]);
   return (
     <div className="flex flex-col items-center -mt-[25px]">
       <div className="flex flex-col items-center w-full md:w-[50%] 2xl:w-[65%]">
@@ -59,11 +74,11 @@ const UserProfile = ({
             className="absolute bottom-[-80px] left-1/2 -translate-x-[50%] bg-neutral-900 w-[120px] h-[120px] rounded-full flex flex-col items-center justify-center"
           >
             <img
-              src={user?.imageUrl}
+              src={userProfileData?.image}
               alt="user-image"
               className="w-[50px] rounded-full"
             />
-            <p>{user?.fullName}</p>
+            <p>{userProfileData?.userName}</p>
           </div>
         </div>
         <div className="mt-[120px] w-full flex justify-center gap-[20px]">
@@ -73,18 +88,22 @@ const UserProfile = ({
           >
             Created
           </button>
-          <button
-            onClick={() => setToDisplay("liked")}
-            className={`${toDisplay === "liked" ? "bg-[#ED7014] text-white" : "bg-neutral-900 text-[#ED7014]"} w-[100px] rounded-md py-2`}
-          >
-            Liked
-          </button>
-          <button
-            onClick={() => setToDisplay("saved")}
-            className={`${toDisplay === "saved" ? "bg-[#ED7014] text-white" : "bg-neutral-900 text-[#ED7014]"} w-[100px] rounded-md py-2`}
-          >
-            Saved
-          </button>
+          {userData && userData._id === userId && (
+            <div className="flex gap-[20px]">
+              <button
+                onClick={() => setToDisplay("liked")}
+                className={`${toDisplay === "liked" ? "bg-[#ED7014] text-white" : "bg-neutral-900 text-[#ED7014]"} w-[100px] rounded-md py-2`}
+              >
+                Liked
+              </button>
+              <button
+                onClick={() => setToDisplay("saved")}
+                className={`${toDisplay === "saved" ? "bg-[#ED7014] text-white" : "bg-neutral-900 text-[#ED7014]"} w-[100px] rounded-md py-2`}
+              >
+                Saved
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -94,6 +113,7 @@ const UserProfile = ({
           <MasonryLayout
             allPosts={posts}
             setFetchAllPostsAgain={setFetchAllPostsAgain}
+            userData={userData}
           />
         </div>
       ) : (

@@ -15,6 +15,7 @@ import { RiDeleteBin6Fill } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { v4 } from "uuid";
 import CommentSection from "../Components/CommentSection";
+import { Link } from "react-router-dom";
 
 const PostDetail = ({
   setFetchAllPostsAgain,
@@ -27,7 +28,7 @@ const PostDetail = ({
   const [loading, setLoading] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [fetchDetailsAgain, setFetchDetailsAgain] = useState(1);
-  const { userId } = useAuth();
+  const { userId, isSignedIn } = useAuth();
   const navigate = useNavigate();
   const alreadySaved = postDetailedData?.save?.find(
     (x) => x.referenceToUser._id === userId,
@@ -53,6 +54,10 @@ const PostDetail = ({
   }, [fetchDetailsAgain]);
 
   function savePost() {
+    if (!isSignedIn) {
+      navigate("/sign-in");
+      return;
+    }
     if (postDetailedData) {
       if (!alreadySaved) {
         setProcessing(true);
@@ -102,6 +107,10 @@ const PostDetail = ({
   }
 
   function likePost() {
+    if (!isSignedIn) {
+      navigate("/sign-in");
+      return;
+    }
     if (postDetailedData) {
       if (!alreadyLiked) {
         setProcessing(true);
@@ -180,7 +189,7 @@ const PostDetail = ({
     <div className="flex justify-center mt-[20px]">
       {/* container  */}
       <div className="w-full md:w-[55%] 2xl:w-[65%]">
-        {/* image , buttons and loader */}
+        {/* image */}
         <div className="relative">
           {processing && (
             <div className="absolute left-0 right-0 bottom-0 top-0 bg-black/70 flex justify-center items-center">
@@ -195,7 +204,7 @@ const PostDetail = ({
           />
         </div>
         {/* details */}
-        <div className="flex bg-neutral-900 p-4 pt-2 justify-between items-baseline">
+        <div className="flex bg-neutral-900 p-4 pt-2 justify-between items-end">
           <div className="flex flex-col gap-[16px]">
             <p className="font-semibold text-lg md:text-xl">
               Title:
@@ -209,7 +218,10 @@ const PostDetail = ({
                 {postDetailedData.about}
               </span>
             </p>
-            <div className="flex items-center gap-[10px]">
+            <Link
+              to={`/user-profile/${postDetailedData.referenceToUser._id}`}
+              className="flex items-center gap-[10px]"
+            >
               <img
                 src={postDetailedData.referenceToUser.image}
                 alt="image"
@@ -218,10 +230,10 @@ const PostDetail = ({
               <span className="text-white font-semibold">
                 {postDetailedData.referenceToUser.userName}
               </span>
-            </div>
+            </Link>
           </div>
           {/* buttons */}
-          <div className={`flex text-[20px] md:text-[25px] gap-[15px] `}>
+          <div className={`flex text-[20px] md:text-[25px] gap-[15px]`}>
             <button
               className={`flex gap-[3px] items-center hover:scale-125 ${processing && "pointer-events-none"}`}
               onClick={likePost}

@@ -5,19 +5,22 @@ import DesktopNavbar from "../Components/DesktopNavbar.tsx";
 import React, { useEffect } from "react";
 import { useAuth, useUser } from "@clerk/clerk-react";
 import { sanityClient } from "../sanityClient.ts";
+import { SanityUserResponseType } from "../Type.ts";
 
 const SharedLayout = ({
   searchText,
   setSearchText,
+  userData,
 }: {
   searchText: string;
   setSearchText: React.Dispatch<React.SetStateAction<string>>;
+  userData: SanityUserResponseType | null;
 }) => {
   const { isSignedIn } = useAuth();
   const { user } = useUser();
   useEffect(() => {
     if (isSignedIn && user) {
-      // console.log("signed in, sending request")
+      console.log("signed in, sending request");
       const newUserDocument = {
         _id: user.id,
         _type: "user",
@@ -38,13 +41,17 @@ const SharedLayout = ({
       {/* Mobile SharedLayout */}
       <div className="flex md:hidden">
         <div className="h-[60px]" />
-        <MobileNavbar searchText={searchText} setSearchText={setSearchText} />
+        <MobileNavbar
+          searchText={searchText}
+          setSearchText={setSearchText}
+          userData={userData}
+        />
       </div>
       {/* Desktop SharedLayout */}
       <div className="hidden md:flex">
         {/* <div className="min-w-[250px] 2xl:min-w-[300px]" /> */}
         <div className="fixed">
-          <DesktopSidebar />
+          <DesktopSidebar userData={userData} />
         </div>
       </div>
 

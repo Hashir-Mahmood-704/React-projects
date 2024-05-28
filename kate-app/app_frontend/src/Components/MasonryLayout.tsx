@@ -1,4 +1,4 @@
-import { SanityPostResponseType } from "../Type";
+import { SanityPostResponseType, SanityUserResponseType } from "../Type";
 import Masonry from "react-masonry-css";
 import SinglePost from "./SinglePost";
 import React from "react";
@@ -16,9 +16,11 @@ const breakpointColumnsObj = {
 const MasonryLayout = ({
   allPosts,
   setFetchAllPostsAgain,
+  userData,
 }: {
   allPosts: SanityPostResponseType[];
   setFetchAllPostsAgain: React.Dispatch<React.SetStateAction<number>>;
+  userData: SanityUserResponseType | null;
 }) => {
   return (
     <div>
@@ -31,6 +33,7 @@ const MasonryLayout = ({
             key={item._id}
             item={item}
             setFetchAllPostsAgain={setFetchAllPostsAgain}
+            userData={userData}
           />
         ))}
       </Masonry>

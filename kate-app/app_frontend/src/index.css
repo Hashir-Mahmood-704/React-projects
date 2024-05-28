@@ -23,3 +23,10 @@ body {
 body {
     scrollbar-width: none;
 }
+
+.custom-scrollbar {
+    /*border: 2px solid red;*/
+    /* Reset scrollbar styles */
+    scrollbar-width: thin;
+    /*scrollbar-color: initial;*/
+}

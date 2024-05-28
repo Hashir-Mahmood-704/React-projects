@@ -3,7 +3,6 @@ import {
   SignInButton,
   SignedOut,
   UserButton,
-  useUser,
 } from "@clerk/clerk-react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoMdCloseCircle } from "react-icons/io";
@@ -12,17 +11,20 @@ import { categories } from "../Utils/data";
 import { MdAdd, MdOutlineSearch } from "react-icons/md";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { SanityUserResponseType } from "../Type.ts";
 
 const MobileNavbar = ({
   searchText,
   setSearchText,
+  userData,
 }: {
   searchText: string;
   setSearchText: React.Dispatch<React.SetStateAction<string>>;
+  userData: SanityUserResponseType | null;
 }) => {
   const [openSidebar, setOpenSidebar] = useState(false);
   const navigate = useNavigate();
-  const { user } = useUser();
+
   return (
     <div className="w-full fixed top-0 z-50 bg-black">
       <div className="flex justify-between items-center rounded-t-md w-full h-[60px] px-4 bg-neutral-900">
@@ -119,19 +121,21 @@ const MobileNavbar = ({
             </div>
             <div className="bg-[#ED7014] text-white p-2">
               <SignedIn>
-                <NavLink
-                  onClick={() => setOpenSidebar(false)}
-                  to={`user-profile/${user?.id}`}
-                >
-                  <div className="flex items-center gap-3">
-                    <img
-                      className="w-[35px] rounded-full"
-                      src={user?.imageUrl}
-                      alt="user-image"
-                    />
-                    <span>{user?.fullName}</span>
-                  </div>
-                </NavLink>
+                {userData && (
+                  <NavLink
+                    onClick={() => setOpenSidebar(false)}
+                    to={`user-profile/${userData._id}`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <img
+                        className="w-[35px] rounded-full"
+                        src={userData.image}
+                        alt="user-image"
+                      />
+                      <span>{userData.userName}</span>
+                    </div>
+                  </NavLink>
+                )}
               </SignedIn>
               <SignedOut>
                 <SignInButton mode="modal">

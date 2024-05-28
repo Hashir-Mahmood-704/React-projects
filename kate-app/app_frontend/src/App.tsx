@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SignIn from "./Pages/Sign-in";
 import SharedLayout from "./Pages/SharedLayout.tsx";
 import CommonDataSharedLayout from "./Pages/CommonDataSharedLayout.tsx";
@@ -10,11 +10,24 @@ import Search from "./Pages/Search.tsx";
 import PostDetail from "./Pages/PostDetail.tsx";
 import UserProfile from "./Pages/UserProfile.tsx";
 import CreatePost from "./Pages/CreatePost.tsx";
+import { useAuth } from "@clerk/clerk-react";
+import { userQuery } from "./Utils/SanityQueries.ts";
+import { sanityClient } from "./sanityClient.ts";
+import { SanityUserResponseType } from "./Type.ts";
 
 const App = () => {
   const [allPosts, setAllPosts] = useState<SanityPostResponseType[]>([]);
   const [fetchAllPostsAgain, setFetchAllPostsAgain] = useState(1);
   const [searchText, setSearchText] = useState("");
+  const [userData, setUserData] = useState<SanityUserResponseType | null>(null);
+  const { isSignedIn, userId } = useAuth();
+  useEffect(() => {
+    if (isSignedIn) {
+      const query = userQuery(userId);
+      sanityClient.fetch(query).then((data) => setUserData(data[0]));
+    }
+  }, [isSignedIn]);
+
   return (
     <div className="font-poppins">
       <Routes>
@@ -24,6 +37,7 @@ const App = () => {
             <SharedLayout
               searchText={searchText}
               setSearchText={setSearchText}
+              userData={userData}
             />
           }
         >
@@ -42,6 +56,7 @@ const App = () => {
                 <Home
                   allPosts={allPosts}
                   setFetchAllPostsAgain={setFetchAllPostsAgain}
+                  userData={userData}
                 />
               }
             />
@@ -70,6 +85,7 @@ const App = () => {
                 <UserProfile
                   setFetchAllPostsAgain={setFetchAllPostsAgain}
                   allPosts={allPosts}
+                  userData={userData}
                 />
               }
             />

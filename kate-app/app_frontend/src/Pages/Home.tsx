@@ -1,4 +1,4 @@
-import { SanityPostResponseType } from "../Type";
+import { SanityPostResponseType, SanityUserResponseType } from "../Type";
 import { Link } from "react-router-dom";
 import MasonryLayout from "../Components/MasonryLayout";
 import React from "react";
@@ -6,9 +6,11 @@ import React from "react";
 const Home = ({
   allPosts,
   setFetchAllPostsAgain,
+  userData,
 }: {
   allPosts: SanityPostResponseType[];
   setFetchAllPostsAgain: React.Dispatch<React.SetStateAction<number>>;
+  userData: SanityUserResponseType | null;
 }) => {
   if (allPosts.length === 0)
     return (
@@ -27,6 +29,7 @@ const Home = ({
       <MasonryLayout
         allPosts={allPosts}
         setFetchAllPostsAgain={setFetchAllPostsAgain}
+        userData={userData}
       />
     </div>
   );
