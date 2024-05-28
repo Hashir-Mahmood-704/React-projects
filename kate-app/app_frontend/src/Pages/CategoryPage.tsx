@@ -1,4 +1,4 @@
-import { SanityPostResponseType } from "../Type";
+import { SanityPostResponseType, SanityUserResponseType } from "../Type";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import MasonryLayout from "../Components/MasonryLayout";
@@ -7,9 +7,11 @@ import React from "react";
 const CategoryPage = ({
   allPosts,
   setFetchAllPostsAgain,
+  userData,
 }: {
   allPosts: SanityPostResponseType[];
   setFetchAllPostsAgain: React.Dispatch<React.SetStateAction<number>>;
+  userData: SanityUserResponseType | null;
 }) => {
   const { categoryName } = useParams();
   const categoryPosts = allPosts.filter(
@@ -34,6 +36,7 @@ const CategoryPage = ({
       <MasonryLayout
         allPosts={categoryPosts}
         setFetchAllPostsAgain={setFetchAllPostsAgain}
+        userData={userData}
       />
     </div>
   );

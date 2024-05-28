@@ -66,6 +66,7 @@ const App = () => {
                 <CategoryPage
                   allPosts={allPosts}
                   setFetchAllPostsAgain={setFetchAllPostsAgain}
+                  userData={userData}
                 />
               }
             />
@@ -76,6 +77,7 @@ const App = () => {
                   allPosts={allPosts}
                   setFetchAllPostsAgain={setFetchAllPostsAgain}
                   searchText={searchText}
+                  userData={userData}
                 />
               }
             />

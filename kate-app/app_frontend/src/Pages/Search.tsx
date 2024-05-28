@@ -1,4 +1,4 @@
-import { SanityPostResponseType } from "../Type";
+import { SanityPostResponseType, SanityUserResponseType } from "../Type";
 import { Link } from "react-router-dom";
 import MasonryLayout from "../Components/MasonryLayout";
 import React from "react";
@@ -7,10 +7,12 @@ const Search = ({
   allPosts,
   setFetchAllPostsAgain,
   searchText,
+  userData,
 }: {
   allPosts: SanityPostResponseType[];
   setFetchAllPostsAgain: React.Dispatch<React.SetStateAction<number>>;
   searchText: string;
+  userData: SanityUserResponseType | null;
 }) => {
   const searchedPosts = allPosts.filter(
     (post) =>
@@ -45,6 +47,7 @@ const Search = ({
   return (
     <div>
       <MasonryLayout
+        userData={userData}
         allPosts={searchedPosts}
         setFetchAllPostsAgain={setFetchAllPostsAgain}
       />
