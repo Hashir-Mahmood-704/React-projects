@@ -1,43 +1,43 @@
-import { SanityPostResponseType, SanityUserResponseType } from "../Type";
-import { sanityClient, sanityImageBuilder } from "../sanityClient";
-import React, { useState } from "react";
-import { RiDeleteBin6Fill } from "react-icons/ri";
-import { v4 } from "uuid";
+import { SanityPostResponseType, SanityUserResponseType } from "../Type"
+import { sanityClient, sanityImageBuilder } from "../sanityClient"
+import React, { useState } from "react"
+import { RiDeleteBin6Fill } from "react-icons/ri"
+import { v4 } from "uuid"
 import {
   IoBookmarkOutline,
   IoBookmark,
   IoHeartOutline,
   IoHeartSharp,
-} from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
-import Spinner from "./Spinner";
+} from "react-icons/io5"
+import { useNavigate } from "react-router-dom"
+import Spinner from "./Spinner"
 
 const SinglePost = ({
   item,
   setFetchAllPostsAgain,
   userData,
 }: {
-  item: SanityPostResponseType;
-  setFetchAllPostsAgain: React.Dispatch<React.SetStateAction<number>>;
-  userData: SanityUserResponseType | null;
+  item: SanityPostResponseType
+  setFetchAllPostsAgain: React.Dispatch<React.SetStateAction<number>>
+  userData: SanityUserResponseType | null
 }) => {
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
   const alreadySaved = item.save?.find(
-    (x) => x.referenceToUser._id === userData?._id,
-  );
+    (x) => x.referenceToUser._id === userData?._id
+  )
   const alreadyLiked = item.like?.find(
-    (x) => x.referenceToUser._id === userData?._id,
-  );
+    (x) => x.referenceToUser._id === userData?._id
+  )
 
   function savePost(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-    e.stopPropagation();
+    e.stopPropagation()
     if (!userData) {
-      navigate("/sign-in");
-      return;
+      navigate("/sign-in")
+      return
     }
     if (!alreadySaved) {
-      setLoading(true);
+      setLoading(true)
       sanityClient
         .patch(item._id)
         .setIfMissing({ save: [] })
@@ -53,42 +53,42 @@ const SinglePost = ({
         ])
         .commit()
         .then(() => {
-          setFetchAllPostsAgain((prev) => prev + 1);
+          setFetchAllPostsAgain((prev) => prev + 1)
           // setAlreadySaved(true)
-          setLoading(false);
+          setLoading(false)
         })
         .catch((err) => {
-          console.log("error in saving post\n", err);
-          setLoading(false);
-        });
+          console.log("error in saving post\n", err)
+          setLoading(false)
+        })
     } else if (alreadySaved) {
-      setLoading(true);
+      setLoading(true)
       const indexToRemove = item.save?.findIndex(
-        (x) => x.referenceToUser._id === userData._id,
-      );
+        (x) => x.referenceToUser._id === userData._id
+      )
       sanityClient
         .patch(item._id)
         .unset([`save[${indexToRemove}]`])
         .commit()
         .then(() => {
-          setFetchAllPostsAgain((prev) => prev + 1);
-          setLoading(false);
+          setFetchAllPostsAgain((prev) => prev + 1)
+          setLoading(false)
         })
         .catch((err) => {
-          console.log("error in unsaving post\n", err);
-          setLoading(false);
-        });
+          console.log("error in unsaving post\n", err)
+          setLoading(false)
+        })
     }
   }
 
   function likePost(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-    e.stopPropagation();
+    e.stopPropagation()
     if (!userData) {
-      navigate("/sign-in");
-      return;
+      navigate("/sign-in")
+      return
     }
     if (!alreadyLiked) {
-      setLoading(true);
+      setLoading(true)
       sanityClient
         .patch(item._id)
         .setIfMissing({ like: [] })
@@ -104,46 +104,46 @@ const SinglePost = ({
         ])
         .commit()
         .then(() => {
-          setFetchAllPostsAgain((prev) => prev + 1);
-          setLoading(false);
+          setFetchAllPostsAgain((prev) => prev + 1)
+          setLoading(false)
         })
         .catch((err) => {
-          console.log("error in liking post\n", err);
-          setLoading(false);
-        });
+          console.log("error in liking post\n", err)
+          setLoading(false)
+        })
     } else if (alreadyLiked) {
-      setLoading(true);
+      setLoading(true)
       const indexToRemove = item.like?.findIndex(
-        (x) => x.referenceToUser._id === userData._id,
-      );
+        (x) => x.referenceToUser._id === userData._id
+      )
       sanityClient
         .patch(item._id)
         .unset([`like[${indexToRemove}]`])
         .commit()
         .then(() => {
-          setFetchAllPostsAgain((prev) => prev + 1);
-          setLoading(false);
+          setFetchAllPostsAgain((prev) => prev + 1)
+          setLoading(false)
         })
         .catch((err) => {
-          console.log("error in unliking post\n", err);
-          setLoading(false);
-        });
+          console.log("error in unliking post\n", err)
+          setLoading(false)
+        })
     }
   }
 
   function removePost(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-    e.stopPropagation();
-    setLoading(true);
+    e.stopPropagation()
+    setLoading(true)
     sanityClient
       .delete(item._id)
       .then(() => {
-        setFetchAllPostsAgain((prev) => prev + 1);
-        setLoading(false);
+        setFetchAllPostsAgain((prev) => prev + 1)
+        setLoading(false)
       })
       .catch((err) => {
-        console.log("error in deleting post\n", err);
-        setLoading(false);
-      });
+        console.log("error in deleting post\n", err)
+        setLoading(false)
+      })
   }
 
   return (
@@ -172,8 +172,8 @@ const SinglePost = ({
           <div
             className="flex items-center gap-2 cursor-pointer"
             onClick={(e) => {
-              e.stopPropagation();
-              navigate(`/user-profile/${item.referenceToUser._id}`);
+              e.stopPropagation()
+              navigate(`/user-profile/${item.referenceToUser._id}`)
             }}
           >
             <img
@@ -217,7 +217,7 @@ const SinglePost = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SinglePost;
+export default SinglePost
