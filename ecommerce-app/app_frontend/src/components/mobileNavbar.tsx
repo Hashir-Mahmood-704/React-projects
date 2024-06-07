@@ -38,7 +38,7 @@ const MobileNavbar = () => {
         // cover
         <div
           onClick={() => setOpenSidebar(false)}
-          className="h-screen w-screen fixed bg-black/50 left-0 top-0 bottom-0"
+          className="z-[100] h-screen w-screen overflow-y-hidden fixed bg-black/50 left-0 top-0 bottom-0"
         >
           {/* container */}
           <div
@@ -88,7 +88,7 @@ const MobileNavbar = () => {
       {openOptions && (
         <div
           onClick={() => setopenOptions(false)}
-          className="h-screen w-screen fixed bg-transparent left-0 top-0 bottom-0"
+          className="z-[100] h-screen w-screen fixed bg-transparent left-0 top-0 bottom-0"
         >
           <div className="flex flex-col items-center absolute w-[60px] right-[20px] top-[50px] bg-white border border-black text-[22px] gap-[20px] py-[10px] rounded-md">
             <BsPerson />

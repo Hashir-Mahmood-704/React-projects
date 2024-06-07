@@ -6,7 +6,7 @@ import { FaRegHeart } from "react-icons/fa"
 
 const Navbar = () => {
   return (
-    <div className="flex justify-between h-[80px] items-center px-[15px] relative">
+    <div className="flex justify-between h-[80px] items-center px-[20px] relative">
       {/* Left */}
       <div className="flex gap-[25px]">
         {/* image and dropdown */}
