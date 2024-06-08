@@ -10,16 +10,16 @@ const data = [
 const Slider = () => {
   const [currentSlide, setCurrentSlide] = useState(0)
   function prevSlide() {
-    setCurrentSlide(currentSlide === 0 ? 2 : (prev) => prev - 1)
+    setCurrentSlide(currentSlide === 0 ? 3 : (prev) => prev - 1)
   }
   function nextSlide() {
-    setCurrentSlide(currentSlide === 2 ? 0 : (prev) => prev + 1)
+    setCurrentSlide(currentSlide === 3 ? 0 : (prev) => prev + 1)
   }
   return (
     <div className="w-screen h-[calc(100vh-300px)] lg:h-[calc(100vh-100px)] relative overflow-hidden">
       {/* container */}
       <div
-        className="w-[300vw] flex h-full duration-1000 transition-all ease-in-out"
+        className="w-[400vw] flex h-full duration-1000 transition-all ease-in-out"
         style={{ transform: `translateX(-${currentSlide * 100}vw)` }}
       >
         <img
@@ -34,6 +34,11 @@ const Slider = () => {
         />
         <img
           src={data[2]}
+          alt="image"
+          className="w-screen h-full object-cover"
+        />
+        <img
+          src={data[3]}
           alt="image"
           className="w-screen h-full object-cover"
         />

@@ -1,0 +1,38 @@
+export const data = [
+  {
+    id: 1,
+    img: "https://images.pexels.com/photos/745767/pexels-photo-745767.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    img2: "https://images.pexels.com/photos/1757976/pexels-photo-1757976.jpeg?auto=compress&cs=tinysrgb&w=600",
+    title: "Hot sexy bikini",
+    isNew: false,
+    oldPrice: 19,
+    price: 12,
+  },
+  {
+    id: 2,
+    img: "https://images.pexels.com/photos/289262/pexels-photo-289262.jpeg?auto=compress&cs=tinysrgb&w=600",
+    img2: "https://images.pexels.com/photos/1700769/pexels-photo-1700769.jpeg?auto=compress&cs=tinysrgb&w=600",
+    title: "Girl ready for you",
+    isNew: true,
+    oldPrice: 49,
+    price: 54,
+  },
+  {
+    id: 3,
+    img: "https://images.pexels.com/photos/6811374/pexels-photo-6811374.jpeg?auto=compress&cs=tinysrgb&w=600",
+    img2: "https://images.pexels.com/photos/12808895/pexels-photo-12808895.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Hot pornstar love",
+    isNew: false,
+    oldPrice: 87,
+    price: 22,
+  },
+  {
+    id: 4,
+    img: "https://images.pexels.com/photos/12010640/pexels-photo-12010640.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    img2: "https://images.pexels.com/photos/19166446/pexels-photo-19166446/free-photo-of-naked-model-sitting-on-a-floor.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    title: "Hot sex doll ass",
+    isNew: true,
+    oldPrice: 187,
+    price: 222,
+  },
+]
