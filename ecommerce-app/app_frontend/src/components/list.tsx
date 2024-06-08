@@ -6,7 +6,7 @@ type Props = {
   maxPrice: string
   sort: string | null
 }
-
+// @ts-ignore
 const List = ({ categoryId, maxPrice, sort }: Props) => {
   return (
     <div className="flex justify-between flex-wrap">
