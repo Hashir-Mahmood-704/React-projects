@@ -11,7 +11,7 @@ const MobileNavbar = () => {
   const [openSidebar, setOpenSidebar] = useState(false)
   const [openOptions, setopenOptions] = useState(false)
   return (
-    <div className="relative border items-center border-black h-[60px] flex justify-between px-[10px]">
+    <div className="relative items-center h-[60px] flex justify-between px-[10px]">
       {/* hamburger */}
       <span
         onClick={() => setOpenSidebar(true)}

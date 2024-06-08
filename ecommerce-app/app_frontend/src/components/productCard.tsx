@@ -13,7 +13,7 @@ type Props = {
 const ProductCard = ({ item }: { item: Props }) => {
   return (
     <Link to={`/product/${item.id}`}>
-      <div className="w-[160px] lg:w-[220px] 2xl:w-[280px] flex flex-col gap-[8px]">
+      <div className="w-[160px] lg:w-[220px] 2xl:w-[280px] flex flex-col gap-[8px] mb-[35px]">
         {/* image */}
         <div className="w-full h-[220px] lg:h-[320px] 2xl:h-[400px] overflow-hidden relative group">
           {item.isNew && (
