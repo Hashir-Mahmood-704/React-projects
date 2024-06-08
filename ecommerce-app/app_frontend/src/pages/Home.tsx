@@ -1,6 +1,7 @@
 import Slider from "../components/slider"
 import CategoriesSection from "../components/categoriesSection"
 import FeaturedProducts from "../components/featuredProducts"
+import Contact from "../components/contact"
 
 const Home = () => {
   return (
@@ -9,6 +10,7 @@ const Home = () => {
       <FeaturedProducts type="featured" />
       <CategoriesSection />
       <FeaturedProducts type="trending" />
+      <Contact />
     </div>
   )
 }
