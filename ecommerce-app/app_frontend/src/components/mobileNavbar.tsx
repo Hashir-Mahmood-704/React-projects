@@ -6,10 +6,12 @@ import { IoIosCloseCircle } from "react-icons/io"
 import { IoSearchOutline } from "react-icons/io5"
 import { BsPerson, BsCart } from "react-icons/bs"
 import { FaRegHeart } from "react-icons/fa"
+import Cart from "./cart"
 
 const MobileNavbar = () => {
   const [openSidebar, setOpenSidebar] = useState(false)
   const [openOptions, setopenOptions] = useState(false)
+  const [openCart, setOpenCart] = useState(false)
   return (
     <div className="relative items-center h-[60px] flex justify-between px-[10px]">
       {/* hamburger */}
@@ -94,12 +96,32 @@ const MobileNavbar = () => {
             <BsPerson />
             <IoSearchOutline />
             <FaRegHeart />
-            <div className="relative">
+            <div
+              className="relative"
+              onClick={() => {
+                setopenOptions(false)
+                setOpenCart(true)
+              }}
+            >
               <BsCart />
               <span className="absolute text-[12px] bg-[#2879fe] w-[20px] h-[20px] rounded-full text-white flex justify-center items-center -top-[10px] -right-[10px]">
                 0
               </span>
             </div>
+          </div>
+        </div>
+      )}
+
+      {openCart && (
+        <div
+          onClick={() => setOpenCart(false)}
+          className="z-[100] h-screen w-screen fixed bg-transparent left-0 top-0 bottom-0"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="absolute top-[60px] right-[15px] z-50"
+          >
+            <Cart setOpenCart={setOpenCart} />
           </div>
         </div>
       )}

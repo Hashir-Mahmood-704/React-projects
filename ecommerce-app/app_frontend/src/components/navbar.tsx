@@ -3,8 +3,11 @@ import { Link } from "react-router-dom"
 import { IoSearchOutline } from "react-icons/io5"
 import { BsPerson, BsCart } from "react-icons/bs"
 import { FaRegHeart } from "react-icons/fa"
+import Cart from "./cart"
+import { useState } from "react"
 
 const Navbar = () => {
+  const [openCart, setOpenCart] = useState(false)
   return (
     <div className="flex justify-between h-[80px] items-center px-[20px] relative">
       {/* Left */}
@@ -48,7 +51,10 @@ const Navbar = () => {
           <IoSearchOutline />
           <BsPerson />
           <FaRegHeart />
-          <div className="relative">
+          <div
+            className="relative"
+            onClick={() => setOpenCart((prev) => !prev)}
+          >
             <BsCart />
             <span className="absolute text-[12px] bg-[#2879fe] w-[20px] h-[20px] rounded-full text-white flex justify-center items-center -top-[10px] -right-[10px]">
               0
@@ -56,6 +62,11 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+      {openCart && (
+        <div className="absolute z-50 right-[15px] top-[80px]">
+          <Cart setOpenCart={setOpenCart} />
+        </div>
+      )}
     </div>
   )
 }
