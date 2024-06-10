@@ -1,8 +1,8 @@
-import { data } from "../data"
+import { data2 } from "../data"
 import { MdDelete } from "react-icons/md"
 import { IoIosCloseCircle } from "react-icons/io"
 
-const items = data
+const items = data2
 const Cart = ({
   setOpenCart,
 }: {
@@ -11,7 +11,7 @@ const Cart = ({
   return (
     <div className="max-h-[75vh] overflow-y-scroll flex flex-col flex-start gap-[20px] bg-white border border-black w-[280px]  sm:w-[400px] p-[12px] lg:p-[20px] relative">
       <div
-        className="absolute right-[10px] top-[16px] lg:right-[18px] lg:top-[20px] w-fit cursor-pointer text-[20px] lg:text-[25px]"
+        className="absolute right-[15px] top-[16px] lg:right-[18px] lg:top-[20px] w-fit cursor-pointer text-[20px] lg:text-[25px]"
         onClick={() => setOpenCart(false)}
       >
         <IoIosCloseCircle />
@@ -20,18 +20,18 @@ const Cart = ({
         Products in your cart
       </h1>
       {items.map((item) => (
-        <div key={item.id} className="flex justify-between">
+        <div key={item.id} className="flex justify-between border pr-[3px]">
           <div className="flex gap-[10px]">
             {/* image */}
             <img
               src={item.img}
               alt="image"
-              className="w-[60px] h-[80px] lg:w-[70px] lg:h-[100px] object-cover"
+              className="w-[60px] h-[80px] lg:w-[80px] lg:h-full object-cover"
             />
 
             {/* details */}
             <div className="flex flex-col justify-between items-start text-gray-500 text-[14px] lg:text-[16px]">
-              <h1 className="font-semibold">{item.title}</h1>
+              <h1 className="font-semibold mt-[2px]">{item.title}</h1>
               <p className="font-semibold -mt-[]">1 x ${item.price}</p>
             </div>
           </div>

@@ -1,17 +1,32 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import { IoMdMenu } from "react-icons/io"
 import { HiOutlineDotsVertical } from "react-icons/hi"
-import { IoIosCloseCircle } from "react-icons/io"
+import { IoIosCloseCircle, IoMdHeartEmpty } from "react-icons/io"
 import { IoSearchOutline } from "react-icons/io5"
 import { BsPerson, BsCart } from "react-icons/bs"
-import { FaRegHeart } from "react-icons/fa"
+
 import Cart from "./cart"
 
 const MobileNavbar = () => {
   const [openSidebar, setOpenSidebar] = useState(false)
   const [openOptions, setopenOptions] = useState(false)
   const [openCart, setOpenCart] = useState(false)
+  useEffect(() => {
+    if (openCart || openSidebar) {
+      // Disable background scrolling
+      document.body.style.overflow = "hidden"
+    } else {
+      // Enable background scrolling
+      document.body.style.overflow = "auto"
+    }
+
+    // Clean up the effect when the component unmounts
+    return () => {
+      document.body.style.overflow = "auto"
+    }
+  }, [openCart, openSidebar])
+
   return (
     <div className="relative items-center h-[60px] flex justify-between px-[10px]">
       {/* hamburger */}
@@ -92,10 +107,10 @@ const MobileNavbar = () => {
           onClick={() => setopenOptions(false)}
           className="z-[100] h-screen w-screen fixed bg-transparent left-0 top-0 bottom-0"
         >
-          <div className="flex flex-col items-center absolute w-[60px] right-[20px] top-[50px] bg-white border border-black text-[22px] gap-[20px] py-[10px] rounded-md">
+          <div className="flex flex-col items-center absolute w-[60px] right-[20px] top-[50px] bg-white border border-black text-[24px] gap-[20px] py-[10px] rounded-md">
             <BsPerson />
             <IoSearchOutline />
-            <FaRegHeart />
+            <IoMdHeartEmpty />
             <div
               className="relative"
               onClick={() => {
