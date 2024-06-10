@@ -12,6 +12,7 @@ const MobileNavbar = () => {
   const [openSidebar, setOpenSidebar] = useState(false)
   const [openOptions, setopenOptions] = useState(false)
   const [openCart, setOpenCart] = useState(false)
+  // let val = 1
   useEffect(() => {
     if (openCart || openSidebar) {
       // Disable background scrolling
