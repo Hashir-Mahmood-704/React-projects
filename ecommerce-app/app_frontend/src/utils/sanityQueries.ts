@@ -1,1 +1,2 @@
-export const sanityUserFetchingQuery = () => '*[_type == "user"]{_id, username}'
+export const sanityUserFetchingQuery = (id: string) =>
+  `*[_type == "user" && _id == "${id}"]{_id, username}`

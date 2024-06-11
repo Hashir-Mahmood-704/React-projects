@@ -4,8 +4,9 @@ import { IoSearch } from "react-icons/io5"
 import { BsCart } from "react-icons/bs"
 import { FaRegHeart } from "react-icons/fa"
 import Cart from "./cart"
-import { useState } from "react"
-// import { useUserContext } from "../appContext"
+import { useDispatch } from "react-redux"
+import { useSelector } from "react-redux"
+import { openCart } from "../features/uiSlice"
 import {
   SignedIn,
   SignedOut,
@@ -13,13 +14,18 @@ import {
   SignOutButton,
 } from "@clerk/clerk-react"
 import { GoSignOut } from "react-icons/go"
+import { UiInitialStateType } from "../types"
 
 const Navbar = () => {
-  const [openCart, setOpenCart] = useState(false)
-
+  // const [openCart, setOpenCart] = useState(false)
+  const { viewCart } = useSelector(
+    (store: { ui: UiInitialStateType }) => store.ui
+  )
+  const dispatch = useDispatch()
   return (
     <div className="flex justify-between h-[80px] items-center px-[20px] relative">
       {/* Left */}
+
       <div className="flex gap-[25px]">
         {/* image and dropdown */}
         {/* <div className="flex items-center">
@@ -68,10 +74,7 @@ const Navbar = () => {
           </SignedOut>
           <SignedIn>
             <FaRegHeart />
-            <div
-              className="relative"
-              onClick={() => setOpenCart((prev) => !prev)}
-            >
+            <div className="relative" onClick={() => dispatch(openCart())}>
               <BsCart />
               <span className="absolute text-[12px] bg-[#2879fe] w-[20px] h-[20px] rounded-full text-white flex justify-center items-center -top-[10px] -right-[10px]">
                 0
@@ -83,9 +86,9 @@ const Navbar = () => {
           </SignedIn>
         </div>
       </div>
-      {openCart && (
+      {viewCart && (
         <div className="absolute z-50 right-[15px] top-[80px]">
-          <Cart setOpenCart={setOpenCart} />
+          <Cart />
         </div>
       )}
     </div>

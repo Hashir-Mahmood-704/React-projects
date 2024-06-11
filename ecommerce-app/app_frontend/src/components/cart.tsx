@@ -1,18 +1,17 @@
 import { data } from "../data"
 import { MdDelete } from "react-icons/md"
+import { useDispatch } from "react-redux"
 import { IoIosCloseCircle } from "react-icons/io"
+import { closeCart } from "../features/uiSlice"
 
 const items = data
-const Cart = ({
-  setOpenCart,
-}: {
-  setOpenCart: React.Dispatch<React.SetStateAction<boolean>>
-}) => {
+const Cart = () => {
+  const dispatch = useDispatch()
   return (
     <div className="max-h-[75vh] overflow-y-scroll flex flex-col flex-start gap-[20px] bg-white border border-black w-[280px]  sm:w-[400px] p-[12px] lg:p-[20px] relative">
       <div
         className="absolute right-[15px] top-[16px] lg:right-[18px] lg:top-[20px] w-fit cursor-pointer text-[20px] lg:text-[25px]"
-        onClick={() => setOpenCart(false)}
+        onClick={() => dispatch(closeCart())}
       >
         <IoIosCloseCircle />
       </div>

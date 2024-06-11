@@ -5,7 +5,10 @@ import Product from "./pages/Product"
 import Navbar from "./components/navbar"
 import Footer from "./components/footer"
 import MobileNavbar from "./components/mobileNavbar"
-import AppContext from "./appContext"
+import { useEffect } from "react"
+import { useUser } from "@clerk/clerk-react"
+import { useDispatch } from "react-redux"
+import { fetchUserData } from "./features/userDataSlice"
 
 const Layout = () => {
   return (
@@ -35,11 +38,18 @@ const router = createBrowserRouter([
 ])
 
 const App = () => {
+  const { isSignedIn, user } = useUser()
+  const dispatch = useDispatch()
+  useEffect(() => {
+    if (isSignedIn) {
+      console.log("Running app file useEffect, fetching user data")
+      // @ts-ignore
+      dispatch(fetchUserData({ id: user.id, username: user.fullName }))
+    }
+  }, [isSignedIn])
   return (
     <div>
-      <AppContext>
-        <RouterProvider router={router} />
-      </AppContext>
+      <RouterProvider router={router} />
     </div>
   )
 }
