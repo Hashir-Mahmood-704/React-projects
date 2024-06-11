@@ -1,8 +1,8 @@
-import { data2 } from "../data"
+import { data } from "../data"
 import { MdDelete } from "react-icons/md"
 import { IoIosCloseCircle } from "react-icons/io"
 
-const items = data2
+const items = data
 const Cart = ({
   setOpenCart,
 }: {

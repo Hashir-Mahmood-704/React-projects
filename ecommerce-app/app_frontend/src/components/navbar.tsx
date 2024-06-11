@@ -1,13 +1,22 @@
 // import { IoIosArrowDown } from "react-icons/io"
 import { Link } from "react-router-dom"
-import { IoSearchOutline } from "react-icons/io5"
-import { BsPerson, BsCart } from "react-icons/bs"
+import { IoSearch } from "react-icons/io5"
+import { BsCart } from "react-icons/bs"
 import { FaRegHeart } from "react-icons/fa"
 import Cart from "./cart"
 import { useState } from "react"
+// import { useUserContext } from "../appContext"
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  SignOutButton,
+} from "@clerk/clerk-react"
+import { GoSignOut } from "react-icons/go"
 
 const Navbar = () => {
   const [openCart, setOpenCart] = useState(false)
+
   return (
     <div className="flex justify-between h-[80px] items-center px-[20px] relative">
       {/* Left */}
@@ -48,18 +57,30 @@ const Navbar = () => {
         </div>
         {/* Icons */}
         <div className="flex gap-[15px] items-center text-[#5c5c5c] cursor-pointer text-[18px]">
-          <IoSearchOutline />
-          <BsPerson />
-          <FaRegHeart />
-          <div
-            className="relative"
-            onClick={() => setOpenCart((prev) => !prev)}
-          >
-            <BsCart />
-            <span className="absolute text-[12px] bg-[#2879fe] w-[20px] h-[20px] rounded-full text-white flex justify-center items-center -top-[10px] -right-[10px]">
-              0
-            </span>
-          </div>
+          <IoSearch />
+          {/* <BsPerson /> */}
+          <SignedOut>
+            <SignInButton mode="modal">
+              <button className="text-white bg-[#2879fe] text-[16px] p-2 rounded-md">
+                Sign in
+              </button>
+            </SignInButton>
+          </SignedOut>
+          <SignedIn>
+            <FaRegHeart />
+            <div
+              className="relative"
+              onClick={() => setOpenCart((prev) => !prev)}
+            >
+              <BsCart />
+              <span className="absolute text-[12px] bg-[#2879fe] w-[20px] h-[20px] rounded-full text-white flex justify-center items-center -top-[10px] -right-[10px]">
+                0
+              </span>
+            </div>
+            <SignOutButton>
+              <GoSignOut />
+            </SignOutButton>
+          </SignedIn>
         </div>
       </div>
       {openCart && (

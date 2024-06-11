@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { FaCartArrowDown } from "react-icons/fa6"
 import { CiHeart } from "react-icons/ci"
-import { FaBalanceScale } from "react-icons/fa"
+import { SignInButton, SignedIn, SignedOut } from "@clerk/clerk-react"
 
 const images = [
   "https://images.pexels.com/photos/9813635/pexels-photo-9813635.jpeg?auto=compress&cs=tinysrgb&w=600",
@@ -43,7 +43,7 @@ const Product = () => {
 
       {/* right */}
       <div className="flex-[1] flex flex-col gap-[30px] items-start">
-        <h1>Title</h1>
+        <h1 className="text-[28px] font-semibold">Title</h1>
         <span className="text-[25px] text-[#2879fe] font-semibold">$199</span>
         <p className="text-[16px] text-justify">
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Magni dolor
@@ -52,39 +52,44 @@ const Product = () => {
         </p>
 
         {/* qunatity button */}
-        <div className="flex items-center gap-[15px]">
-          <button
-            className="h-[50px] w-[50px] flex justify-center items-center border-none bg-gray-300"
-            onClick={() => setQuantity((prev) => (prev === 1 ? 1 : prev - 1))}
-          >
-            <span>-</span>
-          </button>
-          <span className="w-[20px] text-center">{quantity}</span>
-          <button
-            className="h-[50px] w-[50px] flex justify-center items-center border-none bg-gray-300"
-            onClick={() => setQuantity((prev) => prev + 1)}
-          >
-            <span>+</span>
-          </button>
-        </div>
+        <SignedIn>
+          <div className="flex items-center gap-[15px]">
+            <button
+              className="h-[50px] w-[50px] flex justify-center items-center border-none bg-gray-300"
+              onClick={() => setQuantity((prev) => (prev === 1 ? 1 : prev - 1))}
+            >
+              <span>-</span>
+            </button>
+            <span className="w-[20px] text-center">{quantity}</span>
+            <button
+              className="h-[50px] w-[50px] flex justify-center items-center border-none bg-gray-300"
+              onClick={() => setQuantity((prev) => prev + 1)}
+            >
+              <span>+</span>
+            </button>
+          </div>
 
-        {/* add item button */}
-        <button className="w-[200px] p-[10px] bg-[#2879fe] text-white flex items-center justify-center border-none gap-[15px]">
-          <FaCartArrowDown size={20} />
-          Add to Cart
-        </button>
+          {/* add item button */}
 
-        {/* more buttons */}
-        <div className="flex gap-[50px] text-[#2879fe] text-[18px]">
-          <div className="flex gap-[5px] items-center">
+          <button className="w-[200px] p-[10px] bg-[#2879fe] text-white flex items-center justify-center border-none gap-[15px]">
+            <FaCartArrowDown size={20} />
+            Add to Cart
+          </button>
+
+          {/* more buttons */}
+
+          <div className="flex gap-[5px] items-center text-[#2879fe] text-[18px]">
             <CiHeart size={25} />
             Add to whishlist
           </div>
-          <div className="flex gap-[6px] items-center">
-            <FaBalanceScale size={25} />
-            Add to compare
-          </div>
-        </div>
+        </SignedIn>
+        <SignedOut>
+          <SignInButton mode="modal">
+            <button className="text-white bg-[#2879fe] text-[16px] p-2 px-[20px] rounded-md">
+              Sign in
+            </button>
+          </SignInButton>
+        </SignedOut>
       </div>
     </div>
   )

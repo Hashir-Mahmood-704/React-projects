@@ -5,6 +5,7 @@ import Product from "./pages/Product"
 import Navbar from "./components/navbar"
 import Footer from "./components/footer"
 import MobileNavbar from "./components/mobileNavbar"
+import AppContext from "./appContext"
 
 const Layout = () => {
   return (
@@ -36,7 +37,9 @@ const router = createBrowserRouter([
 const App = () => {
   return (
     <div>
-      <RouterProvider router={router} />
+      <AppContext>
+        <RouterProvider router={router} />
+      </AppContext>
     </div>
   )
 }

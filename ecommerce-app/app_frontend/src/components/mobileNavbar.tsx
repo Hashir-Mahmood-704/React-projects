@@ -4,15 +4,20 @@ import { IoMdMenu } from "react-icons/io"
 import { HiOutlineDotsVertical } from "react-icons/hi"
 import { IoIosCloseCircle, IoMdHeartEmpty } from "react-icons/io"
 import { IoSearchOutline } from "react-icons/io5"
-import { BsPerson, BsCart } from "react-icons/bs"
-
+import { BsCart } from "react-icons/bs"
+import { GoSignIn, GoSignOut } from "react-icons/go"
 import Cart from "./cart"
+import {
+  SignInButton,
+  SignOutButton,
+  SignedIn,
+  SignedOut,
+} from "@clerk/clerk-react"
 
 const MobileNavbar = () => {
   const [openSidebar, setOpenSidebar] = useState(false)
   const [openOptions, setopenOptions] = useState(false)
   const [openCart, setOpenCart] = useState(false)
-  // let val = 1
   useEffect(() => {
     if (openCart || openSidebar) {
       // Disable background scrolling
@@ -108,22 +113,31 @@ const MobileNavbar = () => {
           onClick={() => setopenOptions(false)}
           className="z-[100] h-screen w-screen fixed bg-transparent left-0 top-0 bottom-0"
         >
-          <div className="flex flex-col items-center absolute w-[60px] right-[20px] top-[50px] bg-white border border-black text-[24px] gap-[20px] py-[10px] rounded-md">
-            <BsPerson />
+          <div className="flex flex-col items-center absolute px-[14px] w-fit right-[20px] top-[50px] bg-white border border-black text-[24px] gap-[20px] py-[10px] rounded-md">
             <IoSearchOutline />
-            <IoMdHeartEmpty />
-            <div
-              className="relative"
-              onClick={() => {
-                setopenOptions(false)
-                setOpenCart(true)
-              }}
-            >
-              <BsCart />
-              <span className="absolute text-[12px] bg-[#2879fe] w-[20px] h-[20px] rounded-full text-white flex justify-center items-center -top-[10px] -right-[10px]">
-                0
-              </span>
-            </div>
+            <SignedIn>
+              <IoMdHeartEmpty />
+              <div
+                className="relative"
+                onClick={() => {
+                  setopenOptions(false)
+                  setOpenCart(true)
+                }}
+              >
+                <BsCart />
+                <span className="absolute text-[12px] bg-[#2879fe] w-[20px] h-[20px] rounded-full text-white flex justify-center items-center -top-[10px] -right-[10px]">
+                  0
+                </span>
+              </div>
+              <SignOutButton>
+                <GoSignOut />
+              </SignOutButton>
+            </SignedIn>
+            <SignedOut>
+              <SignInButton mode="modal">
+                <GoSignIn />
+              </SignInButton>
+            </SignedOut>
           </div>
         </div>
       )}
