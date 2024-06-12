@@ -6,7 +6,7 @@ import { FaRegHeart } from "react-icons/fa"
 import Cart from "./cart"
 import { useDispatch } from "react-redux"
 import { useSelector } from "react-redux"
-import { openCart } from "../features/uiSlice"
+import { closeCart, openCart } from "../features/uiSlice"
 import {
   SignedIn,
   SignedOut,
@@ -17,7 +17,6 @@ import { GoSignOut } from "react-icons/go"
 import { UiInitialStateType } from "../types"
 
 const Navbar = () => {
-  // const [openCart, setOpenCart] = useState(false)
   const { viewCart } = useSelector(
     (store: { ui: UiInitialStateType }) => store.ui
   )
@@ -41,9 +40,10 @@ const Navbar = () => {
 
         {/* Links */}
         <div className="flex gap-[25px]">
-          <Link to="/products/1">Women</Link>
-          <Link to="/products/2">Men</Link>
-          <Link to="/products/3">Children</Link>
+          <Link to="/products/all">All</Link>
+          <Link to="/products/men">Men</Link>
+          <Link to="/products/women">Women</Link>
+          <Link to="/products/kids">Kids</Link>
         </div>
       </div>
 
@@ -87,8 +87,16 @@ const Navbar = () => {
         </div>
       </div>
       {viewCart && (
-        <div className="absolute z-50 right-[15px] top-[80px]">
-          <Cart />
+        <div
+          onClick={() => dispatch(closeCart())}
+          className="bg-transparent fixed top-0 left-0 right-0 bottom-0 h-full z-50 "
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="absolute z-50 right-[15px] top-[80px]"
+          >
+            <Cart />
+          </div>
         </div>
       )}
     </div>

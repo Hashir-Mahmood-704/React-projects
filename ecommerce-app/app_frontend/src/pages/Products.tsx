@@ -1,11 +1,123 @@
 import List from "../components/list"
 import { useParams } from "react-router-dom"
 import { useState } from "react"
+import { useSelector } from "react-redux"
+import { ProductsInitialStateType, SanityProductResponceType } from "../types"
+
+function filterProducts(
+  products: SanityProductResponceType[],
+  category: string,
+  type: {
+    showAll: boolean
+    showShirts: boolean
+    showPants: boolean
+    showJackets: boolean
+  },
+  sort: "asc" | "desc" | null
+): SanityProductResponceType[] {
+  console.log("function called")
+  let resProducts: SanityProductResponceType[] = []
+  const filters: string[] = []
+  if (category === "all") {
+    if (
+      type.showAll ||
+      (!type.showAll &&
+        !type.showJackets &&
+        !type.showPants &&
+        !type.showShirts)
+    ) {
+      resProducts = products
+    } else {
+      if (type.showJackets) filters.push("jacket")
+      if (type.showShirts) filters.push("shirt")
+      if (type.showPants) filters.push("pant")
+      resProducts = products.filter((item) =>
+        filters.includes(item.productType)
+      )
+    }
+  } else if (category === "men") {
+    if (
+      type.showAll ||
+      (!type.showAll &&
+        !type.showJackets &&
+        !type.showPants &&
+        !type.showShirts)
+    ) {
+      resProducts = products.filter((item) => item.category === "men")
+    } else {
+      if (type.showJackets) filters.push("jacket")
+      if (type.showPants) filters.push("pant")
+      if (type.showShirts) filters.push("shirt")
+      resProducts = products.filter(
+        (item) => item.category === "men" && filters.includes(item.productType)
+      )
+    }
+  } else if (category === "women") {
+    if (
+      type.showAll ||
+      (!type.showAll &&
+        !type.showJackets &&
+        !type.showPants &&
+        !type.showShirts)
+    ) {
+      resProducts = products.filter((item) => item.category === "women")
+    } else {
+      if (type.showJackets) filters.push("jacket")
+      if (type.showPants) filters.push("pant")
+      if (type.showShirts) filters.push("shirt")
+      resProducts = products.filter(
+        (item) =>
+          item.category === "women" && filters.includes(item.productType)
+      )
+    }
+  } else if (category === "kids") {
+    if (
+      type.showAll ||
+      (!type.showAll &&
+        !type.showJackets &&
+        !type.showPants &&
+        !type.showShirts)
+    ) {
+      resProducts = products.filter((item) => item.category === "kids")
+    } else {
+      if (type.showJackets) filters.push("jacket")
+      if (type.showPants) filters.push("pant")
+      if (type.showShirts) filters.push("shirt")
+      resProducts = products.filter(
+        (item) => item.category === "kids" && filters.includes(item.productType)
+      )
+    }
+  }
+  if (sort === "asc") {
+    const sortedProducts = [...resProducts].sort(
+      (a, b) => (a.price as unknown as number) - (b.price as unknown as number)
+    )
+    return sortedProducts
+  } else if (sort === "desc") {
+    const sortedProducts = [...resProducts].sort(
+      (a, b) => (b.price as unknown as number) - (a.price as unknown as number)
+    )
+    return sortedProducts
+  } else return resProducts
+}
 
 const Products = () => {
-  const id = parseInt(useParams().id as string)
-  const [maxValue, setMaxValue] = useState("1000")
-  const [sort, setSort] = useState<string | null>(null)
+  const { category } = useParams()
+  // const [maxValue, setMaxValue] = useState("1000")
+  const [filter, setFilter] = useState({
+    showAll: true,
+    showShirts: false,
+    showPants: false,
+    showJackets: false,
+  })
+  const [sort, setSort] = useState<"asc" | "desc" | null>(null)
+  const { allProducts, status } = useSelector(
+    (store: { products: ProductsInitialStateType }) => store.products
+  )
+  let productsData: SanityProductResponceType[] = []
+  if (allProducts && category)
+    productsData = filterProducts(allProducts, category, filter, sort)
+
   return (
     <div className="flex flex-col sm:flex-row px-[20px] lg:px-[50px] py-[30px]">
       {/* left */}
@@ -20,32 +132,53 @@ const Products = () => {
               className="w-[16px] h-[16px]"
               type="checkbox"
               name="check-1"
-              value={1}
+              value="shirts"
+              onClick={() =>
+                setFilter({
+                  ...filter,
+                  showAll: false,
+                  showShirts: !filter.showShirts,
+                })
+              }
             />
-            <label htmlFor="check-1">Shoes</label>
+            <label htmlFor="check-1">Shirts</label>
           </div>
           <div className="mb-[3px] flex items-center gap-[6px]">
             <input
               className="w-[16px] h-[16px]"
               type="checkbox"
               name="check-2"
-              value={2}
+              value="pants"
+              onClick={() =>
+                setFilter({
+                  ...filter,
+                  showAll: false,
+                  showPants: !filter.showPants,
+                })
+              }
             />
-            <label htmlFor="check-2">Skirts</label>
+            <label htmlFor="check-2">Pants</label>
           </div>
           <div className="mb-[3px] flex items-center gap-[6px]">
             <input
               className="w-[16px] h-[16px]"
               type="checkbox"
               name="check-3"
-              value={3}
+              value="jackets"
+              onClick={() =>
+                setFilter({
+                  ...filter,
+                  showAll: false,
+                  showJackets: !filter.showJackets,
+                })
+              }
             />
-            <label htmlFor="check-3">Coats</label>
+            <label htmlFor="check-3">Jackets</label>
           </div>
         </div>
 
         {/* Slide section */}
-        <div className="mb-[30px]">
+        {/* <div className="mb-[30px]">
           <h2 className="font-semibold text-[18px] mb-[6px]">
             Filter by Price
           </h2>
@@ -59,7 +192,7 @@ const Products = () => {
             />
             <span>{maxValue}</span>
           </div>
-        </div>
+        </div> */}
 
         {/* Sortby section */}
         <div>
@@ -96,7 +229,18 @@ const Products = () => {
           alt="image"
           className="w-full h-[320px] object-cover mb-[50px] hidden sm:block"
         />
-        <List categoryId={id} maxPrice={maxValue} sort={sort} />
+        {status === "loading" && (
+          <div className="text-5xl text-center">Loading...</div>
+        )}
+        {status === "succeed" && (
+          <div>
+            {productsData.length > 1 ? (
+              <List products={productsData} />
+            ) : (
+              <p className="text-center">No such products available!</p>
+            )}
+          </div>
+        )}
       </div>
     </div>
   )

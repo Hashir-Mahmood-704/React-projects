@@ -9,6 +9,7 @@ import { useEffect } from "react"
 import { useUser } from "@clerk/clerk-react"
 import { useDispatch } from "react-redux"
 import { fetchUserData } from "./features/userDataSlice"
+import { fetchAllProducts } from "./features/productsSlice"
 
 const Layout = () => {
   return (
@@ -31,8 +32,9 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { path: "/", element: <Home /> },
-      { path: "/products/:id", element: <Products /> },
+      { path: "/products/:category", element: <Products /> },
       { path: "/product/:id", element: <Product /> },
+      // {path: "/allproducts", element: <AllProducts />}
     ],
   },
 ])
@@ -47,6 +49,12 @@ const App = () => {
       dispatch(fetchUserData({ id: user.id, username: user.fullName }))
     }
   }, [isSignedIn])
+
+  useEffect(() => {
+    console.log("Running app file useEffect 2, fetching all products")
+    // @ts-ignore
+    dispatch(fetchAllProducts())
+  }, [])
   return (
     <div>
       <RouterProvider router={router} />

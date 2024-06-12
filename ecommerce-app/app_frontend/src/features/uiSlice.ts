@@ -23,9 +23,21 @@ const uiSlice = createSlice({
     closeCart: (state) => {
       state.viewCart = false
     },
+    openOptions: (state) => {
+      state.viewOptions = true
+    },
+    closeOptions: (state) => {
+      state.viewOptions = false
+    },
   },
 })
 
 export default uiSlice.reducer
-export const { openCart, closeCart, closeSidebar, openSidebar } =
-  uiSlice.actions
+export const {
+  openCart,
+  closeCart,
+  closeSidebar,
+  openSidebar,
+  openOptions,
+  closeOptions,
+} = uiSlice.actions

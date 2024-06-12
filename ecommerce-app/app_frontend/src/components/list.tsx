@@ -1,17 +1,11 @@
-import { data } from "../data"
 import ProductCard from "./productCard"
+import { SanityProductResponceType } from "../types"
 
-type Props = {
-  categoryId: number
-  maxPrice: string
-  sort: string | null
-}
-// @ts-ignore
-const List = ({ categoryId, maxPrice, sort }: Props) => {
+const List = ({ products }: { products: SanityProductResponceType[] }) => {
   return (
-    <div className="flex justify-between flex-wrap">
-      {data.map((item) => (
-        <ProductCard key={item.id} item={item} />
+    <div className="flex justify-center gap-[15px] sm:gap-[30px] flex-wrap">
+      {products.map((item) => (
+        <ProductCard key={item._id} item={item} />
       ))}
     </div>
   )

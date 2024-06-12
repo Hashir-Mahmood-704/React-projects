@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
 import { Link } from "react-router-dom"
 import { IoMdMenu } from "react-icons/io"
 import { HiOutlineDotsVertical } from "react-icons/hi"
@@ -13,13 +13,24 @@ import {
   SignedIn,
   SignedOut,
 } from "@clerk/clerk-react"
+import { useDispatch, useSelector } from "react-redux"
+import {
+  closeOptions,
+  openOptions,
+  openSidebar,
+  closeSidebar,
+  openCart,
+  closeCart,
+} from "../features/uiSlice"
+import { UiInitialStateType } from "../types"
 
 const MobileNavbar = () => {
-  const [openSidebar, setOpenSidebar] = useState(false)
-  const [openOptions, setopenOptions] = useState(false)
-  const [openCart, setOpenCart] = useState(false)
+  const { viewCart, viewOptions, viewSidebar } = useSelector(
+    (store: { ui: UiInitialStateType }) => store.ui
+  )
+  const dispatch = useDispatch()
   useEffect(() => {
-    if (openCart || openSidebar) {
+    if (viewCart || viewOptions) {
       // Disable background scrolling
       document.body.style.overflow = "hidden"
     } else {
@@ -31,13 +42,13 @@ const MobileNavbar = () => {
     return () => {
       document.body.style.overflow = "auto"
     }
-  }, [openCart, openSidebar])
+  }, [viewCart, viewOptions])
 
   return (
     <div className="relative items-center h-[60px] flex justify-between px-[10px]">
       {/* hamburger */}
       <span
-        onClick={() => setOpenSidebar(true)}
+        onClick={() => dispatch(openSidebar())}
         className="text-[30px] cursor-pointer"
       >
         <IoMdMenu />
@@ -50,17 +61,17 @@ const MobileNavbar = () => {
 
       {/* options */}
       <span
-        onClick={() => setopenOptions(true)}
+        onClick={() => dispatch(openOptions())}
         className="text-[25px] cursor-pointer"
       >
         <HiOutlineDotsVertical />
       </span>
 
       {/* Sidebar */}
-      {openSidebar && (
+      {viewSidebar && (
         // cover
         <div
-          onClick={() => setOpenSidebar(false)}
+          onClick={() => dispatch(closeSidebar())}
           className="z-[100] h-screen w-screen overflow-y-hidden fixed bg-black/50 left-0 top-0 bottom-0"
         >
           {/* container */}
@@ -70,7 +81,7 @@ const MobileNavbar = () => {
           >
             {/* close button */}
             <span
-              onClick={() => setOpenSidebar(false)}
+              onClick={() => dispatch(closeSidebar())}
               className="mt-[10px] text-[35px] absolute right-[12px] top-0"
             >
               <IoIosCloseCircle />
@@ -80,13 +91,13 @@ const MobileNavbar = () => {
             <div className="flex flex-col items-center gap-[8px] text-[24px]">
               <h3 className="font-semibold mb-[6px]">Pages</h3>
               <Link to="/">
-                <span onClick={() => setOpenSidebar(false)}>Home</span>
+                <span onClick={() => dispatch(closeSidebar())}>Home</span>
               </Link>
               <Link to="/">
-                <span onClick={() => setOpenSidebar(false)}>About</span>
+                <span onClick={() => dispatch(closeSidebar())}>About</span>
               </Link>
               <Link to="/">
-                <span onClick={() => setOpenSidebar(false)}>Contact</span>
+                <span onClick={() => dispatch(closeSidebar())}>Contact</span>
               </Link>
             </div>
 
@@ -94,13 +105,13 @@ const MobileNavbar = () => {
             <div className="flex flex-col items-center gap-[5px] text-[24px] mt-[50px]">
               <h3 className="font-semibold mb-[6px]">Categories</h3>
               <Link to="/">
-                <span onClick={() => setOpenSidebar(false)}>Women</span>
+                <span onClick={() => dispatch(closeSidebar())}>Women</span>
               </Link>
               <Link to="/">
-                <span onClick={() => setOpenSidebar(false)}>Men</span>
+                <span onClick={() => dispatch(closeSidebar())}>Men</span>
               </Link>
               <Link to="/">
-                <span onClick={() => setOpenSidebar(false)}>Children</span>
+                <span onClick={() => dispatch(closeSidebar())}>Children</span>
               </Link>
             </div>
           </div>
@@ -108,9 +119,9 @@ const MobileNavbar = () => {
       )}
 
       {/* Option */}
-      {openOptions && (
+      {viewOptions && (
         <div
-          onClick={() => setopenOptions(false)}
+          onClick={() => dispatch(closeOptions())}
           className="z-[100] h-screen w-screen fixed bg-transparent left-0 top-0 bottom-0"
         >
           <div className="flex flex-col items-center absolute px-[14px] w-fit right-[20px] top-[50px] bg-white border border-black text-[24px] gap-[20px] py-[10px] rounded-md">
@@ -120,8 +131,8 @@ const MobileNavbar = () => {
               <div
                 className="relative"
                 onClick={() => {
-                  setopenOptions(false)
-                  setOpenCart(true)
+                  dispatch(closeOptions())
+                  dispatch(openCart())
                 }}
               >
                 <BsCart />
@@ -142,16 +153,16 @@ const MobileNavbar = () => {
         </div>
       )}
 
-      {openCart && (
+      {viewCart && (
         <div
-          onClick={() => setOpenCart(false)}
+          onClick={() => dispatch(closeCart())}
           className="z-[100] h-screen w-screen fixed bg-transparent left-0 top-0 bottom-0"
         >
           <div
             onClick={(e) => e.stopPropagation()}
             className="absolute top-[60px] right-[15px] z-50"
           >
-            <Cart setOpenCart={setOpenCart} />
+            <Cart />
           </div>
         </div>
       )}

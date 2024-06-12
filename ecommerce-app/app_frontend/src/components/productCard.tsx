@@ -1,18 +1,9 @@
 import { Link } from "react-router-dom"
+import { SanityProductResponceType } from "../types"
 
-type Props = {
-  id: number
-  img: string
-  img2: string
-  title: string
-  isNew: boolean
-  oldPrice: number
-  price: number
-}
-
-const ProductCard = ({ item }: { item: Props }) => {
+const ProductCard = ({ item }: { item: SanityProductResponceType }) => {
   return (
-    <Link to={`/product/${item.id}`}>
+    <Link to={`/product/${item._id}`}>
       <div className="w-[160px] lg:w-[220px] 2xl:w-[280px] flex flex-col gap-[8px] mb-[35px]">
         {/* image */}
         <div className="w-full h-[220px] lg:h-[320px] 2xl:h-[400px] overflow-hidden relative group">
@@ -22,12 +13,12 @@ const ProductCard = ({ item }: { item: Props }) => {
             </span>
           )}
           <img
-            src={item.img}
+            src={item.image1}
             alt="product-img"
             className=" object-cover w-full h-full absolute z-10"
           />
           <img
-            src={item.img2}
+            src={item.image2}
             alt="product-img"
             className="object-cover w-full h-full absolute group-hover:z-20"
           />
