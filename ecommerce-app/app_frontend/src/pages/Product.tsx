@@ -2,9 +2,15 @@ import { useState } from "react"
 import { FaCartArrowDown } from "react-icons/fa6"
 import { CiHeart } from "react-icons/ci"
 import { SignInButton, SignedIn, SignedOut } from "@clerk/clerk-react"
-import { useSelector } from "react-redux"
-import { ProductsInitialStateType, SanityProductResponceType } from "../types"
+import { useSelector, useDispatch } from "react-redux"
+import {
+  ProductsInitialStateType,
+  SanityProductResponceType,
+  UserInitialStateType,
+} from "../types"
 import { useParams } from "react-router-dom"
+import { v4 as uuidv4 } from "uuid"
+import { addProductToCart } from "../features/userDataSlice"
 
 const Product = () => {
   const [selectedImage, setselectedImage] = useState(1)
@@ -12,11 +18,70 @@ const Product = () => {
   const { allProducts, status } = useSelector(
     (store: { products: ProductsInitialStateType }) => store.products
   )
+  const { userData, cartStatus } = useSelector(
+    (store: { user: UserInitialStateType }) => store.user
+  )
   const { id } = useParams()
+  const dispatch = useDispatch()
   let productDetails: SanityProductResponceType | undefined = undefined
   if (allProducts) {
     productDetails = allProducts.find((item) => item._id === id)
   }
+  function addProduct() {
+    if (productDetails && userData) {
+      dispatch(
+        // @ts-ignore
+        addProductToCart({
+          _key: uuidv4(),
+          userId: userData._id,
+          productPrice: productDetails.price,
+          productId: productDetails._id,
+          productImage: productDetails.image1,
+          productTitle: productDetails.title,
+          productQuantity: quantity,
+        })
+      )
+    }
+  }
+
+  // function dispatcherFunction(operation: string) {
+  //   if (productDetails && userData) {
+  //     dispatch(
+  //       // @ts-ignore
+  //       addProductToCart({
+  //         operation: operation,
+  //         _key: uuidv4(),
+  //         userId: userData._id,
+  //         productPrice: productDetails.price,
+  //         productId: productDetails._id,
+  //         productImage: productDetails.image1,
+  //         productTitle: productDetails.title,
+  //         productQuantity: quantity,
+  //       })
+  //     )
+  //   }
+  // }
+  // function addProduct() {
+  //   if (productDetails && userData) {
+  //     if (!userData.cart) {
+  //       console.log(
+  //         "Product not in cart, cart is empty, creating cart and adding product"
+  //       )
+  //       dispatcherFunction("create")
+  //     } else if (userData.cart) {
+  //       const productAlreadyInCart = userData.cart.find(
+  //         (item) => item.productId === productDetails._id
+  //       )
+  //       if (productAlreadyInCart) {
+  //         console.log("product already in cart, increasing quanitity")
+  //         dispatcherFunction("increment")
+  //       } else {
+  //         console.log("product not in cart, adding to cart")
+  //         dispatcherFunction("insert")
+  //       }
+  //     }
+  //   }
+  // }
   if (status === "loading")
     return <div className="text-center text-4xl">Loading...</div>
   else if (status === "succeed" && !productDetails)
@@ -87,12 +152,17 @@ const Product = () => {
             </div>
 
             {/* add item button */}
-
-            <button className="w-[200px] p-[10px] bg-[#2879fe] text-white flex items-center justify-center border-none gap-[15px]">
-              <FaCartArrowDown size={20} />
-              Add to Cart
-            </button>
-
+            {cartStatus === "loading" ? (
+              <div>Loading</div>
+            ) : (
+              <button
+                onClick={addProduct}
+                className="w-[200px] p-[10px] bg-[#2879fe] text-white flex items-center justify-center border-none gap-[15px]"
+              >
+                <FaCartArrowDown size={20} />
+                Add to Cart
+              </button>
+            )}
             {/* more buttons */}
 
             <div className="flex gap-[5px] items-center text-[#2879fe] text-[18px]">

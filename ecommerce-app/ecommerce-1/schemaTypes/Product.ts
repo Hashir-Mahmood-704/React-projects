@@ -21,7 +21,7 @@ export const Product = {
     {
       name: 'price',
       title: 'price',
-      type: 'string',
+      type: 'number',
     },
     {
       name: 'image1',
@@ -56,7 +56,7 @@ export const Product = {
     {
       name: 'oldPrice',
       title: 'Old price',
-      type: 'string',
+      type: 'number',
     },
   ],
 }

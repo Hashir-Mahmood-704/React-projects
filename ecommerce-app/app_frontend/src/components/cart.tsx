@@ -1,12 +1,19 @@
-import { data } from "../data"
-import { MdDelete } from "react-icons/md"
-import { useDispatch } from "react-redux"
 import { IoIosCloseCircle } from "react-icons/io"
 import { closeCart } from "../features/uiSlice"
+import { useDispatch, useSelector } from "react-redux"
+import { UserInitialStateType } from "../types"
+import CartItem from "./cartItem"
 
-const items = data
 const Cart = () => {
   const dispatch = useDispatch()
+  const { userData, status } = useSelector(
+    (store: { user: UserInitialStateType }) => store.user
+  )
+  let total: number = 0
+  userData?.cart?.forEach((item) => {
+    total = total + item.productQuantity * item.productPrice
+  })
+
   return (
     <div className="max-h-[75vh] overflow-y-scroll flex flex-col flex-start gap-[20px] bg-white border border-black w-[280px]  sm:w-[400px] p-[12px] lg:p-[20px] relative">
       <div
@@ -15,43 +22,39 @@ const Cart = () => {
       >
         <IoIosCloseCircle />
       </div>
-      <h1 className="font-semibold text-[18px] lg:text-[20px]">
-        Products in your cart
-      </h1>
-      {items.map((item) => (
-        <div key={item.id} className="flex justify-between border pr-[3px]">
-          <div className="flex gap-[10px]">
-            {/* image */}
-            <img
-              src={item.img}
-              alt="image"
-              className="w-[60px] h-[80px] lg:w-[80px] lg:h-full object-cover"
-            />
+      {status === "succeed" &&
+        userData &&
+        (!userData.cart || userData.cart.length < 1) && (
+          <div className="text-center text-[18px]">Your cart is empty!</div>
+        )}
+      {status === "succeed" &&
+        userData &&
+        userData.cart &&
+        userData.cart.length > 0 && (
+          <div>
+            <h1 className="font-semibold text-[18px] lg:text-[20px]">
+              Products in your cart
+            </h1>
+            {userData.cart.map((item) => (
+              <CartItem key={item.productId} item={item} />
+            ))}
 
-            {/* details */}
-            <div className="flex flex-col justify-between items-start text-gray-500 text-[14px] lg:text-[16px]">
-              <h1 className="font-semibold mt-[2px]">{item.title}</h1>
-              <p className="font-semibold -mt-[]">1 x ${item.price}</p>
+            {/* total */}
+            <div className="flex w-full justify-between gap-[10px] text-[#2879fe] font-bold lg:text-[18px]">
+              <span>SUBTOTAL</span>
+              <span>${total.toFixed(2)}</span>
+            </div>
+
+            <div className="flex flex-col items-start gap-[10px]">
+              <button className="px-[8px] py-[4px] text-[16px] lg:text-[18px] lg:px-[10px] lg:py-[6px] bg-[#2879fe] text-white">
+                Proceed to checkout
+              </button>
+              <span className="text-red-600 font-semibold text-[14px] cursor-pointer">
+                Rest Card
+              </span>
             </div>
           </div>
-          <MdDelete size={22} />
-        </div>
-      ))}
-
-      {/* total */}
-      <div className="flex w-full justify-between gap-[10px] text-[#2879fe] font-bold lg:text-[18px]">
-        <span>SUBTOTAL</span>
-        <span>$123</span>
-      </div>
-
-      <div className="flex flex-col items-start gap-[10px]">
-        <button className="px-[8px] py-[4px] text-[16px] lg:text-[18px] lg:px-[10px] lg:py-[6px] bg-[#2879fe] text-white">
-          Proceed to checkout
-        </button>
-        <span className="text-red-600 font-semibold text-[14px] cursor-pointer">
-          Rest Card
-        </span>
-      </div>
+        )}
     </div>
   )
 }

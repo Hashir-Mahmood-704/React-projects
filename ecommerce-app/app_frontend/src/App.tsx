@@ -14,6 +14,7 @@ import { fetchAllProducts } from "./features/productsSlice"
 const Layout = () => {
   return (
     <div className="font-poppins">
+      {/* const */}
       <div className="hidden lg:block">
         <Navbar />
       </div>
