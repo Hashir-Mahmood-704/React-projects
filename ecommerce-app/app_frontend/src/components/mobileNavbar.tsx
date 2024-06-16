@@ -127,7 +127,9 @@ const MobileNavbar = () => {
             className="z-[100] h-screen w-screen fixed bg-transparent left-0 top-0 bottom-0"
           >
             <div className="flex flex-col items-center absolute px-[14px] w-fit right-[20px] top-[50px] bg-white border border-black text-[24px] gap-[20px] py-[10px] rounded-md">
-              <IoSearchOutline />
+              <Link to="/search">
+                <IoSearchOutline />
+              </Link>
               <SignedIn>
                 <div
                   className="relative"
