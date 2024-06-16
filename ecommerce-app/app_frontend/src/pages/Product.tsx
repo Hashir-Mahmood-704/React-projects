@@ -56,7 +56,7 @@ const Product = () => {
     return <div className="text-4xl text-center">Product data not found!</div>
   else if (status === "succeed" && productDetails)
     return (
-      <div className="py-[20px] px-[15px] lg:px-[50px] flex gap-[150px] flex-col lg:flex-row">
+      <div className="py-[20px] px-[15px] lg:px-[50px] flex lg:gap-[150px] gap-[20px] flex-col lg:flex-row">
         {/* left */}
         <motion.div
           initial={{ x: -200, opacity: 0 }}
@@ -99,7 +99,7 @@ const Product = () => {
           initial={{ x: 200, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 1 }}
-          className="flex-[1] flex flex-col gap-[30px] items-start"
+          className="flex-[1] flex flex-col gap-[20px] lg:gap-[30px] items-start"
         >
           <h1 className="text-[28px] font-semibold">{productDetails.title}</h1>
           <span className="text-[25px] text-[#2879fe] font-semibold">
