@@ -45,7 +45,11 @@ function filterProducts(
         !type.showShirts)
     ) {
       resProducts = products.filter((item) => {
-        return item.title.toLowerCase().includes(searchText.toLowerCase())
+        return (
+          item.title.toLowerCase().includes(searchText.toLowerCase()) ||
+          item.productType.toLowerCase().includes(searchText.toLowerCase()) ||
+          item.category.toLowerCase().includes(searchText.toLowerCase())
+        )
       })
     } else {
       if (type.showJackets) filters.push("jacket")
@@ -54,8 +58,10 @@ function filterProducts(
       if (filters.length > 0) {
         resProducts = products.filter(
           (item) =>
-            filters.includes(item.productType) &&
-            item.title.toLowerCase().includes(searchText.toLowerCase())
+            (filters.includes(item.productType) &&
+              item.title.toLowerCase().includes(searchText.toLowerCase())) ||
+            item.productType.toLowerCase().includes(searchText.toLowerCase()) ||
+            item.category.toLowerCase().includes(searchText.toLowerCase())
         )
       }
     }
