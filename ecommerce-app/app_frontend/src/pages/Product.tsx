@@ -1,8 +1,10 @@
 import { useState } from "react"
 import { FaCartArrowDown } from "react-icons/fa6"
-import { CiHeart } from "react-icons/ci"
 import { SignInButton, SignedIn, SignedOut } from "@clerk/clerk-react"
 import { useSelector, useDispatch } from "react-redux"
+import Spinner from "../components/spinner"
+import { motion } from "framer-motion"
+import { sanityImageBuilder } from "../sanityClient"
 import {
   ProductsInitialStateType,
   SanityProductResponceType,
@@ -44,63 +46,34 @@ const Product = () => {
     }
   }
 
-  // function dispatcherFunction(operation: string) {
-  //   if (productDetails && userData) {
-  //     dispatch(
-  //       // @ts-ignore
-  //       addProductToCart({
-  //         operation: operation,
-  //         _key: uuidv4(),
-  //         userId: userData._id,
-  //         productPrice: productDetails.price,
-  //         productId: productDetails._id,
-  //         productImage: productDetails.image1,
-  //         productTitle: productDetails.title,
-  //         productQuantity: quantity,
-  //       })
-  //     )
-  //   }
-  // }
-  // function addProduct() {
-  //   if (productDetails && userData) {
-  //     if (!userData.cart) {
-  //       console.log(
-  //         "Product not in cart, cart is empty, creating cart and adding product"
-  //       )
-  //       dispatcherFunction("create")
-  //     } else if (userData.cart) {
-  //       const productAlreadyInCart = userData.cart.find(
-  //         (item) => item.productId === productDetails._id
-  //       )
-  //       if (productAlreadyInCart) {
-  //         console.log("product already in cart, increasing quanitity")
-  //         dispatcherFunction("increment")
-  //       } else {
-  //         console.log("product not in cart, adding to cart")
-  //         dispatcherFunction("insert")
-  //       }
-  //     }
-  //   }
-  // }
   if (status === "loading")
-    return <div className="text-center text-4xl">Loading...</div>
+    return (
+      <div className="flex justify-center items-center my-[150px]">
+        <Spinner width="100" height="100" />
+      </div>
+    )
   else if (status === "succeed" && !productDetails)
     return <div className="text-4xl text-center">Product data not found!</div>
   else if (status === "succeed" && productDetails)
     return (
       <div className="py-[20px] px-[15px] lg:px-[50px] flex gap-[150px] flex-col lg:flex-row">
         {/* left */}
-        <div className="flex-[1] flex lg:flex-row flex-col-reverse gap-[20px]">
+        <motion.div
+          initial={{ x: -200, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 1 }}
+          className="flex-[1] flex lg:flex-row flex-col-reverse gap-[20px]"
+        >
           {/* small images */}
-          <div className="flex-[1] flex lg:flex-col ">
+          <div className="flex-[1] flex items-center lg:flex-col gap-[10px] ">
             <img
-              src={productDetails.image1}
+              src={sanityImageBuilder(productDetails.image1).width(400).url()}
               alt="image"
               onClick={() => setselectedImage(1)}
-              className="w-full h-[160px] sm:h-[260px] lg:h-[160px] object-cover cursor-pointer"
+              className="w-full h-[160px] sm:h-[260px] lg:h-[160px] object-cover cursor-pointer mt-[10px]"
             />
             <img
-              src={productDetails.image2}
+              src={sanityImageBuilder(productDetails.image2).width(400).url()}
               alt="image"
               onClick={() => setselectedImage(2)}
               className="w-full h-[160px] sm:h-[260px] lg:h-[160px] mt-[10px] object-cover cursor-pointer"
@@ -112,17 +85,22 @@ const Product = () => {
             <img
               src={
                 selectedImage === 1
-                  ? productDetails.image1
-                  : productDetails.image2
+                  ? sanityImageBuilder(productDetails.image1).width(1000).url()
+                  : sanityImageBuilder(productDetails.image2).width(1000).url()
               }
               alt="main-image"
               className="w-full max-h-[450px] sm:max-h-[550px] lg:h-[550px] object-cover"
             />
           </div>
-        </div>
+        </motion.div>
 
         {/* right */}
-        <div className="flex-[1] flex flex-col gap-[30px] items-start">
+        <motion.div
+          initial={{ x: 200, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 1 }}
+          className="flex-[1] flex flex-col gap-[30px] items-start"
+        >
           <h1 className="text-[28px] font-semibold">{productDetails.title}</h1>
           <span className="text-[25px] text-[#2879fe] font-semibold">
             ${productDetails.price}
@@ -153,31 +131,34 @@ const Product = () => {
 
             {/* add item button */}
             {cartStatus === "loading" ? (
-              <div>Loading</div>
+              <div className="w-[200px] h-[40px] flex justify-center items-center relative">
+                <div className="absolute left-0 top-0 w-full flex justify-center items-center">
+                  <Spinner width="50" height="50" />
+                </div>
+              </div>
             ) : (
-              <button
+              <motion.button
+                whileHover={{ scale: 1.2 }}
                 onClick={addProduct}
-                className="w-[200px] p-[10px] bg-[#2879fe] text-white flex items-center justify-center border-none gap-[15px]"
+                className="w-[200px] h-[40px] bg-[#2879fe] text-white flex items-center justify-center border-none gap-[15px]"
               >
                 <FaCartArrowDown size={20} />
                 Add to Cart
-              </button>
+              </motion.button>
             )}
             {/* more buttons */}
-
-            <div className="flex gap-[5px] items-center text-[#2879fe] text-[18px]">
-              <CiHeart size={25} />
-              Add to whishlist
-            </div>
           </SignedIn>
           <SignedOut>
             <SignInButton mode="modal">
-              <button className="text-white bg-[#2879fe] text-[16px] p-2 px-[20px] rounded-md">
+              <motion.button
+                whileHover={{ scale: 1.2 }}
+                className="text-white bg-[#2879fe] text-[16px] p-2 px-[20px] rounded-md"
+              >
                 Sign in
-              </button>
+              </motion.button>
             </SignInButton>
           </SignedOut>
-        </div>
+        </motion.div>
       </div>
     )
 }

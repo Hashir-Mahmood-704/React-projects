@@ -1,3 +1,4 @@
+import { motion } from "framer-motion"
 import {
   FaFacebook,
   FaInstagram,
@@ -8,7 +9,12 @@ import {
 
 const Contact = () => {
   return (
-    <div className="flex justify-center items-center bg-blue-600 py-[15px] lg:py-[25px] px-[15px] text-white">
+    <motion.div
+      initial={{ scale: 0.5, opacity: 0 }}
+      whileInView={{ scale: 1, opacity: 1 }}
+      transition={{ duration: 1 }}
+      className="flex justify-center items-center bg-blue-600 py-[15px] lg:py-[25px] px-[15px] text-white"
+    >
       <div className="flex gap-[14px] lg:gap-0 flex-col lg:flex-row  lg:justify-between items-center w-[60%]">
         <span className="text-[14px] lg:text-[18px]">BE IN TOUCH WITH US</span>
         <div className="flex flex-col lg:flex-row items-center">
@@ -29,7 +35,7 @@ const Contact = () => {
           <FaPinterest />
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }
 

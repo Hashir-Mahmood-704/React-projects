@@ -3,7 +3,104 @@ import { useParams } from "react-router-dom"
 import { useState } from "react"
 import { useSelector } from "react-redux"
 import { ProductsInitialStateType, SanityProductResponceType } from "../types"
+import Spinner from "../components/spinner"
+import { motion } from "framer-motion"
 
+// function filterProducts(
+//   products: SanityProductResponceType[],
+//   category: string,
+//   type: {
+//     showAll: boolean
+//     showShirts: boolean
+//     showPants: boolean
+//     showJackets: boolean
+//   },
+//   sort: "asc" | "desc" | null
+// ): SanityProductResponceType[] {
+//   let resProducts: SanityProductResponceType[] = []
+//   const filters: string[] = []
+//   if (category === "all") {
+//     if (
+//       type.showAll ||
+//       (!type.showAll &&
+//         !type.showJackets &&
+//         !type.showPants &&
+//         !type.showShirts)
+//     ) {
+//       resProducts = products
+//     } else {
+//       if (type.showJackets) filters.push("jacket")
+//       if (type.showShirts) filters.push("shirt")
+//       if (type.showPants) filters.push("pant")
+//       resProducts = products.filter((item) =>
+//         filters.includes(item.productType)
+//       )
+//     }
+//   } else if (category === "men") {
+//     if (
+//       type.showAll ||
+//       (!type.showAll &&
+//         !type.showJackets &&
+//         !type.showPants &&
+//         !type.showShirts)
+//     ) {
+//       resProducts = products.filter((item) => item.category === "men")
+//     } else {
+//       if (type.showJackets) filters.push("jacket")
+//       if (type.showPants) filters.push("pant")
+//       if (type.showShirts) filters.push("shirt")
+//       resProducts = products.filter(
+//         (item) => item.category === "men" && filters.includes(item.productType)
+//       )
+//     }
+//   } else if (category === "women") {
+//     if (
+//       type.showAll ||
+//       (!type.showAll &&
+//         !type.showJackets &&
+//         !type.showPants &&
+//         !type.showShirts)
+//     ) {
+//       resProducts = products.filter((item) => item.category === "women")
+//     } else {
+//       if (type.showJackets) filters.push("jacket")
+//       if (type.showPants) filters.push("pant")
+//       if (type.showShirts) filters.push("shirt")
+//       resProducts = products.filter(
+//         (item) =>
+//           item.category === "women" && filters.includes(item.productType)
+//       )
+//     }
+//   } else if (category === "kids") {
+//     if (
+//       type.showAll ||
+//       (!type.showAll &&
+//         !type.showJackets &&
+//         !type.showPants &&
+//         !type.showShirts)
+//     ) {
+//       resProducts = products.filter((item) => item.category === "kids")
+//     } else {
+//       if (type.showJackets) filters.push("jacket")
+//       if (type.showPants) filters.push("pant")
+//       if (type.showShirts) filters.push("shirt")
+//       resProducts = products.filter(
+//         (item) => item.category === "kids" && filters.includes(item.productType)
+//       )
+//     }
+//   }
+//   if (sort === "asc") {
+//     const sortedProducts = [...resProducts].sort(
+//       (a, b) => (a.price as unknown as number) - (b.price as unknown as number)
+//     )
+//     return sortedProducts
+//   } else if (sort === "desc") {
+//     const sortedProducts = [...resProducts].sort(
+//       (a, b) => (b.price as unknown as number) - (a.price as unknown as number)
+//     )
+//     return sortedProducts
+//   } else return resProducts
+// }
 function filterProducts(
   products: SanityProductResponceType[],
   category: string,
@@ -12,10 +109,10 @@ function filterProducts(
     showShirts: boolean
     showPants: boolean
     showJackets: boolean
+    showSuits: boolean
   },
   sort: "asc" | "desc" | null
 ): SanityProductResponceType[] {
-  console.log("function called")
   let resProducts: SanityProductResponceType[] = []
   const filters: string[] = []
   if (category === "all") {
@@ -23,92 +120,61 @@ function filterProducts(
       type.showAll ||
       (!type.showAll &&
         !type.showJackets &&
+        !type.showSuits &&
         !type.showPants &&
         !type.showShirts)
     ) {
       resProducts = products
+      // console.log(resProducts)
     } else {
       if (type.showJackets) filters.push("jacket")
       if (type.showShirts) filters.push("shirt")
       if (type.showPants) filters.push("pant")
+      if (type.showSuits) filters.push("suit")
+      console.log(filters)
       resProducts = products.filter((item) =>
         filters.includes(item.productType)
       )
+      console.log(resProducts)
     }
-  } else if (category === "men") {
+  } else {
     if (
       type.showAll ||
       (!type.showAll &&
         !type.showJackets &&
         !type.showPants &&
+        !type.showSuits &&
         !type.showShirts)
     ) {
-      resProducts = products.filter((item) => item.category === "men")
+      resProducts = products.filter((item) => item.category === category)
     } else {
       if (type.showJackets) filters.push("jacket")
-      if (type.showPants) filters.push("pant")
       if (type.showShirts) filters.push("shirt")
-      resProducts = products.filter(
-        (item) => item.category === "men" && filters.includes(item.productType)
-      )
-    }
-  } else if (category === "women") {
-    if (
-      type.showAll ||
-      (!type.showAll &&
-        !type.showJackets &&
-        !type.showPants &&
-        !type.showShirts)
-    ) {
-      resProducts = products.filter((item) => item.category === "women")
-    } else {
-      if (type.showJackets) filters.push("jacket")
       if (type.showPants) filters.push("pant")
-      if (type.showShirts) filters.push("shirt")
+      if (type.showSuits) filters.push("suit")
       resProducts = products.filter(
         (item) =>
-          item.category === "women" && filters.includes(item.productType)
-      )
-    }
-  } else if (category === "kids") {
-    if (
-      type.showAll ||
-      (!type.showAll &&
-        !type.showJackets &&
-        !type.showPants &&
-        !type.showShirts)
-    ) {
-      resProducts = products.filter((item) => item.category === "kids")
-    } else {
-      if (type.showJackets) filters.push("jacket")
-      if (type.showPants) filters.push("pant")
-      if (type.showShirts) filters.push("shirt")
-      resProducts = products.filter(
-        (item) => item.category === "kids" && filters.includes(item.productType)
+          item.category === category && filters.includes(item.productType)
       )
     }
   }
   if (sort === "asc") {
-    const sortedProducts = [...resProducts].sort(
-      (a, b) => (a.price as unknown as number) - (b.price as unknown as number)
-    )
+    const sortedProducts = [...resProducts].sort((a, b) => a.price - b.price)
     return sortedProducts
   } else if (sort === "desc") {
-    const sortedProducts = [...resProducts].sort(
-      (a, b) => (b.price as unknown as number) - (a.price as unknown as number)
-    )
+    const sortedProducts = [...resProducts].sort((a, b) => b.price - a.price)
     return sortedProducts
   } else return resProducts
 }
 
 const Products = () => {
   const { category } = useParams()
-  // const [maxValue, setMaxValue] = useState("1000")
   const [filter, setFilter] = useState({
     showAll: true,
     showShirts: false,
     showPants: false,
     showJackets: false,
+    showSuits: false,
   })
   const [sort, setSort] = useState<"asc" | "desc" | null>(null)
   const { allProducts, status } = useSelector(
@@ -121,7 +187,12 @@ const Products = () => {
   return (
     <div className="flex flex-col sm:flex-row px-[20px] lg:px-[50px] py-[30px]">
       {/* left */}
-      <div className="flex-[1] mb-[40px] lg:sticky top-[0px] h-fit ">
+      <motion.div
+        initial={{ opacity: 0, x: -200 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 1 }}
+        className="flex-[1] mb-[40px] lg:sticky top-[0px] h-fit "
+      >
         {/* Checkboxes section */}
         <div className="mb-[30px] text-[16px]">
           <h2 className="font-semibold text-[18px] mb-[6px]">
@@ -132,7 +203,7 @@ const Products = () => {
               className="w-[16px] h-[16px]"
               type="checkbox"
               name="check-1"
-              value="shirts"
+              // value="shirts"
               onClick={() =>
                 setFilter({
                   ...filter,
@@ -148,7 +219,7 @@ const Products = () => {
               className="w-[16px] h-[16px]"
               type="checkbox"
               name="check-2"
-              value="pants"
+              // value="pants"
               onClick={() =>
                 setFilter({
                   ...filter,
@@ -164,7 +235,7 @@ const Products = () => {
               className="w-[16px] h-[16px]"
               type="checkbox"
               name="check-3"
-              value="jackets"
+              // value="jackets"
               onClick={() =>
                 setFilter({
                   ...filter,
@@ -175,24 +246,23 @@ const Products = () => {
             />
             <label htmlFor="check-3">Jackets</label>
           </div>
-        </div>
-
-        {/* Slide section */}
-        {/* <div className="mb-[30px]">
-          <h2 className="font-semibold text-[18px] mb-[6px]">
-            Filter by Price
-          </h2>
-          <div className="text-[16px] flex items-center gap-[5px]">
-            <span>0</span>
+          <div className="mb-[3px] flex items-center gap-[6px]">
             <input
-              type="range"
-              min={"0"}
-              max={"1000"}
-              onChange={(e) => setMaxValue(e.target.value)}
+              className="w-[16px] h-[16px]"
+              type="checkbox"
+              name="check-2"
+              // value="suits"
+              onClick={() =>
+                setFilter({
+                  ...filter,
+                  showAll: false,
+                  showSuits: !filter.showSuits,
+                })
+              }
             />
-            <span>{maxValue}</span>
+            <label htmlFor="check-2">Suits</label>
           </div>
-        </div> */}
+        </div>
 
         {/* Sortby section */}
         <div>
@@ -220,28 +290,35 @@ const Products = () => {
             <label htmlFor="desc">Price (Highest First)</label>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* right */}
-      <div className="flex-[3]">
+      <motion.div
+        initial={{ opacity: 0, x: 300 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 1 }}
+        className="flex-[3]"
+      >
         <img
           src="https://images.pexels.com/photos/1074535/pexels-photo-1074535.jpeg?auto=compress&cs=tinysrgb&w=1600"
           alt="image"
-          className="w-full h-[320px] object-cover mb-[50px] hidden sm:block"
+          className="w-full h-[220px] object-cover mb-[50px] hidden sm:block"
         />
         {status === "loading" && (
-          <div className="text-5xl text-center">Loading...</div>
+          <div className="flex justify-center items-center py-[100px]">
+            <Spinner height="100" width="100" />
+          </div>
         )}
         {status === "succeed" && (
           <div>
-            {productsData.length > 1 ? (
+            {productsData.length > 0 ? (
               <List products={productsData} />
             ) : (
               <p className="text-center">No such products available!</p>
             )}
           </div>
         )}
-      </div>
+      </motion.div>
     </div>
   )
 }

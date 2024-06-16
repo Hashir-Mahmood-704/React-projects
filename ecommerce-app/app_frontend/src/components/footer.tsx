@@ -1,6 +1,12 @@
+import { motion } from "framer-motion"
 const Footer = () => {
   return (
-    <div className=" lg:mt-[100px] lg:mx-[150px] lg:mb-[20px] mt-[20px]">
+    <motion.div
+      initial={{ y: 50, opacity: 0 }}
+      whileInView={{ y: 0, opacity: 1 }}
+      transition={{ duration: 1 }}
+      className=" lg:mt-[100px] lg:mx-[150px] lg:mb-[20px] mt-[20px]"
+    >
       {/* top */}
       <div className="flex flex-col lg:flex-row gap-[20px] lg:gap-[50px] text-gray-700 px-[15px] ">
         {/* column 1 */}
@@ -65,7 +71,7 @@ const Footer = () => {
           />
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }
 

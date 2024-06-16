@@ -26,12 +26,12 @@ export const Product = {
     {
       name: 'image1',
       title: 'Image 1',
-      type: 'string',
+      type: 'image',
     },
     {
       name: 'image2',
       title: 'Image 2',
-      type: 'string',
+      type: 'image',
     },
     {
       name: 'description',

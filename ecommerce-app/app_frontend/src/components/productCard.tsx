@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom"
 import { SanityProductResponceType } from "../types"
+import { motion, AnimatePresence } from "framer-motion"
+import { sanityImageBuilder } from "../sanityClient"
 
 const ProductCard = ({ item }: { item: SanityProductResponceType }) => {
   return (
@@ -12,16 +14,27 @@ const ProductCard = ({ item }: { item: SanityProductResponceType }) => {
               New Season
             </span>
           )}
-          <img
-            src={item.image1}
-            alt="product-img"
-            className=" object-cover w-full h-full absolute z-10"
-          />
-          <img
-            src={item.image2}
-            alt="product-img"
-            className="object-cover w-full h-full absolute group-hover:z-20"
-          />
+
+          <AnimatePresence>
+            <motion.img
+              key={1}
+              initial={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+              src={sanityImageBuilder(item.image1).width(400).url()}
+              alt="product-img"
+              className="object-cover w-full h-full absolute z-10"
+            />
+            <motion.img
+              key={2}
+              initial={{ opacity: 0 }}
+              whileHover={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              src={sanityImageBuilder(item.image2).width(400).url()}
+              alt="product-img"
+              className="object-cover w-full h-full absolute z-20"
+            />
+          </AnimatePresence>
         </div>
 
         {/* title */}

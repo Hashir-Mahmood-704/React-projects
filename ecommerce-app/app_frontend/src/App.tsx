@@ -10,6 +10,7 @@ import { useUser } from "@clerk/clerk-react"
 import { useDispatch } from "react-redux"
 import { fetchUserData } from "./features/userDataSlice"
 import { fetchAllProducts } from "./features/productsSlice"
+import Search from "./pages/Search"
 
 const Layout = () => {
   return (
@@ -35,6 +36,7 @@ const router = createBrowserRouter([
       { path: "/", element: <Home /> },
       { path: "/products/:category", element: <Products /> },
       { path: "/product/:id", element: <Product /> },
+      { path: "/search", element: <Search /> },
       // {path: "/allproducts", element: <AllProducts />}
     ],
   },
@@ -57,7 +59,7 @@ const App = () => {
     dispatch(fetchAllProducts())
   }, [])
   return (
-    <div>
+    <div className="overflow-hidden">
       <RouterProvider router={router} />
     </div>
   )

@@ -101,7 +101,7 @@ export const removeItem = createAsyncThunk(
       .unset([`cart[${targetProductIndex}]`])
       .commit()
     setLoading(false)
-    console.log(res)
+    // console.log(res)
     return res
   }
 )
@@ -132,7 +132,7 @@ export const updateItemQuantity = createAsyncThunk(
           .patch(userId)
           .inc({ [`cart[${itemIndex}].productQuantity`]: 1 })
           .commit()
-        console.log(res)
+        // console.log(res)
         setLoading(false)
         return res
       } else {
@@ -140,10 +140,22 @@ export const updateItemQuantity = createAsyncThunk(
           .patch(userId)
           .dec({ [`cart[${itemIndex}].productQuantity`]: 1 })
           .commit()
-        console.log(res)
+        // console.log(res)
         setLoading(false)
         return res
       }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+)
+
+export const resetCart = createAsyncThunk(
+  "user/resetCart",
+  async ({ userId }: { userId: string }) => {
+    try {
+      const res = await sanityClient.patch(userId).set({ cart: [] }).commit()
+      return res
     } catch (error) {
       console.log(error)
     }
@@ -198,6 +210,10 @@ const userSlice = createSlice({
         state.cartItemStatus = "failed"
       })
       .addCase(updateItemQuantity.fulfilled, (state, action) => {
+        // @ts-ignore
+        state.userData = action.payload
+      })
+      .addCase(resetCart.fulfilled, (state, action) => {
         // @ts-ignore
         state.userData = action.payload
       })

@@ -1,5 +1,6 @@
 import { GrLinkNext, GrLinkPrevious } from "react-icons/gr"
 import { useState } from "react"
+import { motion } from "framer-motion"
 
 const data = [
   "https://images.pexels.com/photos/1549200/pexels-photo-1549200.jpeg?auto=compress&cs=tinysrgb&w=1600",
@@ -10,13 +11,18 @@ const data = [
 const Slider = () => {
   const [currentSlide, setCurrentSlide] = useState(0)
   function prevSlide() {
-    setCurrentSlide(currentSlide === 0 ? 3 : (prev) => prev - 1)
+    setCurrentSlide(currentSlide === 0 ? 2 : (prev) => prev - 1)
   }
   function nextSlide() {
-    setCurrentSlide(currentSlide === 3 ? 0 : (prev) => prev + 1)
+    setCurrentSlide(currentSlide === 2 ? 0 : (prev) => prev + 1)
   }
   return (
-    <div className="w-screen h-[calc(100vh-300px)] lg:h-[calc(100vh-100px)] relative overflow-hidden">
+    <motion.div
+      initial={{ opacity: 0, x: -50 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      transition={{ duration: 1 }}
+      className="w-screen h-[calc(100vh-300px)] lg:h-[calc(100vh-100px)] relative overflow-hidden"
+    >
       {/* container */}
       <div
         className="w-[400vw] flex h-full duration-1000 transition-all ease-in-out"
@@ -58,7 +64,7 @@ const Slider = () => {
           <GrLinkNext />
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }
 

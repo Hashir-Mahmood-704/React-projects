@@ -1,7 +1,14 @@
 import { Link } from "react-router-dom"
+import { motion } from "framer-motion"
+
 const CategoriesSection = () => {
   return (
-    <div className=" flex flex-col md:flex-row  gap-[10px] md:h-[80vh] mx-[10px] capitalize font-semibold">
+    <motion.div
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      transition={{ duration: 1.5, delay: 0.2 }}
+      className=" flex flex-col md:flex-row  gap-[10px] md:h-[80vh] mx-[10px] capitalize font-semibold"
+    >
       {/* col1 */}
       <div className="flex flex-col flex-[1] gap-[10px]">
         {/* col1 row1 */}
@@ -11,9 +18,12 @@ const CategoriesSection = () => {
             alt="image"
             className="w-full h-full object-cover"
           />
-          <button className="absolute bg-white rounded-md top-0 left-0 right-0 bottom-0 w-fit h-fit m-auto  py-[10px] px-[20px] border-none">
-            <Link to="/products/1">Sale</Link>
-          </button>
+          <motion.button
+            whileHover={{ scale: 1.3 }}
+            className="absolute bg-white rounded-md top-0 left-0 right-0 bottom-0 w-fit h-fit m-auto  py-[10px] px-[20px] border-none"
+          >
+            <Link to="/products/all">Sale</Link>
+          </motion.button>
         </div>
         {/* col1 row2 */}
         <div className="flex  flex-[1] relative overflow-hidden">
@@ -22,9 +32,12 @@ const CategoriesSection = () => {
             alt="image"
             className="w-full h-full object-cover"
           />
-          <button className="absolute bg-white rounded-md top-0 left-0 right-0 bottom-0 w-fit h-fit m-auto  py-[10px] px-[20px] border-none">
-            <Link to="/products/1">Women</Link>
-          </button>
+          <motion.button
+            whileHover={{ scale: 1.3 }}
+            className="absolute bg-white rounded-md top-0 left-0 right-0 bottom-0 w-fit h-fit m-auto  py-[10px] px-[20px] border-none"
+          >
+            <Link to="/products/women">Women</Link>
+          </motion.button>
         </div>
       </div>
 
@@ -37,9 +50,12 @@ const CategoriesSection = () => {
             alt="image"
             className="w-full h-full object-cover"
           />
-          <button className="absolute bg-white rounded-md top-0 left-0 right-0 bottom-0 w-fit h-fit m-auto  py-[10px] px-[20px] border-none">
-            <Link to="/products/1">Season</Link>
-          </button>
+          <motion.button
+            whileHover={{ scale: 1.3 }}
+            className="absolute bg-white rounded-md top-0 left-0 right-0 bottom-0 w-fit h-fit m-auto  py-[10px] px-[20px] border-none"
+          >
+            <Link to="/products/all">Season</Link>
+          </motion.button>
         </div>
       </div>
 
@@ -56,9 +72,12 @@ const CategoriesSection = () => {
                 alt="image"
                 className="w-full h-full object-cover"
               />
-              <button className="absolute bg-white rounded-md top-0 left-0 right-0 bottom-0 w-fit h-fit m-auto  py-[10px] px-[20px] border-none">
-                <Link to="/products/1">Men</Link>
-              </button>
+              <motion.button
+                whileHover={{ scale: 1.3 }}
+                className="absolute bg-white rounded-md top-0 left-0 right-0 bottom-0 w-fit h-fit m-auto  py-[10px] px-[20px] border-none"
+              >
+                <Link to="/products/men">Men</Link>
+              </motion.button>
             </div>
           </div>
           {/* col3 row1 col2 */}
@@ -70,9 +89,12 @@ const CategoriesSection = () => {
                 alt="image"
                 className="w-full h-full object-cover"
               />
-              <button className="absolute bg-white rounded-md top-0 left-0 right-0 bottom-0 w-fit h-fit m-auto  py-[10px] px-[20px] border-none">
-                <Link to="/products/1">Accessories</Link>
-              </button>
+              <motion.button
+                whileHover={{ scale: 1.3 }}
+                className="absolute bg-white rounded-md top-0 left-0 right-0 bottom-0 w-fit h-fit m-auto  py-[10px] px-[20px] border-none"
+              >
+                <Link to="/products/all">Accessories</Link>
+              </motion.button>
             </div>
           </div>
         </div>
@@ -83,12 +105,15 @@ const CategoriesSection = () => {
             alt="image"
             className="w-full h-full object-cover"
           />
-          <button className="absolute bg-white rounded-md top-0 left-0 right-0 bottom-0 w-fit h-fit m-auto  py-[10px] px-[20px] border-none">
-            <Link to="/products/1">Shoes</Link>
-          </button>
+          <motion.button
+            whileHover={{ scale: 1.3 }}
+            className="absolute bg-white rounded-md top-0 left-0 right-0 bottom-0 w-fit h-fit m-auto  py-[10px] px-[20px] border-none"
+          >
+            <Link to="/products/all">Shoes</Link>
+          </motion.button>
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }
 
