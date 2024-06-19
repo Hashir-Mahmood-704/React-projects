@@ -10,7 +10,7 @@ const Hero = () => {
       {/* left */}
       <motion.div
         className="flex-[1]"
-        initial={{ x: -200, opacity: 0 }}
+        initial={{ x: -300, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 1 }}
       >
@@ -50,7 +50,7 @@ const Hero = () => {
 
       {/* right */}
       <motion.div
-        initial={{ x: 200, opacity: 0 }}
+        initial={{ x: 300, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ duration: 1 }}
         className="hidden lg:flex flex-[1]  justify-end relative"
