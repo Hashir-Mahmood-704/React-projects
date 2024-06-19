@@ -13,7 +13,7 @@ const WhyUsItem = ({ item, index }) => {
   else if (index === 3) icon = <FaClock />
 
   return (
-    <div className="flex gap-[10px] items-start w-[300px]">
+    <div id="whyus" className="flex gap-[10px] items-start w-[300px]">
       <div className="min-w-[35px] h-[35px] text-[20px] flex justify-center items-center bg-[#1c1c13] rounded-full text-white">
         {icon}
       </div>
