@@ -6,7 +6,7 @@ import { motion } from "framer-motion"
 
 const Hero = () => {
   return (
-    <div className="relative flex lg:gap-[20px] mt-[130px] px-[15px] lg:mt-[150px]  lg:pl-[40px] mx-auto max-w-[1600px]">
+    <div id="hero" className="relative flex lg:gap-[20px] mt-[130px] px-[20px] lg:mt-[150px]  lg:pl-[40px] mx-auto max-w-[1600px]">
       {/* left */}
       <motion.div
         className="flex-[1]"

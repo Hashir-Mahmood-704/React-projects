@@ -1,6 +1,7 @@
 import Hero from "../components/Hero"
 import Stats from "../components/Stats"
 import { motion } from "framer-motion"
+import WhyUs from "../components/WhyUs"
 
 const Home = () => {
   return (
@@ -14,7 +15,10 @@ const Home = () => {
         />
         <Hero />
       </div>
-      <Stats />
+      <div className="max-w-[1600px]">
+        <Stats />
+        <WhyUs />
+      </div>
     </div>
   )
 }

@@ -1,11 +1,11 @@
 export const navItems = [
   {
-    label: "Home",
+    label: "Hero",
     to: "#hero",
   },
   {
-    label: "About",
-    to: "#about",
+    label: "Why Us",
+    to: "#whyus",
   },
   {
     label: "Trainers",
