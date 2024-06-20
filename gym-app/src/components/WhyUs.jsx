@@ -28,10 +28,10 @@ const WhyUsItem = ({ item, index }) => {
 const WhyUs = () => {
   return (
     <motion.div
-      initial={{ x: -300, opacity: 0 }}
-      whileInView={{ x: 0, opacity: 1 }}
-      transition={{ duration: 1, delay: 0.1 }}
-      className="mt-[30px] lg:my-[80px] px-[20px] lg:px-[40px] "
+      // initial={{ opacity: 0 }}
+      // whileInView={{ opacity: 1 }}
+      // transition={{ duration: 1, delay: 0.1 }}
+      className="mt-[30px] lg:my-[80px] px-[20px] lg:px-[40px] max-w-[1400px] mx-auto"
     >
       {/* top */}
       <div>
