@@ -5,7 +5,7 @@ const TrainerCard = ({ item }) => {
     <div className="w-[250px] h-[350px] 2xl:w-[300px] 2xl:h-[400px] rounded-[20px] overflow-hidden shadow-xl relative">
       <img src={item.image} alt="" className="object-cover h-full w-full " />
 
-      <div className="p-[25px] w-full h-full bg-black/60 absolute z-10 top-0 left-0 right-0 bottom-0 opacity-0 hover:opacity-100 transition-all ease-in-out duration-500 text-white">
+      <div className="p-[25px] w-full h-full bg-black/60 absolute top-0 left-0 right-0 bottom-0 opacity-0 hover:opacity-100 transition-all ease-in-out duration-500 text-white">
         <h3 className="font-semibold text-[22px] lg:text-[25px]">
           {item.title}
         </h3>
@@ -19,7 +19,10 @@ const TrainerCard = ({ item }) => {
 
 const Trainers = () => {
   return (
-    <div className="mt-[30px] lg:my-[80px] px-[20px] lg:px-[40px] max-w-[1400px] mx-auto">
+    <div
+      id="trainers"
+      className="pt-[100px] px-[20px] lg:px-[40px] max-w-[1400px] mx-auto"
+    >
       <h1 className="font-bold text-[30px] lg:text-[40px] text-center">
         Meet Our Trainers
       </h1>
@@ -30,7 +33,7 @@ const Trainers = () => {
         magnam, quo quidem
       </p>
 
-      <div className="mt-[100px] flex flex-col items-center lg:flex-row justify-evenly 2xl:justify-between gap-[40px] lg:gap-0">
+      <div className="mt-[100px] flex flex-col items-center lg:flex-row justify-between gap-[40px] lg:gap-0">
         {trainerData.map((item) => (
           <TrainerCard key={item.title} item={item} />
         ))}

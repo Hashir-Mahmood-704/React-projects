@@ -3,6 +3,7 @@ import Stats from "../components/Stats"
 import { motion } from "framer-motion"
 import WhyUs from "../components/WhyUs"
 import Trainers from "../components/Trainers"
+import Mentor from "../components/Mentor"
 
 const Home = () => {
   return (
@@ -19,6 +20,7 @@ const Home = () => {
       <Stats />
       <WhyUs />
       <Trainers />
+      <Mentor />
     </div>
   )
 }

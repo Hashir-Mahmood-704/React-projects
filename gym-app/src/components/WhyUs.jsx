@@ -31,7 +31,8 @@ const WhyUs = () => {
       // initial={{ opacity: 0 }}
       // whileInView={{ opacity: 1 }}
       // transition={{ duration: 1, delay: 0.1 }}
-      className="mt-[30px] lg:my-[80px] px-[20px] lg:px-[40px] max-w-[1400px] mx-auto"
+      className="pt-[100px] px-[20px] lg:px-[40px] max-w-[1400px] mx-auto"
+      id="whyus"
     >
       {/* top */}
       <div>
