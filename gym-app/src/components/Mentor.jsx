@@ -1,6 +1,6 @@
 const Mentor = () => {
   return (
-    <div className="px-[20px] lg:px-[40px] pt-[120px] jus flex flex-col lg:flex-row max-w-[1400px] mx-auto w-full gap-[40px]">
+    <div className="px-[20px] lg:px-[40px] pt-[120px] flex flex-col lg:flex-row max-w-[1400px] mx-auto w-full gap-[40px]">
       {/* left */}
       <div className="flex-[1] flex gap-[10px] lg:gap-[20px]">
         <img
@@ -16,7 +16,7 @@ const Mentor = () => {
       </div>
 
       {/* right */}
-      <div className="flex-[1] flex flex-col justify-between items-start">
+      <div className="flex-[1.5] flex flex-col justify-between items-start">
         <p className="font-medium text-[18px] lg:text-[22px] text-[#1c1c13]">
           Are you looking for a mentor?
         </p>

@@ -45,3 +45,81 @@ export const trainerData = [
     image: "/tr-3.jpg",
   },
 ]
+
+export const monthlyPricingPlan = [
+  {
+    type: "Beginner Plan",
+    price: "05",
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi,  itaque dolor tempore consequatur aperiam voluptates. ",
+    points: [
+      "Lorem ipsum dolor sit amet",
+      "Lorem ipsum dolor sit amet",
+      "Lorem ipsum dolor sit amet",
+      "Lorem ipsum dolor sit amet",
+    ],
+  },
+  {
+    type: "Premium Plan",
+    price: "15",
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi,  itaque dolor tempore consequatur aperiam voluptates. ",
+    points: [
+      "Lorem ipsum dolor sit amet",
+      "Lorem ipsum dolor sit amet",
+      "Lorem ipsum dolor sit amet",
+      "Lorem ipsum dolor sit amet",
+    ],
+  },
+  {
+    type: "Expert Plan",
+    price: "20",
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi,  itaque dolor tempore consequatur aperiam voluptates. ",
+    points: [
+      "Lorem ipsum dolor sit amet",
+      "Lorem ipsum dolor sit amet",
+      "Lorem ipsum dolor sit amet",
+      "Lorem ipsum dolor sit amet",
+    ],
+  },
+]
+
+export const yearlyPricingPlan = [
+  {
+    type: "Yearly Plan",
+    price: "150",
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi,  itaque dolor tempore consequatur aperiam voluptates. ",
+    points: [
+      "Lorem ipsum dolor sit amet",
+      "Lorem ipsum dolor sit amet",
+      "Lorem ipsum dolor sit amet",
+      "Lorem ipsum dolor sit amet",
+    ],
+  },
+  {
+    type: "Yearly Plan",
+    price: "300",
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi,  itaque dolor tempore consequatur aperiam voluptates. ",
+    points: [
+      "Lorem ipsum dolor sit amet",
+      "Lorem ipsum dolor sit amet",
+      "Lorem ipsum dolor sit amet",
+      "Lorem ipsum dolor sit amet",
+    ],
+  },
+  {
+    type: "Yearly Plan",
+    price: "700",
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi,  itaque dolor tempore consequatur aperiam voluptates. ",
+    points: [
+      "Lorem ipsum dolor sit amet",
+      "Lorem ipsum dolor sit amet",
+      "Lorem ipsum dolor sit amet",
+      "Lorem ipsum dolor sit amet",
+    ],
+  },
+]

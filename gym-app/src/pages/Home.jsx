@@ -4,10 +4,11 @@ import { motion } from "framer-motion"
 import WhyUs from "../components/WhyUs"
 import Trainers from "../components/Trainers"
 import Mentor from "../components/Mentor"
+import Pricing from "../components/Pricing"
 
 const Home = () => {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col font-Signika">
       <div className="relative h-full">
         <motion.div
           initial={{ opacity: 0 }}
@@ -21,6 +22,7 @@ const Home = () => {
       <WhyUs />
       <Trainers />
       <Mentor />
+      <Pricing />
     </div>
   )
 }
