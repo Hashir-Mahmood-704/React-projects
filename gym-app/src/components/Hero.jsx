@@ -8,7 +8,7 @@ const Hero = () => {
   return (
     <div
       id="hero"
-      className="relative pt-[130px] flex lg:gap-[20px] px-[20px] lg:pl-[40px] max-w-[1400px] mx-auto"
+      className="relative pt-[130px] 2xl:mt-[100px] flex lg:gap-[20px] px-[20px] lg:pl-[40px] max-w-[1400px] mx-auto"
     >
       {/* left */}
       <motion.div

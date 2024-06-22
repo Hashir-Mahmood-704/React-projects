@@ -3,10 +3,10 @@ import { useState } from "react"
 import ReviewPopup from "./ReviewPopup"
 
 const Reviews = () => {
-  const [openPopup, setOpenPopup] = useState(true)
+  const [openPopup, setOpenPopup] = useState(false)
   return (
     <div
-      id="reviews"
+      id="review"
       className="pt-[120px] px-[20px] lg:px-[40px] max-w-[1400px] mx-auto w-full"
     >
       {/* top */}
