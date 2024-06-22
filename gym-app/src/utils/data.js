@@ -123,3 +123,30 @@ export const yearlyPricingPlan = [
     ],
   },
 ]
+
+export const sliderData = [
+  {
+    name: "Hamid Ahmed",
+    stars: 3,
+    message:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi,  itaque dolor tempore consequatur aperiam voluptates.Commodi,  itaque dolor tempore consequatur aperiam voluptates.",
+  },
+  {
+    name: "James Wood",
+    stars: 5,
+    message:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi,  itaque dolor tempore consequatur aperiam voluptates.Commodi,  itaque dolor tempore consequatur aperiam voluptates.",
+  },
+  {
+    name: "Jenny Ava",
+    stars: 2,
+    message:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi,  itaque dolor tempore consequatur aperiam voluptates.Commodi,  itaque dolor tempore consequatur aperiam voluptates.",
+  },
+  {
+    name: "Dobby Peterson",
+    stars: 3,
+    message:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi,  itaque dolor tempore consequatur aperiam voluptates.Commodi,  itaque dolor tempore consequatur aperiam voluptates.",
+  },
+]

@@ -6,7 +6,7 @@ const Pricing = () => {
   const [plan, setplan] = useState("monthly")
 const pricingPlan = plan === "monthly" ? monthlyPricingPlan : yearlyPricingPlan
   return (
-    <div id="plans" className="pt-[120px] px-[20px] lg:px-[40px] mb-[100px] max-w-[1400px] mx-auto w-full">
+    <div id="plans" className="pt-[120px] px-[20px] lg:px-[40px] mx-auto max-w-[1400px]  w-full">
       {/* top */}
       <div className="flex justify-between items-center relative">
         <p className="absolute text-[16px] font-medium text-gray-400 top-[-20px] left-[6px]">

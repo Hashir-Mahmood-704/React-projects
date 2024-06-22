@@ -5,6 +5,7 @@ import WhyUs from "../components/WhyUs"
 import Trainers from "../components/Trainers"
 import Mentor from "../components/Mentor"
 import Pricing from "../components/Pricing"
+import Reviews from "../components/Reviews"
 
 const Home = () => {
   return (
@@ -23,6 +24,7 @@ const Home = () => {
       <Trainers />
       <Mentor />
       <Pricing />
+      <Reviews />
     </div>
   )
 }
