@@ -150,3 +150,4 @@ export const sliderData = [
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi,  itaque dolor tempore consequatur aperiam voluptates.Commodi,  itaque dolor tempore consequatur aperiam voluptates.",
   },
 ]
+

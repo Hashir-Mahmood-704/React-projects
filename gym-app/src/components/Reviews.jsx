@@ -1,10 +1,13 @@
 import MySlider from "./Slider"
+import { useState } from "react"
+import ReviewPopup from "./ReviewPopup"
 
 const Reviews = () => {
+  const [openPopup, setOpenPopup] = useState(true)
   return (
     <div
       id="reviews"
-      className="pt-[120px] px-[20px] lg:px-[40px] mb-[100px] max-w-[1400px] mx-auto w-full"
+      className="pt-[120px] px-[20px] lg:px-[40px] max-w-[1400px] mx-auto w-full"
     >
       {/* top */}
       <div className="flex justify-between items-center relative">
@@ -12,7 +15,10 @@ const Reviews = () => {
           Reviews
         </p>
         <h3 className="font-bold text-[26px]  lg:text-[40px]">FROM YOU</h3>
-        <button className="bg-black font-semibold py-3 px-4 rounded-[12px] text-white">
+        <button
+          onClick={() => setOpenPopup(true)}
+          className="bg-black font-semibold py-3 px-4 rounded-[12px] text-white"
+        >
           + Give Review
         </button>
       </div>
@@ -48,6 +54,16 @@ const Reviews = () => {
           <MySlider />
         </div>
       </div>
+      {openPopup && (
+        <div
+          onClick={() => setOpenPopup(false)}
+          className="fixed flex justify-center items-center w-screen h-screen bg-black/70 z-50 top-0 left-0"
+        >
+          <div onClick={(e) => e.stopPropagation()}>
+            <ReviewPopup setOpenPopup={setOpenPopup} />
+          </div>
+        </div>
+      )}
     </div>
   )
 }
